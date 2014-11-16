@@ -1,0 +1,33 @@
+[29-Sep-2014 15:36:41 UTC] PHP Warning:  Uncaught exception 'ErrorException' with message 'Undefined variable: imagen' in /home/pensandu/public_html/carros/admin/app/controllers/ModeloController.php:245
+Stack trace:
+#0 /home/pensandu/public_html/carros/admin/app/controllers/ModeloController.php(245): Illuminate\Exception\Handler->handleError(8, 'Undefined varia...', '/home/pensandu/...', 245, Array)
+#1 [internal function]: ModeloController->delete('9')
+#2 /home/pensandu/public_html/carros/admin/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(231): call_user_func_array(Array, Array)
+#3 /home/pensandu/public_html/carros/admin/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('delete', Array)
+#4 /home/pensandu/public_html/carros/admin/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(ModeloController), Object(Illuminate\Routing\Route), 'delete')
+#5 /home/pensandu/public_html/carros/admin/v in /home/pensandu/public_html/carros/admin/app/controllers/ModeloController.php on line 245
+[29-Sep-2014 15:36:41 UTC] PHP Fatal error:  Call to a member function delete() on a non-object in /home/pensandu/public_html/carros/admin/app/controllers/ModeloController.php on line 245
+[29-Sep-2014 15:44:50 UTC] PHP Warning:  Uncaught exception 'ErrorException' with message 'Undefined variable: imagen' in /home/pensandu/public_html/carros/admin/app/controllers/ModeloController.php:489
+Stack trace:
+#0 /home/pensandu/public_html/carros/admin/app/controllers/ModeloController.php(489): Illuminate\Exception\Handler->handleError(8, 'Undefined varia...', '/home/pensandu/...', 489, Array)
+#1 [internal function]: ModeloController->delete('17')
+#2 /home/pensandu/public_html/carros/admin/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(231): call_user_func_array(Array, Array)
+#3 /home/pensandu/public_html/carros/admin/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('delete', Array)
+#4 /home/pensandu/public_html/carros/admin/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(ModeloController), Object(Illuminate\Routing\Route), 'delete')
+#5 /home/pensandu/public_html/carros/admin/ in /home/pensandu/public_html/carros/admin/app/controllers/ModeloController.php on line 489
+[29-Sep-2014 15:44:50 UTC] PHP Fatal error:  Call to a member function delete() on a non-object in /home/pensandu/public_html/carros/admin/app/controllers/ModeloController.php on line 489
+[30-Sep-2014 02:09:53 UTC] PHP Warning:  Uncaught exception 'ErrorException' with message 'Undefined variable: imagen' in /home/pensandu/public_html/carros/admin/app/controllers/ModeloController.php:489
+Stack trace:
+#0 /home/pensandu/public_html/carros/admin/app/controllers/ModeloController.php(489): Illuminate\Exception\Handler->handleError(8, 'Undefined varia...', '/home/pensandu/...', 489, Array)
+#1 [internal function]: ModeloController->delete('9')
+#2 /home/pensandu/public_html/carros/admin/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(231): call_user_func_array(Array, Array)
+#3 /home/pensandu/public_html/carros/admin/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('delete', Array)
+#4 /home/pensandu/public_html/carros/admin/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(ModeloController), Object(Illuminate\Routing\Route), 'delete')
+#5 /home/pensandu/public_html/carros/admin/v in /home/pensandu/public_html/carros/admin/app/controllers/ModeloController.php on line 489
+[30-Sep-2014 02:09:53 UTC] PHP Fatal error:  Call to a member function delete() on a non-object in /home/pensandu/public_html/carros/admin/app/controllers/ModeloController.php on line 489
+[30-Sep-2014 05:38:30 UTC] PHP Parse error:  syntax error, unexpected ',' in /home/pensandu/public_html/carros/admin/app/controllers/PrestamoController.php on line 490
+[30-Sep-2014 06:43:04 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/pensandu/public_html/carros/admin/app/controllers/PrestamoController.php on line 631
+[30-Sep-2014 07:09:15 UTC] PHP Parse error:  syntax error, unexpected '$cantidadDescontar' (T_VARIABLE) in /home/pensandu/public_html/carros/admin/app/storage/views/4b3809f428df9205a7148e2989757b78 on line 103
+[30-Sep-2014 18:03:35 UTC] PHP Fatal error:  Call to undefined method Illuminate\Database\Eloquent\Collection::orderBy() in /home/pensandu/public_html/carros/admin/app/controllers/PrestamoController.php on line 240
+[30-Sep-2014 18:07:54 UTC] PHP Fatal error:  Call to undefined method Illuminate\Database\Eloquent\Collection::orderBy() in /home/pensandu/public_html/carros/admin/app/controllers/PrestamoController.php on line 240
+[30-Sep-2014 18:22:25 UTC] PHP Parse error:  syntax error, unexpected ':' in /home/pensandu/public_html/carros/admin/app/controllers/PrestamoController.php on line 485

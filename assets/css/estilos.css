@@ -1,0 +1,43 @@
+::selection {
+    background-color: #323078;
+    color: #FFF;
+}
+
+::-moz-selection {
+    background-color: #323078;
+    color: #FFF;
+}
+
+body { color: #222222; }
+
+.panel-default .panel-heading {
+  background-color:#273165;
+	border-color:#5A77A0;
+  color: #FFF;
+}
+
+.input-group-addon{ top: 0; }
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus {outline:none;}
+
+a { color: #2B57A1; }
+
+.dropdown-menu li {margin-left: 5px;}
+
+.footer {
+  width: 100%;
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+.control-label, dd label { font-weight: normal; }
+
+textarea { resize: vertical; }
+
+.dl-horizontal dt { text-align: left; }
+
+.pagination{ margin:0px 0; }
+
+.nav-tabs>li>a:hover{border:1px solid #ddd;border-bottom-color:transparent;background-color: #FFF; }
