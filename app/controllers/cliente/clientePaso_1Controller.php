@@ -52,6 +52,7 @@ class clientePaso_1Controller extends BaseController
         {
             $bitacora = new Bitacora;
             $bitacora->Guardar(2,$cliente->id,1);
+
             if(!empty($cliente->email)) {
                 $password = new Codigo;
                 $generado = $password->generar($cliente->id);
@@ -122,8 +123,7 @@ class clientePaso_1Controller extends BaseController
         $data = Input::all();
         $data = $form->fechaYmd($data,1);
 
-        if($cliente->validAndSave($data,1))
-        {
+        if($cliente->validAndSave($data,1)) {
             $bitacora = new Bitacora;
             $bitacora->Guardar(2,$cliente->id,2);
             return Redirect::route('clienteContacto',$cliente->id);
@@ -150,23 +150,10 @@ class clientePaso_1Controller extends BaseController
             ->orderBy('ruta_imagen','asc')
             ->get();
 
-        return View::make('cliente/show', compact('cliente','galeria'));
+        $prestamo = Prestamo::where('cliente_id',$id)
+            ->orderBy('horario_rsv','dsc')
+            ->paginate();
+
+        return View::make('cliente/show', compact('cliente','galeria','prestamo'));
     }
-    /**
-     * [Borrar Cliente]
-     * @param  [type] $id [ID del Cliente]
-     * @return [vista] [cliente/list]
-     */
-    public function destroy($id)
-    {
-        $cliente = Cliente::find($id);
-
-        if (is_null($cliente))
-            App::abort(404);
-
-        $cliente->delete();
-        $bitacora = new Bitacora;
-        $bitacora->Guardar(2,$id,3);
-    }
-
 }

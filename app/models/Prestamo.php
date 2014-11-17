@@ -107,8 +107,8 @@ class Prestamo extends Eloquent
      */
     public function fechaYmd($data)
     {
-        $data["horario_rsv"] = (empty($data["horario_rsv"])) ? '' : date('Y-m-d H:i', strtotime($data["horario_rsv"]));
-        $data["horario_dvl"] = (empty($data["horario_dvl"])) ? '' : date('Y-m-d H:i', strtotime($data["horario_dvl"]));
+        $data["horario_rsv"] = date('Y-m-d H:i', strtotime($data["horario_rsv"]));
+        $data["horario_dvl"] = date('Y-m-d H:i', strtotime($data["horario_dvl"]));
         return $data;
     }
     /**

@@ -1,5 +1,9 @@
 @extends('cliente/pasos')
 @section('content_form')
+    <script type="text/javascript">
+        if(history.forward(1))
+            location.replace(history.forward(1))
+    </script>
 <br/>
 <br/>
 <div class="row">
@@ -15,6 +19,13 @@
                         <div class="col-md-7 col-sm-7 input-group">
                             <span class="input-group-addon glyphicon glyphicon-user"> </span>
                             {{ Form::text('adicional_nombre', null, array('placeholder' => 'Nombre Completo', 'class' => 'form-control')) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ Form::label('adicional_telefono', 'Teléfono', array('class' => 'control-label col-md-4 col-sm-4')) }}
+                        <div class="col-md-7 col-sm-7 input-group">
+                            <span class="input-group-addon glyphicon glyphicon-phone-alt"> </span>
+                            {{ Form::text('adicional_telefono', null, array('placeholder' => 'Teléfono', 'class' => 'form-control')) }}
                         </div>
                     </div>
                     <div class="form-group">

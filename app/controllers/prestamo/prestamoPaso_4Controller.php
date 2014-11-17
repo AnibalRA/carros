@@ -35,28 +35,39 @@ class prestamoPaso_4Controller extends BaseController
      */
     public function store($id)
     {
+        $pago = new Pago;
         $prestamo = Prestamo::find($id);
 
         if(is_null($prestamo))
             App::abort(404);
 
+        $prestamo->estado = 'Pendiente de Pago';
         $data = Input::all();
-
         $modelo = Modelo::find($prestamo->modelo_id);
-        $modelo->estado =  2;
+        $modelo->estado =  3;
         $modelo->save();
+        $precio = Precio::find($prestamo->precio_id);
+
+        if(is_null($precio))
+            App::abort(404);
+        
+        $precioAuto = $precio->precio;
 
         if($prestamo->validAndSave($data,2)) {
             $bitacora = new Bitacora;
             $bitacora->Guardar(10,$prestamo->id,2);
-            $cliente = [ 'nombre' => $prestamo->cliente->nombre];
 
-            Mail::send('prestamo.email.notificacion',$cliente,function($message) {
-                $message->to('anibal.rivera@catolica.edu.sv', 'administrador')
-                    ->subject('Notificación de MultiAutos');
-            });
+            $password = new Codigo;
 
-            return Redirect::route('prestamoShow',$prestamo->id);
+            if(empty($prestamo->password)) {
+                $generado = $password->generar($prestamo->id);
+                $prestamo->password = $generado;
+                $prestamo->save();
+            }
+
+            $caso = 12;
+            $resultado = $pago->formaPago($prestamo,$precioAuto,'','',$caso);
+            return $resultado;
         } else
             return Redirect::back()
                 ->withInput()

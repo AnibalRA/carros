@@ -2,35 +2,93 @@
 class BuscarController extends BaseController
 {
     /**
+     * [Buscar Cliente]
+     * @param  [type] $dato [description]
+     * @return [vista] [buscar/cliente]
+     */
+    public function formCliente()
+    {
+        $paso = 1;
+
+        $data = [
+            'nombre' => 'Nombre',
+            'doc_unico' => 'Documento único',
+            'email' => 'Correo electrónico',
+            'fecha_nac' => 'Fecha de nacimiento',
+            'pasaporte' => 'Pasaporte',
+            'licencia' => 'Número de licencia'
+        ];
+
+        return View::make('buscar.cliente',compact('paso','data'));
+    }
+    /**
+     * [Buscar Prospecto]
+     * @param  [type] $dato [description]
+     * @return [vista] [buscar/prospecto]
+     */
+    public function formProspecto()
+    {
+        $paso = 2;
+
+        $data = [
+            'nombre' => 'Nombre',
+            'doc_unico' => 'Documento único',
+            'email' => 'Correo electrónico',
+            'fecha_nac' => 'Fecha de nacimiento'
+        ];
+
+        return View::make('buscar.prospecto',compact('paso','data'));
+    }
+    /**
+     * [Buscar Prestamo]
+     * @param  [type] $dato [description]
+     * @return [vista] [buscar/prestamo]
+     */
+    public function formPrestamo()
+    {
+        $paso = 3;
+
+        $data = [
+            'horario_rsv' => 'Fecha y hora de reserva',
+            'horario_dvl' => 'Fecha y hora de devolución'
+        ];
+
+        return View::make('buscar.prestamo',compact('paso','data'));
+    }
+    /**
      * [Buscar Datos]
      * @return [route] [Buscar Datos Según La Tabla]
      */
-    public function buscar()
+    public function busqueda()
     {
-        $dato = Input::get('buscar');
-        $tabla = Input::get('tabla');
+        $dato = Input::all();
 
-        switch ($tabla) {
-            case 'User':
-                return Redirect::route('buscarUser',$dato);
-                break;
-            case 'Cliente':
-                return Redirect::route('buscarCliente',$dato);
-                break;
-            case 'Marca':
-                return Redirect::route('buscarMarca',$dato);
-                break;
-            case 'Tipo':
-                return Redirect::route('buscarTipo',$dato);
-                break;
-            case 'Modelo':
-                return Redirect::route('buscarModelo',$dato);
-                break;
-            case 'Extra':
-                return Redirect::route('buscarExtra',$dato);
-                break;
+        switch ($dato['tabla']) {
+            case 'cliente':
+            case 'prospecto':
+                if(!empty($dato['texto_1']) || !empty($dato['texto_2']))
+                {
+                    if(!empty($dato['texto_1']) || empty($dato['texto_2'])) {
+                        return Redirect::route('buscar',array($dato['tabla'],$dato['campo'],$dato['texto_1']));
+                    } else if(empty($dato['texto_1']) || !empty($dato['texto_2'])) {
+                        $dato['texto_1'] = date('Y-m-d', strtotime($dato['texto_2']));
+                        return Redirect::route('buscar',array($dato['tabla'],$dato['campo'],$dato['texto_1']));
+                    } else
+                        return Redirect::back();
+                } else
+                    return Redirect::back();
+            break;
+            case 'prestamo':
+                if(!empty($dato['fecha_1']) && !empty($dato['fecha_2'])) {
+                    $dato['fecha_1'] = date('Y-m-d H:i', strtotime($dato['fecha_1']));
+                    $dato['fecha_2'] = date('Y-m-d H:i', strtotime($dato['fecha_2']));
+                    return Redirect::route('buscar',array($dato['tabla'],$dato['campo'],$dato['fecha_1'],$dato['fecha_2']));
+                }
+                else
+                    return Redirect::back();
+            break;
             default:
-                break;
+            break;
         }
     }
     /**
@@ -38,89 +96,57 @@ class BuscarController extends BaseController
      * @param  [type] $dato [description]
      * @return [vista] [user/list]
      */
-    public function usuario($dato)
+    public function buscar($tabla,$campo,$texto1,$texto2 = null)
     {
-        $user = User::where('nombre','LIKE',"%".$dato."%")
-            ->orderBy('created_at','dsc')
-            ->paginate();
+        $tabla = ucwords($tabla);
 
-        return View::make('user.list', compact('user'));
-    }
-    /**
-     * [Buscar Cliente]
-     * @param  [type] $dato [description]
-     * @return [vista] [cliente/list]
-     */
-    public function cliente($dato)
-    {
-        $cliente = Cliente::where('nombre','LIKE',"%".$dato."%")
-            ->orderBy('created_at','dsc')
-            ->paginate();
+        if($tabla != 'Prestamo') {
+            $datos = $tabla::where($campo,'LIKE',"%".$texto1."%")
+                ->orderBy('created_at','dsc')
+                ->paginate();
+        } else {
+            $datos = $tabla::whereBetween($campo,array($texto1,$texto2))
+                ->orderBy('created_at','dsc')
+                ->paginate();
+        }
 
-        return View::make('cliente.list', compact('cliente'));
-    }
-    /**
-     * [Buscar Marca]
-     * @param  [string] $dato [cadena de texto]
-     * @return [vista] [auto/marca/list]
-     */
-    public function marca($dato)
-    {
-        $marca = Marca::where('marca','LIKE',"%".$dato."%")
-            ->orderBy('created_at','dsc')
-            ->paginate();
+       switch ($tabla) {
+            case 'Cliente':
+                $cliente = $datos;
+                return View::make('cliente.list', compact('cliente'));
+            break;
+            case 'Prospecto':
+                $prospecto = $datos;
+                return View::make('prospecto.list', compact('prospecto'));
+            break;
+            case 'Prestamo':
+                $prestamo = $datos;
 
-        $form_data = [
-            'class' => 'form-horizontal',
-            'id' => 'formMarca'
-        ];
+                $form_data = [
+                    'class' => 'form-horizontal',
+                    'method' => 'patch',
+                    'id' => 'formContrato',
+                    'target' => '_blank'
+                ];
 
-        $mensaje = 'El campo no tiene que quedar vacío';
-        return View::make('auto.marca.list', compact('marca','form_data','mensaje'));
-    }
-    /**
-     * [Buscar Tipo]
-     * @param  [string] $dato [cadena de texto]
-     * @return [vista] [auto/tipo/list]
-     */
-    public function tipo($dato)
-    {
-        $tipo = Tipo::where('tipo','LIKE',"%".$dato."%")
-            ->orderBy('created_at','dsc')
-            ->paginate();
+                $form_data_2 = [
+                    'class' => 'form-horizontal',
+                    'method' => 'patch',
+                    'id' => 'formPagare',
+                    'target' => '_blank'
+                ];
+        
+                $data = [
+                    '' => '',
+                    'Cliente' => 'Cliente',
+                    'Adicional' => 'Conductor Adicional'
+                ];
 
-        $form_data = [
-            'class' => 'form-horizontal',
-            'id' => 'formTipo'
-        ];
-
-        $mensaje = 'El campo no tiene que quedar vacío';
-        return View::make('auto.tipo.list', compact('tipo','form_data','mensaje'));
-    }
-    /**
-     * [Buscar Modelo]
-     * @param  [string] $dato [cadena de texto]
-     * @return [vista] [auto/modelo/list]
-     */
-    public function modelo($dato)
-    {
-        $modelo = Modelo::where('modelo','LIKE',"%".$dato."%")
-            ->orderBy('created_at','dsc')
-            ->paginate();
-
-        return View::make('auto.modelo.list', compact('modelo'));
-    }
-    /**
-     * [Buscar Extra]
-     * @param  [string] $dato [cadena de texto]
-     * @return [vista] [extra/list]
-     */
-    public function Extra($dato)
-    {
-        $extra = Extra::where('extra','LIKE',"%".$dato."%")
-            ->orderBy('created_at','dsc')
-            ->paginate();
-
-        return View::make('extra.list', compact('extra'));
+                $mensaje = 'El campo no tiene que quedar vacío';
+                return View::make('prestamo.list', compact('prestamo','form_data','form_data_2','data','mensaje'));
+            break;
+            default:
+            break;
+        }
     }
 }

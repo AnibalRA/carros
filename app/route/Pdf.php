@@ -11,7 +11,15 @@ Route::get('contrato/{id}/edit',[
  * [Contrato de Arrendamiento]
  * @return [vista]     [pdfs/contrato]
  */
-Route::get('/contrato/{id}',[
+Route::patch('/contrato/{id}',[
     'as' => 'pdfContrato',
     'uses' => 'PdfController@contrato'
+]);
+/**
+ * [Pagare]
+ * @return [vista]     [pdfs/pagare]
+ */
+Route::patch('/pagare/{id}',[
+    'as' => 'pdfPagare',
+    'uses' => 'PdfController@pagare'
 ]);

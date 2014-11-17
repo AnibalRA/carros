@@ -215,4 +215,49 @@ $(document).ready(function(e) {
         modal: "#contrato",
         modal_id: "#prestamo_id"
     });
+    /**
+     * [Modal] [Formulario Pagare] [Editar datos]
+     * @return {[type]}   [description]
+     */
+    $('#guardarPagare').click(function() {
+        $id = $('#prestamo_id').val();
+        $('#formPagare').attr('action','pagare'+'/'+$id);
+    });
+    /**
+     * [Modal] [Formulario Pagare] [Actualizar datos]
+     * @return {[type]}   [description]
+     */
+    $('.crearPagare').editarModal({
+        crearModal: "#crearPagare",
+        modal: "#pagare",
+        modal_id: "#prestamo_id"
+    });
+    /**
+     * [Formulario Buscar Cliente]
+     * @return {[type]}   [description]
+     */
+
+    $('#campo').change(function() {
+        $valor = $(this).select2("val");
+
+        if($valor != "fecha_nac") {
+            $('.texto_2').addClass('oculto');
+            $('.texto_1').removeClass('oculto');
+            $('#texto_2').attr('value','');
+        } else {
+            $('.texto_1').addClass('oculto');
+            $('.texto_2').removeClass('oculto');
+            $('#texto_1').attr('value','');
+        }
+    });
+    $('#fecha_1').change(function() {
+        $('#fecha_2').datetimepicker('setStartDate', $(this).val());
+    });
+
+    $('.opc').removerClase();
+
+    $('.glyphicon-chevron-up[data-content]').popover({
+        html: true,
+        placement: 'bottom',
+    });
 });

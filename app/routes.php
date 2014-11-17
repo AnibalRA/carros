@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -11,17 +10,18 @@
 |
 */
 
-
 Route::get('pdf1', function(){
     return View::make('pdfs.contrato');
 });
 
 Route::get('login', 'LoginController@showLogin');
 Route::post('login', 'LoginController@postLogin');
+
 Route::group(array('before'=>'auth'), function() {
     Route::get('/', function() {
         return Redirect::to('prestamo');
     });
+
     Route::get('logout', 'LoginController@logOut');
     Route::resource('user','UserController');
     /**

@@ -10,7 +10,15 @@
     </div>
     <div class="collapse navbar-collapse navbar-inverse-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-            <li>{{ HTML::link(route('clienteLista'), 'Clientes') }}</li>
+            
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contactos<strong class="caret"></strong></a>
+                <ul class="dropdown-menu">
+                    <li>{{ HTML::link(route('clienteLista'), 'Clientes') }}</li>
+                    <li>{{ HTML::link('prospecto', 'Prospectos') }}</li>
+                    <li>{{ HTML::link('boletin', 'Boletin') }}</li>
+                </ul>
+            </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Autos<strong class="caret"></strong></a>
                 <ul class="dropdown-menu">
@@ -21,38 +29,14 @@
                     <li>{{ HTML::link('extra', 'Extras / Servicios') }}</li>
                 </ul>
             </li>
-            <li>{{ HTML::link('prestamo', 'Prestamos') }}</li>
-            <li>{{ HTML::link('boletin', 'Boletin') }}</li>
-            <li>{{ HTML::link('prospecto', 'Prospectos') }}</li>
+            <li>{{ HTML::link('prestamo', 'Alquileres') }}</li>
         </ul>
-        <div class="hidden-sm hidden-xs">
-            {{ Form::open(array('url' => '/buscar', 'method' => 'post', 'class' => 'navbar-form navbar-left', 'role' => 'search')) }}
-                <div class="form-group input-group">
-                    <span class="input-group-addon glyphicon glyphicon-search"> </span>
-                    {{ Form::text('buscar', null, array('id' => 'buscar','placeholder' => 'Buscar', 'class' => 'form-control')) }}
-                </div>
-                <div class="btn-group">
-                    {{ Form::button('Buscar', array('type' => 'submit', 'class' => 'btn btn-default')) }}
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>{{ Form::radio('tabla', 'User', true) }}Usuario</li>
-                        <li>{{ Form::radio('tabla', 'Cliente') }}Cliente</li>
-                        <li>{{ Form::radio('tabla', 'Marca') }}Marca</li>
-                        <li>{{ Form::radio('tabla', 'Tipo') }}Tipo</li>
-                        <li>{{ Form::radio('tabla', 'Modelo') }}Modelo</li>
-                        <li>{{ Form::radio('tabla', 'Extra') }}Extra</li>
-                    </ul>
-                </div>
-            {{ Form::close() }}
-        </div>
         <?php
             $name = explode(" ", Auth::user()->nombre);
             $name = $name[0]. ' '.end($name);
         ?>
         <ul class="nav navbar-nav navbar-right">
+            <li>{{ HTML::link('buscar-cliente', 'Busqueda Avanzada') }}</li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ $name }} <strong class="caret"></strong></a>
                 <ul class="dropdown-menu">

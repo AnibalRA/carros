@@ -24,18 +24,6 @@
                     <span class="glyphicon glyphicon-file"></span> Nuevo
                 </a>
             </div>
-            <div class="col-sm-offset-5 col-sm-6 hidden-lg">
-                {{ Form::open(array('url' => '/buscar/buscar', 'method' => 'post', 'class' => 'navbar-form navbar-left', 'role' => 'search')) }}
-                    <div class="form-group input-group">
-                        <span class="input-group-addon glyphicon glyphicon-search"> </span>
-                            {{ Form::text('buscar', null, array('id' => 'buscar', 'placeholder' => 'Buscar', 'class' => 'form-control')) }}
-                            {{ Form::hidden('tabla', 'Prestamo', array('id' => 'tabla')) }}
-                    </div>
-                    <div class="btn-group">
-                        {{ Form::button('Buscar', array('type' => 'submit', 'class' => 'btn btn-default')) }}
-                    </div>
-                {{ Form::close() }}
-            </div>
         </div>
     </div>
     <div class="panel-body">
@@ -61,19 +49,27 @@
                                 {{ $prestamos->modelo->modelo }}
                             @endif
                         </td>
-                        <td>{{ date('d/m/y h:i A', strtotime($prestamos->horario_rsv)) }}</td>
-                        <td>{{ date('d/m/y h:i A', strtotime($prestamos->horario_dvl)) }}</td>
+                        <td>{{ date('d-m-Y h:i A', strtotime($prestamos->horario_rsv)) }}</td>
+                        <td>{{ date('d-m-Y h:i A', strtotime($prestamos->horario_dvl)) }}</td>
                         <td>{{ $prestamos->estado }}</td>
                         <td>
-                            @if($prestamos->estado == 'Pre-reservado')
-                                <a href="{{ route('prestamoConfirmar', array($prestamos->id,$prestamos->modelo_id)) }}" data-content="Confirmar Reserva" data-placement="bottom" class="glyphicon glyphicon-ok tool"> </a>
-                            @endif
-                            @if($prestamos->estado == 'Pendiente de Pago')
-                                <a href="{{ route('prestamoRequerimiento', array($prestamos->id)) }}" data-content="Enviar requerimiento de pago al cliente" data-placement="bottom" class="glyphicon glyphicon-envelope"> </a>
-                                <a href="{{ route('contratoEditar', array($prestamos->id)) }}" data-content="Contrato de Arrendamiento" data-placement="bottom" class="crearContrato glyphicon glyphicon-print tool"> </a>
-                            @endif
-                            <a href="{{ route('prestamoEditar', $prestamos->id) }}" data-content="Editar" data-placement="bottom" class="glyphicon glyphicon-edit tool "> </a>
-                            <a href="{{ route('prestamoShow', $prestamos->id) }}" data-content="Ver" data-placement="bottom" class="glyphicon glyphicon-eye-open tool"> </a>
+                            <a href="{{ route('contratoEditar', array($prestamos->id)) }}" data-content="Contrato de Arrendamiento" data-placement="bottom" class="crearContrato glyphicon glyphicon-file tool"> </a>
+                            <a href="{{ route('contratoEditar', array($prestamos->id)) }}" data-content="Pagare" data-placement="bottom" class="crearPagare glyphicon glyphicon-file tool"> </a>
+                            <a href="#" data-id="{{ $prestamos->id }}" data-form="#form-prt" data-content="Eliminar" data-placement="bottom" class="glyphicon glyphicon-trash tool"> </a>
+                            <a href="#" class="opc glyphicon glyphicon-chevron-up" data-content="
+                                <a href={{ route('prestamoEditar', $prestamos->id) }}>Editar</a>
+                                <br>
+                                <a href={{ route('prestamoShow', $prestamos->id) }}>Ver</a>
+                                @if($prestamos->estado == 'Pre-reservado')
+                                    <br>
+                                    <a href={{ route('prestamoConfirmar', array($prestamos->id,$prestamos->modelo_id)) }}>Confirmar Reserva</a>
+                                @endif
+                                @if($prestamos->estado == 'Pendiente de Pago')
+                                    <br>
+                                    <a href={{ route('prestamoRequerimiento', array($prestamos->id)) }}>Requerimiento de Pago</a>
+                                @endif
+                                ">
+                            </a>
                         </td>
                     </tr>
                 @endforeach
@@ -82,11 +78,14 @@
     </div>
     <div class="panel-footer">
         {{ $prestamo->links() }}
+        {{ Form::open(array('route' => array('prestamoDestroy', 'TERM_ID'), 'method' => 'DELETE', 'role' => 'form', 'id' => 'form-prt')) }}
+        {{ Form::close() }}
     </div>
 </div>
 <div class="row">
     <div class="col-md-12 col-md-12">
          @include('prestamo/modal/modal')
+         @include('prestamo/modal/modal2')
     </div>
 </div>
 @stop

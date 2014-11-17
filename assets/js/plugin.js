@@ -57,62 +57,119 @@
             $(variable.maxDate).datetimepicker('setStartDate',$(this).val());
         });
     }
+
     /**
+
      * [Mostrar Imagnes / Fotos]
+
      * @return {[type]} [description]
+
      */
+
     jQuery.fn.showFoto = function()
+
     {
+
         $(this).click(function(e) {
+
             e.preventDefault();
+
             url = $(this).attr('href');
+
             mdl = $(this).data('modal');
 
+
+
             $.ajax({
+
                 url: url,
+
                 type: 'GET',
+
                 dataType: 'JSON',
+
                 success: function(data)
+
                 {
+
                     $(mdl).modal();
+
                     var img = "";
+
                     var active= "active";
+
                     data.forEach(function(dt) {
+
                         img += "<div class='item " + active + "' >"
+
                         img += "<img alt='cargada por ajax' src='/admin/assets/img/" + dt.ruta_imagen + "' class='img-responsive' />"
+
                         img += "</div>";
+
                         active = "";
+
                     });
+
                     $(".carousel-inner").html(img);
+
                 }
+
             });
+
         });
+
     }
+
     /**
+
      * [Borrar desde la Vista]
+
      * @return {[type]} [description]
+
      */
+
     jQuery.fn.showBorrar = function()
+
     {
+
         $(this).click(function(e) {
+
             var form = $(this).data('form');
+
             var postUrl = $(form).attr('action').replace('TERM_ID', $(this).data('id'));
+
             var url = $(this).attr('href');
+
             if(confirm('Esta seguro de borrar la fila?'))
+
             {
+
                 $.ajax({
+
                     url: postUrl,
+
                     type: 'POST',
+
                     data: $(form).serialize(),
+
                     dataType: 'JSON',
+
                     success: function(data) {
+
                         location.href=url;
+
                     }
+
                 });
+
             }
+
             else
+
                 e.preventDefault();
+
         });
+
     }
     /**
      * [Modal] [Formulario Tipo] [Editar]
@@ -151,6 +208,7 @@
             });
         });
     }
+
     /**
      * [Precio Total] [Formulario] [Paso 4] [Prestamo]
      * @return {[type]}   [description]
@@ -182,6 +240,23 @@
             else
                 _total = (parseFloat(_auto) + parseFloat(_extra));
             $(variable.total).val(_total.toFixed(2))
+        });
+    }
+
+    jQuery.fn.removerClase = function() {
+        $(this).click(function(e) {
+            e.preventDefault();
+            var clase = $(this).attr('class');
+            if(clase == 'opc glyphicon glyphicon-chevron-up') {
+                var cls1 = 'opc glyphicon glyphicon-chevron-up';
+                var cls2 = 'opc glyphicon glyphicon-chevron-down';
+            }
+            else {
+                var cls1 = 'opc glyphicon glyphicon-chevron-down';
+                var cls2 = 'opc glyphicon glyphicon-chevron-up';
+            }
+
+            $(this).removeClass(cls1).addClass(cls2);
         });
     }
 })(jQuery)

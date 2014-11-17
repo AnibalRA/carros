@@ -14,18 +14,6 @@
                     <span class="glyphicon glyphicon-file"></span> Nuevo
                 </a>
             </div>
-            <div class="col-sm-offset-5 col-sm-6 hidden-lg">
-                {{ Form::open(array('url' => '/buscar', 'method' => 'post', 'class' => 'navbar-form navbar-left', 'role' => 'search')) }}
-                    <div class="form-group input-group">
-                        <span class="input-group-addon glyphicon glyphicon-search"> </span>
-                            {{ Form::text('buscar', null, array('id' => 'buscar', 'placeholder' => 'Buscar', 'class' => 'form-control')) }}
-                            {{ Form::hidden('tabla', 'Propecto', array('id' => 'tabla')) }}
-                    </div>
-                    <div class="btn-group">
-                        {{ Form::button('Buscar', array('type' => 'submit', 'class' => 'btn btn-default')) }}
-                    </div>
-                {{ Form::close() }}
-            </div>
         </div>
     </div>
     <div class="panel-body">
@@ -48,7 +36,6 @@
                         <a href="{{ route('prospectoEditar', $prospectos->id) }}" data-content="Editar" data-placement="bottom" class="glyphicon glyphicon-edit tool"> </a>
                         <a href="#" data-id="{{ $prospectos->id }}" data-form="#form-prpt" data-content="Eliminar" data-placement="bottom" class="glyphicon glyphicon-trash tool"> </a>
                         <a href="{{ route('prospectoConvertir', $prospectos->id) }}" data-content="Convertir a cliente" data-placement="bottom" class="glyphicon glyphicon-transfer tool"> </a>
-                        
                     </td>
                 </tr>
                 @endforeach

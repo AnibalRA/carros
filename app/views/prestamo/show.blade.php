@@ -49,11 +49,14 @@
         </div>
         <dl class="horizontal">
             <br/>
-            <dd class='text-justify'><span class="glyphicon glyphicon-calendar"> </span> {{ Form::label($dias . ' Días, Extra + Auto: $' . ($precioDiaAuto + $precioDiaExtra)) }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-time"> </span> {{ Form::label($horas . ' Horas, Extra + Auto: $' . ($precioHoraAuto + $precioHoraExtra)) }}</dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-calendar"> </span> {{ Form::label($dias . ' Días, Auto: $' . $precioDiaAuto . ' |' . ' Extras: $' . $precioDiaExtra) }}</dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-time"> </span> {{ Form::label($horas . ' Horas, Auto: $' . $precioHoraAuto . ' |' . ' Extras $' . $precioHoraExtra) }}</dd>
             <dd class='text-justify'><span class="glyphicon glyphicon-record"> </span> {{ Form::label('Extras Adicionales: $' . $precioUnico) }}</dd>
             <dd class='text-justify'><span class="glyphicon glyphicon-record"> </span> {{ Form::label($prestamo->descuento . '%' . ' de Descuento: $' . $cantidadDescontar) }}</dd>
             <br>
+            <dd class='text-justify'><span class="glyphicon glyphicon-usd"> </span> <strong>{{ Form::label('Total, Auto: $' . ($precioDiaAuto + $precioHoraAuto)) }}</strong></dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-usd"> </span> <strong>{{ Form::label('Total, Extras: $' . (($precioDiaExtra + $precioHoraExtra) + $precioUnico)) }}</strong></dd>
+            <br/>
             <dd class='text-justify'><span class="glyphicon glyphicon-usd"> </span> <strong>{{ Form::label('Total a Pagar: $' . $total) }}</strong></dd>
         </dl>
     </div>
@@ -93,6 +96,7 @@
         </div>
         <dl class="horizontal">
             <br/>
+            <dd class='text-justify'><span class="glyphicon glyphicon-usd"> </span>{{ $fotos->modelo->precios->first()->precio }}</dd>
             <dd class='text-justify'><span class="glyphicon glyphicon-record"> </span> {{ Form::label($fotos->modelo->modelo) }}</dd>
             <dd class='text-justify'><span class="glyphicon glyphicon-time"> </span> {{ Form::label('Año: ' . $fotos->modelo->año) }}</dd>
             <dd class='text-justify'><span class="glyphicon glyphicon-tasks"> </span> {{ Form::label('Motor: ' . $fotos->modelo->motor) }}</dd>
@@ -112,15 +116,17 @@
             </div>
         </div>
         <br/>
+        @if(!empty($data))
         <div class="form-group">
             <div class="input-group">
                 <dl class="horizontal">
-                    @foreach ($data as $key => $value)
-                        <dd class='text-justify'><span class="glyphicon glyphicon-record"> </span> {{ $value }}</dd>
+                    @foreach ($data as $value)
+                        <dd class='text-left'><span class="glyphicon glyphicon-record"> </span> {{ $value->extra }} ${{ $value->precio }}</dd>
                     @endforeach
                 </dl>
             </div>
         </div>
+        @endif
     </div>
 </div>
 <div class="row">

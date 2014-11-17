@@ -1,62 +1,43 @@
 <?php
     /**
+     * [Formulario Cliente]
+     * @return [vista] [buscar/cliente]
+     */
+    Route::get('buscar-cliente',[
+        'as' => 'buscarCliente',
+        'uses' => 'BuscarController@formCliente'
+    ]);
+    /**
+     * [Formulario Prospecto]
+     * @return [vista] [buscar/prospecto]
+     */
+    Route::get('buscar-prospecto',[
+        'as' => 'buscarProspecto',
+        'uses' => 'BuscarController@formProspecto'
+    ]);
+    /**
+     * [Formulario Prestamo]
+     * @return [vista] [buscar/prestamo]
+     */
+    Route::get('buscar-prestamo',[
+        'as' => 'buscarPrestamo',
+        'uses' => 'BuscarController@formPrestamo'
+    ]);
+    /**
      * [Buscar Datos]
      * @return [route] [Buscar Datos Según La Tabla]
      */
-	Route::post('buscar',[
-		'as' => 'buscarTabla',
+	Route::post('busqueda',[
+		'as' => 'busqueda',
+		'uses' => 'BuscarController@busqueda'
+	]);
+
+    /**
+     * [Buscar datos]
+     * @param  [type] $dato [description]
+     * @return [vista] [user/list] [marca/list] [tipo/list]
+     */
+	Route::get('{tabla}/{campo}/{texto_1}/{texto_2?}',[
+		'as' => 'buscar',
 		'uses' => 'BuscarController@buscar'
-	]);
-    /**
-     * [Buscar Usuario]
-     * @param  [type] $dato [description]
-     * @return [vista] [user/list]
-     */
-	Route::get('buscar/{id}/user',[
-		'as' => 'buscarUser',
-		'uses' => 'buscarController@usuario'
-	]);
-    /**
-     * [Buscar Cliente]
-     * @param  [type] $dato [description]
-     * @return [vista] [cliente/list]
-     */
-	Route::get('buscar/{id}/cliente',[
-		'as' => 'buscarCliente',
-		'uses' => 'buscarController@cliente'
-	]);
-    /**
-     * [Buscar Marca]
-     * @param  [string] $dato [cadena de texto]
-     * @return [vista] [auto/marca/list]
-     */
-	Route::get('buscar/{id}/marca',[
-		'as' => 'buscarMarca',
-		'uses' => 'buscarController@marca'
-	]);
-    /**
-     * [Buscar Tipo]
-     * @param  [string] $dato [cadena de texto]
-     * @return [vista] [auto/tipo/list]
-     */
-	Route::get('buscar/{id}/tipo',[
-		'as' => 'buscarTipo',
-		'uses' => 'buscarController@tipo'
-	]);
-    /**
-     * [Buscar Modelo]
-     * @param  [string] $dato [cadena de texto]
-     * @return [vista] [auto/modelo/list]
-     */
-	Route::get('buscar/{id}/modelo',[
-		'as' => 'buscarModelo',
-		'uses' => 'buscarController@modelo'
-	]);
-    /**
-     * [Buscar Extra]
-     * @return [vista] [extra/list]
-     */
-	Route::get('buscar/{id}/extra',[
-		'as' => 'buscarExtra',
-		'uses' => 'buscarController@extra'
 	]);

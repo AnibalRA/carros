@@ -30,6 +30,7 @@ class Cliente extends Eloquent
         'emergencia_telefono',
         'password',
         'adicional_nombre',
+        'adicional_telefono',
         'doc_unico_2',
         'adicional_licencia',
         'adicional_femilic',
@@ -46,7 +47,7 @@ class Cliente extends Eloquent
                 'direccion' => 'required',
                 'doc_unico' => 'required',
                 'sexo' => 'required',
-                'email' => 'email',
+                'email' => 'email|unique:clientes',
                 'telefono' => 'required',
                 'licencia' => 'required|unique:clientes',
                 'fecha_emi_lic' => 'required',
@@ -57,8 +58,10 @@ class Cliente extends Eloquent
             ];
 
             if ($this->exists)
-                $rules['licencia'] .= ',licencia,' . $this->id;
+                $rules['email'] .= ',email,' . $this->id;
 
+            if ($this->exists)
+                $rules['licencia'] .= ',licencia,' . $this->id;
         } elseif($accion == 2) {
             $rules = [
                 'emergencia_nombre' => 'required',
@@ -67,6 +70,7 @@ class Cliente extends Eloquent
             ];
         } elseif($accion == 3) {
             $rules = [
+                'adicional_telefono' => 'required',
                 'adicional_licencia' => 'required',
                 'adicional_femilic' => 'required',
                 'adicional_fevenlic' => 'required'

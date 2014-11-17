@@ -6,7 +6,16 @@
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading"></div>
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12 col-sm-1">
+                    <p class="hidden-lg"></p>
+                    <a href="{{ route('prospectoNuevo') }}" class="btn btn-default">
+                        <span class="glyphicon glyphicon-file"></span> Nuevo
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-striped">

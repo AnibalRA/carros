@@ -11,8 +11,7 @@
     <div class="col-md-offset-1 col-md-2 col-sm-offset-1 col-sm-2 text-right col-xs-6">
         <br/>
         <a href="{{ route('clienteImagenes', $cliente->id) }}" class="showFoto" data-modal='#showImagen'>Imagenes</a> |
-        <a href="{{ route('clienteEditar', $cliente->id) }}">Editar</a> |
-        <a href="{{ route('clienteLista') }}" data-id="{{ $cliente->id }}" data-form="#form-clt" class="showBorrar">Borrar</a>
+        <a href="{{ route('clienteEditar', $cliente->id) }}">Editar</a>
     </div>
 </div>
 <br/>
@@ -73,11 +72,11 @@
             </p>
             <p>
                 <dt class="text-left">{{ Form::label('Fecha Emi. Licencia:') }}</dt>
-                <dd class="text-left">{{ Form::label(date('d-m-Y', strtotime($cliente->fecha_emi_lic))) }}</dd>
+                <dd class="text-left">{{ Form::label($cliente->fecha_emi_lic) }}</dd>
             </p>
             <p>
                 <dt class="text-left">{{ Form::label('Fecha Ven. Licencia:') }}</dt>
-                <dd class="text-left">{{ Form::label(date('d-m-Y', strtotime($cliente->fecha_ven_lic))) }}</dd>
+                <dd class="text-left">{{ Form::label($cliente->fecha_ven_lic) }}</dd>
             </p>
             <p>
                 <dt class="text-left">{{ Form::label('Tarjeta de Crédito:') }}</dt>
@@ -85,7 +84,7 @@
             </p>
             <p>
                 <dt class="text-left">{{ Form::label('Fecha Ven. Tarj-Cred:') }}</dt>
-                <dd class="text-left">{{ Form::label(date('d-m-Y', strtotime($cliente->fecha_ven_cre))) }}</dd>
+                <dd class="text-left">{{ Form::label($cliente->fecha_ven_cre) }}</dd>
             </p>
             <p>
                 <dt class="text-left">{{ Form::label('Tipo Cliente:') }}</dt>
@@ -105,18 +104,6 @@
                     <dt class="text-left">{{ Form::label('Teléfono:') }}</dt>
                     <dd class="text-left">{{ Form::label($cliente->emergencia_telefono) }}</dd>
                 </p>
-                <p>
-                    <dt class="text-left">{{ Form::label('Número Licencia:') }}</dt>
-                    <dd class="text-left">{{ Form::label($cliente->emergencia_licencia) }}</dd>
-                </p>
-                <p>
-                    <dt class="text-left">{{ Form::label('Fecha Emi. Licencia:') }}</dt>
-                    <dd class="text-left">{{ Form::label($cliente->emergencia_femilic) }}</dd>
-                </p>
-                <p>
-                    <dt class="text-left">{{ Form::label('Fecha Ven. Licencia:') }}</dt>
-                    <dd class="text-left">{{ Form::label($cliente->emergencia_fevenlic) }}</dd>
-                </p>
             </div>
             <br/>
             <br/>
@@ -131,6 +118,18 @@
                     <dd class="text-left">{{ Form::label($cliente->doc_unico_2) }}</dd>
                 </p>
                 <p>
+                    <dt class="text-left">{{ Form::label('Número Licencia:') }}</dt>
+                    <dd class="text-left">{{ Form::label($cliente->adicional_licencia) }}</dd>
+                </p>
+                <p>
+                    <dt class="text-left">{{ Form::label('Fecha Emi. Licencia:') }}</dt>
+                    <dd class="text-left">{{ Form::label($cliente->adicional_femilic) }}</dd>
+                </p>
+                <p>
+                    <dt class="text-left">{{ Form::label('Fecha Ven. Licencia:') }}</dt>
+                    <dd class="text-left">{{ Form::label($cliente->adicional_fevenlic) }}</dd>
+                </p>
+                <p>
                     <dt class="text-left">{{ Form::label('Licencia:') }}</dt>
                     <dd class="text-left thumbnail">
                         <img class="img-responsive" src="{{ asset('assets/img/'.$cliente->ruta_imagen) }}" />
@@ -139,11 +138,9 @@
             </div>
         </dl>
     </div>
-    {{ Form::open(array('route' => array('clienteDestroy', 'TERM_ID'), 'method' => 'DELETE', 'role' => 'form', 'id' => 'form-clt')) }}
-    {{ Form::close() }}
 </div>
 <br/>
-<div class="row">
+<div class="row" style="border-bottom: 1px inset #DDDDDD">
     <div class="col-md-12 col-sm-12">
         <dl class="dl-horizontal">
             <p class="text-justify">
@@ -151,6 +148,44 @@
                 <dd class="text-left">{{ Form::label($cliente->comentario) }}</dd>
             </p>
         </dl>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <h3 class='text-center'>Historial de Prestamos</h3>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <tr class="active">
+                    <th>Modelo</th>
+                    <th>Horario de Reserva</th>
+                    <th>Horario de Devolución</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+                @foreach ($prestamo as $prestamos)
+                    <tr>
+                        <td>
+                            @if(!empty($prestamos->modelo->modelo))
+                                {{ $prestamos->modelo->modelo }}
+                            @endif
+                        </td>
+                        <td>{{ date('d-m-Y h:i A', strtotime($prestamos->horario_rsv)) }}</td>
+                        <td>{{ date('d-m-Y h:i A', strtotime($prestamos->horario_dvl)) }}</td>
+                        <td>{{ $prestamos->estado }}</td>
+                        <td>
+                            <a href="{{ route('prestamoShow', $prestamos->id) }}" data-content="Ver" data-placement="bottom" class="glyphicon glyphicon-eye-open tool"> </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer">
+        {{ $prestamo->links() }}
     </div>
 </div>
 <div class="row">

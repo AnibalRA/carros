@@ -30,6 +30,13 @@
                                     {{ Form::text('placa', null, array('placeholder' => 'Placa del Auto', 'class' => 'form-control')) }}
                                 </div>
                             </div>
+                            <div class="form-group">
+                                {{ Form::label('valor', 'Valor de Reposición *', array('class' => 'control-label col-md-4 col-sm-4')) }}
+                                <div class="col-md-7 col-sm-7 input-group">
+                                    <span class="input-group-addon glyphicon glyphicon-record"> </span>
+                                    {{ Form::text('valor', null, array('placeholder' => 'Valor de Reposición', 'class' => 'form-control')) }}
+                                </div>
+                            </div>
                             {{ Form::hidden('prestamo_id', null, array('id' => 'prestamo_id')) }}
                             {{ Form::submit('Guardar', array('class' => 'btn btn-default', 'id' => 'guardarContrato')) }}
                         {{ Form::close() }}

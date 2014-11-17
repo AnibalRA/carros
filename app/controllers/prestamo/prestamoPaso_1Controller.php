@@ -7,51 +7,94 @@ class prestamoPaso_1Controller extends BaseController
      */
     public function lista()
     {
-        $prestamo = Prestamo::orderBy('horario_rsv','asc')
+        $prestamo = Prestamo::orderBy('created_at','dsc')
             ->paginate();
 
         $form_data = [
             'class' => 'form-horizontal',
-            'method' => 'get',
-            'id' => 'formContrato'
+            'method' => 'patch',
+            'id' => 'formContrato',
+            'target' => '_blank'
         ];
 
+        $form_data_2 = [
+            'class' => 'form-horizontal',
+            'method' => 'patch',
+            'id' => 'formPagare',
+            'target' => '_blank'
+        ];
+        
+        $data = [
+            '' => '',
+            'Cliente' => 'Cliente',
+            'Adicional' => 'Conductor Adicional'
+            ];
+
         $mensaje = 'El campo no tiene que quedar vacío';
-        return View::make('prestamo.list', compact('prestamo','form_data','mensaje'));
+        return View::make('prestamo.list', compact('prestamo','form_data','form_data_2','data','mensaje'));
     }
     /**
      * [Crear Prestamo] [Formulario] [Paso 1]
      * @return [vista] [prestamo/form]
      */
     public function create()
+
     {
+
         $prestamo = new Prestamo;
+
         $form = new Formulario;
+
         $form_data = $form->formData('prestamoStore','POST',false);
+
         $cliente = $prestamo->formCliente();
+
         $entrega = $prestamo->formLugares();
+
         $devolucion = $prestamo->formLugares();
+
         $paso = 1;
+
         return View::make('prestamo/form', compact('prestamo','form_data','cliente','entrega','devolucion','paso'));
+
     }
+
     /**
+
      * [Guardar Datos Del Prestamo]
+
      * @return [route] [selectModelo]
+
      */
+
     public function store()
+
     {
+
         $prestamo = new Prestamo;
+
         $data = Input::all();
+
         $data = $prestamo->fechaYmd($data);
 
+
+
         if($prestamo->validAndSave($data,1)) {
+
             $bitacora = new Bitacora;
+
             $bitacora->Guardar(10,$prestamo->id,1);
+
             return Redirect::route('selectModelo',$prestamo->id);
+
         } else
+
             return Redirect::back()
+
                 ->withInput()
+
                 ->withErrors($prestamo->errors);
+
     }
     /**
      * [Editar Prestamo] [Formulario] [Paso 1]
@@ -74,13 +117,19 @@ class prestamoPaso_1Controller extends BaseController
         $prestamo->horario_rsv = date('d-m-Y h:i A', strtotime($prestamo->horario_rsv));
         $prestamo->horario_dvl = date('d-m-Y h:i A', strtotime($prestamo->horario_dvl));
         $paso = 5;
+        
         return View::make('prestamo/form', compact('prestamo','form_data','cliente','entrega','devolucion','paso'));
     }
     /**
+
      * [Actualizar Datos]
+
      * @param  [type] $id [ID del Prestamo]
+
      * @return [route] [selectModelo]
+
      */
+
     public function update($id)
     {
         $prestamo = Prestamo::find($id);
@@ -89,16 +138,25 @@ class prestamoPaso_1Controller extends BaseController
             App::abort(404);
 
         $data = Input::all();
+
         $data = $prestamo->fechaYmd($data);
 
         if($prestamo->validAndSave($data,1)) {
+
             $bitacora = new Bitacora;
+
             $bitacora->Guardar(10,$prestamo->id,2);
+
             return Redirect::route('selectModelo',$prestamo->id);
+
         } else
+
             return Redirect::back()
+
                 ->withInput()
+
                 ->withErrors($prestamo->errors);
+
     }
     /**
      * [Mostrar Detalles del Prestamo]
@@ -109,6 +167,7 @@ class prestamoPaso_1Controller extends BaseController
         $data = '';
         $prestamo = Prestamo::find($id);
         $pago = new Pago;
+        $lista = '';
 
         if(is_null($prestamo))
             App::abort(404);
@@ -119,11 +178,11 @@ class prestamoPaso_1Controller extends BaseController
         foreach ($prestamo->extras as $key => $pivote)
             $data[] = $pivote->pivot->extra_id;
 
-        if($data != '') {
-            foreach (Extra::find($data)->lists('extra') as $valor)
+        if(!empty($data)) {
+            foreach (Extra::find($data) as $valor)
                 $lista[] = $valor;
-        } else
-            $lista[] = '';
+
+        }
 
         $caso = 0;
         $resultado = $pago->formaPago($prestamo,$precioAuto,'',$lista,$caso);
@@ -149,29 +208,70 @@ class prestamoPaso_1Controller extends BaseController
         $resultado = $pago->formaPago($prestamo,$precioAuto,'','',$caso);
         return $resultado;
     }
+
     /**
+
      * [Requerimiento de Pago]
+
      * @param  [type] $id [ID del prestamo]
+
      * @return [route] [Prestamo/List]
+
      */
+
     public function requerimiento($id)
+
     {
+
         $prestamo = Prestamo::find($id);
 
+
+
         if(is_null($prestamo))
+
             App::abort(404);
+
+
 
         $estado = [ 'estado' => 'esto es una prueba'];
 
-        Mail::send('prestamo.email.Requerimiento',$estado,function($message) use ($prestamo) {
+
+
+        Mail::send('prestamo.email.requerimiento',$estado,function($message) use ($prestamo) {
+
             $message->to($prestamo->cliente->email, $prestamo->cliente->nombre)
+
                 ->subject('MultiAutos El Salvador');
+
         });
 
+
+
         $prestamo->estado = 'Reservado';
+
         $prestamo->save();
+
         $bitacora = new Bitacora;
+
         $bitacora->Guardar(10,$prestamo->id,2);
+
         return Redirect::route('prestamoLista');
+
+    }
+    /**
+     * [Borrar Prestamo]
+     * @param  [type] $id [ID del Prestamo]
+     * @return [vista] [prestamo/list]
+     */
+    public function destroy($id)
+    {
+        $prestamo = Prestamo::find($id);
+
+        if (is_null($prestamo))
+            App::abort(404);
+
+        $prestamo->delete();
+        $bitacora = new Bitacora;
+        $bitacora->Guardar(10,$id,3);
     }
 }

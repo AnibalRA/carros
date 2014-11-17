@@ -14,18 +14,6 @@
                         <span class="glyphicon glyphicon-file"></span> Nuevo
                     </a>
                 </div>
-                <div class="col-sm-offset-5 col-sm-6 hidden-lg">
-                    {{ Form::open(array('url' => '/buscar', 'method' => 'post', 'class' => 'navbar-form navbar-left', 'role' => 'search')) }}
-                        <div class="form-group input-group">
-                            <span class="input-group-addon glyphicon glyphicon-search"> </span>
-                                {{ Form::text('buscar', null, array('id' => 'buscar', 'placeholder' => 'Buscar', 'class' => 'form-control')) }}
-                                {{ Form::hidden('tabla', 'User', array('id' => 'tabla')) }}
-                        </div>
-                        <div class="btn-group">
-                            {{ Form::button('Buscar', array('type' => 'submit', 'class' => 'btn btn-default')) }}
-                        </div>
-                    {{ Form::close() }}
-                </div>
             </div>
         </div>
         <div class="panel-body">

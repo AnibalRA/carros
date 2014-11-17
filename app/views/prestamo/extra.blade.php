@@ -1,7 +1,13 @@
 @extends('prestamo/pasos')
 @section('content_form')
+        <script type="text/javascript">
+            if(history.forward(1))
+                location.replace(history.forward(1))
+        </script>
 <br/>
+
 <br/>
+
 {{ Form::model($prestamo, $form_data) }}
 @foreach ($extra as $extras)
     <div class="row" style="border-bottom: 1px inset #DDDDDD">
@@ -24,13 +30,9 @@
             @foreach ($prestamo->extras as $key => $pivote)
                 @if($extras->id == $pivote->pivot->extra_id)
                     @if($extras->obligatorio == 1 || $extras->cobro == 1)
-                        <a href="#" title="" class="close">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
+                        <a href="javascript:void(0)" title="" class="close glyphicon glyphicon-ok"></a>
                     @else
-                        <a href="{{ route('quitarExtra', array($pivote->pivot->prestamo_id,$pivote->pivot->extra_id)) }}" title="" class="close">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
+                        <a href="{{ route('quitarExtra', array($pivote->pivot->prestamo_id,$pivote->pivot->extra_id)) }}" title="" class="close glyphicon glyphicon-ok"></a>
                     @endif
                     <?php $bd = true; ?>
                 @endif

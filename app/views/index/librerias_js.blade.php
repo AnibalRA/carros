@@ -7,5 +7,5 @@
 {{ HTML::script('/assets/js/select2.min.js') }}
 {{ HTML::script('/assets/js/select2_locale_es.js') }}
 {{ HTML::script('/assets/js/fileinput.min.js') }}
-{{ HTML::script('/assets/js/document.js') }}
 {{ HTML::script('/assets/js/plugin.js') }}
+{{ HTML::script('/assets/js/document.js') }}
