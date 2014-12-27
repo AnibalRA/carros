@@ -85,7 +85,7 @@
 
                         Seleccionar <br/>
 
-                        Precio: <span class="glyphicon glyphicon-usd"> </span> {{ $modelos->precios->first()->precio }}
+                        Precio: <span class="glyphicon glyphicon-usd"> </span> {{ $modelos->precio }}
 
                     </a>
 
@@ -95,7 +95,7 @@
 
                         Seleccionado <br/>
 
-                        Precio: <span class="glyphicon glyphicon-usd"> </span> {{ $modelos->precios->first()->precio }}
+                        Precio: <span class="glyphicon glyphicon-usd"> </span> {{ $modelos->precio}}
 
                     </a>
 

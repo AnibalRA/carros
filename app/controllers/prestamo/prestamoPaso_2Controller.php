@@ -24,7 +24,30 @@ class prestamoPaso_2Controller extends BaseController
         }
 
         $modelo = Modelo::orderBy('created_at','dsc')
-            ->paginate(3);
+                        // ->whereHas('precios', function($q) use ($prestamo){
+                        //     return $q->where('fecha_ini', '<=', $prestamo->horario_rsv)
+                        //                 ->where('fecha_fin', '>=', $prestamo->horario_dvl)
+                        //                 ->get();
+                        // })
+                        ->paginate(3);
+        $precio = $modelo[0]->precios()
+                        ->where('fecha_ini', '<=', $prestamo->horario_rsv)
+                        ->where('fecha_fin', '>=', $prestamo->horario_dvl)
+                        ->get();
+
+        foreach ($modelo as $model) {
+            $precios = $model->precios()
+                            ->where('fecha_ini', '<=', $prestamo->horario_rsv)
+                            ->where('fecha_fin', '>=', $prestamo->horario_dvl)
+                            ->orderBy('precio', 'DESC')
+                            ->get();
+            $model->precio = $precios[0]->precio;
+        }
+        // return $modelo;
+
+
+        // return $modelo;
+
 
         return View::make('prestamo/select',compact('prestamo','modelo','idexiste','paso'));
     }

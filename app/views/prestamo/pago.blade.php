@@ -119,11 +119,11 @@
         <dl class="horizontal">
             <div id="my_carusel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
-                    @foreach (Foto::where('modelo_id',$prestamo->modelo_id)->get() as $key => $fotos)
+                   <!--  @foreach (Foto::where('modelo_id',$prestamo->modelo_id)->get() as $key => $fotos)
                         <div class="item @if($key == 0) {{ 'active' }} @endif">
                             <img alt='Foto del Auto' src='{{ asset("assets/img/$fotos->ruta_imagen") }}' class='img-responsive' />
                         </div>
-                    @endforeach
+                    @endforeach -->
                 </div>
                 <a class="left carousel-control" href="#my_carusel" role="button" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left"></span>

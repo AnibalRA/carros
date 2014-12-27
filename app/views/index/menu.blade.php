@@ -11,16 +11,18 @@
     <div class="collapse navbar-collapse navbar-inverse-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
             
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contactos<strong class="caret"></strong></a>
+            <!-- <li class="dropdown"> -->
+               <!--  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contactos<strong class="caret"></strong></a>
                 <ul class="dropdown-menu">
-                    <li>{{ HTML::link(route('clienteLista'), 'Clientes') }}</li>
-                    <li>{{ HTML::link('prospecto', 'Prospectos') }}</li>
-                    <li>{{ HTML::link('boletin', 'Boletin') }}</li>
-                </ul>
+                   
+                </ul> -->
+                <li>{{ HTML::link('prestamo', 'Prestamos') }}</li>
+                <li>{{ HTML::link(route('clienteLista'), 'Clientes') }}</li>
+                <li>{{ HTML::link('prospecto', 'Prospectos') }}</li>
+                <!-- <li>{{ HTML::link('boletin', 'Boletin') }}</li> -->
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Autos<strong class="caret"></strong></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Carros<strong class="caret"></strong></a>
                 <ul class="dropdown-menu">
                     <li>{{ HTML::link('/marca', 'Marca') }}</li>
                     <li>{{ HTML::link('tipo', 'Tipo') }}</li>
@@ -29,7 +31,6 @@
                     <li>{{ HTML::link('extra', 'Extras / Servicios') }}</li>
                 </ul>
             </li>
-            <li>{{ HTML::link('prestamo', 'Alquileres') }}</li>
         </ul>
         <?php
             $name = explode(" ", Auth::user()->nombre);
