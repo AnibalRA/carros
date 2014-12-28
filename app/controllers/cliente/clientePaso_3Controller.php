@@ -12,11 +12,12 @@ class clientePaso_3Controller extends BaseController
         if(is_null($cliente))
             App::abort(404);
 
-        $cliente = $cliente->fechaDmy($cliente);
+        // $cliente = $cliente->fechaDmy($cliente);
+        $conductor = $cliente->conductor;
         $form = new Formulario;
         $form_data = $form->formData(array('adicionalStore',$id),'PATCH',true);
         $paso = 3;
-        return View::make('cliente.formularios.adicional', compact('cliente','form_data','paso'));
+        return View::make('cliente.formularios.adicional', compact('conductor', 'cliente','form_data','paso'));
     }
     /**
      * [Guardar Datos Del Contacto]
@@ -30,22 +31,28 @@ class clientePaso_3Controller extends BaseController
         if(is_null($cliente))
             App::abort(404);
 
-        $form = new Formulario;
+        $conductor = $cliente->conductor;
+        if(is_null($conductor))
+            $conductor = new Cliente;
+        // $form = new Formulario;
         $data = Input::all();
-        $data = $form->fechaYmd($data,2);
-        $file = Input::file('ruta_imagen');
+        $data['tipo'] = 'adicional';
+        $data['empresa_id'] = Auth::user()->empresa->id;
+        // $data = $form->fechaYmd($data,2);
+        // $file = Input::file('ruta_imagen');
 
-        if(Input::file('ruta_imagen')) {
-            $data['ruta_imagen'] = Input::file('ruta_imagen')->getClientOriginalName();
-            $file->move("assets/img",$data['ruta_imagen']);
-        } else
-            $data['ruta_imagen'] = $cliente->ruta_imagen;
+        // if(Input::file('ruta_imagen')) {
+        //     $data['ruta_imagen'] = Input::file('ruta_imagen')->getClientOriginalName();
+        //     $file->move("assets/img",$data['ruta_imagen']);
+        // } else
+        //     $data['ruta_imagen'] = $cliente->ruta_imagen;
 
-        if($cliente->validAndSave($data,3)) {
-            $bitacora = new Bitacora;
-            $bitacora->Guardar(2,$cliente->id,2);
+        if($conductor->validarConductor($data)) {
+            $cliente->adicional_id = $conductor->id;
+            $cliente->save();
             return Redirect::route('clienteFoto',$cliente->id);
-        } else
+        }
+         // else
             return Redirect::back()
                 ->withInput()
                 ->withErrors($cliente->errors);

@@ -6,10 +6,10 @@
      */
     Route::get('cliente/{id}/comentario',[
 		'as' => 'clienteComentario',
-		'uses' => 'clientePaso_5Controller@comentario'
+		'uses' => 'clientePaso_5Controller@comentarios'
 	]);
 
-	Route::patch('cliente/{id}/comentarioStore',[
+	Route::post('cliente/{id}/comentarioStore',[
 		'as' => 'comentarioStore',
 		'uses' => 'clientePaso_5Controller@storage'
 	]);

@@ -1,21 +1,22 @@
 <?php
     class Marca extends Eloquent
     {
-        use SoftDeletingTrait;
+        // use SoftDeletingTrait;
         public $errors;
         protected $table = 'marcas';
-        protected $dates = ['deleted_at'];
+        // protected $dates = ['deleted_at'];
+        public $timestamps = false;
         protected $perPage = 5;
-        protected $fillable = ['marca'];
+        protected $fillable = ['nombre'];
 
         public function isValid($data)
         {
             $rules = [
-                'marca'=>'required|max:100|unique:marcas'
+                'nombre'=>'required|max:100|unique:marcas'
             ];
 
-            if($this->exists)
-                $rules['marca'] .= ',marca,' . $this->id;
+            // if($this->exists)
+            //     $rules['marca'] .= ',marca,' . $this->id;
 
             $validator = Validator::make($data,$rules);
 

@@ -1,102 +1,72 @@
 <?php
 class Cliente extends Eloquent
 {
-    use SoftDeletingTrait;
     protected $table = 'clientes';
     protected $dates = ['deleted_at'];
     public $errors;
-    protected $perPage = 5;
 
     protected $fillable = [
+        'tipo',
         'nombre',
         'direccion',
-        'direccion_2',
-        'doc_unico',
+        'fechaNacimiento',
         'sexo',
         'email',
-        'fecha_nac',
+        'empresa_id',
         'telefono',
-        'telefono_2',
         'celular',
-        'pasaporte',
-        'licencia',
-        'fecha_emi_lic',
-        'fecha_ven_lic',
-        'targeta_credito',
-        'fecha_ven_cre',
-        'tipo',
-        'emergencia_nombre',
-        'emergencia_direccion',
-        'emergencia_telefono',
-        'password',
-        'adicional_nombre',
-        'adicional_telefono',
-        'doc_unico_2',
-        'adicional_licencia',
-        'adicional_femilic',
-        'adicional_fevenlic',
-        'ruta_imagen',
-        'comentario'
+        'telefonoExtranjero'
     ];
 
-    public function isValid($data,$accion)
+
+
+    public function validarCliente($data){
+        $rules = [
+            'tipo'              => 'required',
+            'nombre'            => 'required',
+            'direccion'         => 'required',
+            'fechaNacimiento'   => 'required',
+            'sexo'              => 'required',
+            // 'empresa_id'        => 'required',
+            // 'email'             => 'required',
+            'telefono'          => 'required'
+        ];
+        return $this->validAndSave($data,$rules);
+    }
+
+    public function validarEmergencia($data){
+        $rules = [
+            'tipo'              => 'required',
+            'nombre'            => 'required',
+            'direccion'         => 'required',
+            'telefono'          => 'required'
+        ];
+        return $this->validAndSave($data,$rules);
+    }
+
+    public function validarConductor($data){
+        $rules = [
+            'tipo'              => 'required',
+            'nombre'            => 'required',
+            'telefono'          => 'required',
+            'licencia'          => 'required',
+            'fechaLicencia'     => 'required',
+            'fechaVencimiento'  => 'required'
+        ];
+        return $this->validAndSave($data,$rules);
+    }
+    public function isValid($data, $rules)
     {
-        if($accion == 1) {
-            $rules = [
-                'nombre' => 'required',
-                'direccion' => 'required',
-                'doc_unico' => 'required',
-                'sexo' => 'required',
-                'email' => 'email|unique:clientes',
-                'telefono' => 'required',
-                'licencia' => 'required|unique:clientes',
-                'fecha_emi_lic' => 'required',
-                'fecha_ven_lic' => 'required',
-                'targeta_credito' => 'required',
-                'fecha_ven_cre' => 'required',
-                'tipo' => 'required'
-            ];
-
-            if ($this->exists)
-                $rules['email'] .= ',email,' . $this->id;
-
-            if ($this->exists)
-                $rules['licencia'] .= ',licencia,' . $this->id;
-        } elseif($accion == 2) {
-            $rules = [
-                'emergencia_nombre' => 'required',
-                'emergencia_direccion' => 'required',
-                'emergencia_telefono' => 'required'
-            ];
-        } elseif($accion == 3) {
-            $rules = [
-                'adicional_telefono' => 'required',
-                'adicional_licencia' => 'required',
-                'adicional_femilic' => 'required',
-                'adicional_fevenlic' => 'required'
-            ];
-        } else {
-            $rules = [
-                'nombre' => 'required',
-                'fecha_nac' => 'required',
-                'email' => 'email|required|confirmed',
-                'telefono' => 'required'
-            ];
-
-        }
-
         $validator = Validator::make($data,$rules);
-
         if($validator->passes())
             return true;
-
         $this->errors = $validator->errors();
         return false;
     }
 
-    public function validAndSave($data,$accion)
+    public function validAndSave($data, $rules)
     {
-        if($this->isValid($data,$accion)) {
+        if($this->isValid($data,$rules)) {
             $this->fill($data);
             $this->save();
             return true;
@@ -125,6 +95,11 @@ class Cliente extends Eloquent
     public function prestamos() {
         return $this->hasmany('Prestamo','cliente_id');
     }
+
+
+    public function phone($tipo){
+        return $this->hasMany('telefono')->where('tipo', $tipo)->first();
+    }
     /**
      * [Relación]
      * @return [Relación] [Cliente tiene muchas imagenes]
@@ -132,4 +107,28 @@ class Cliente extends Eloquent
     public function imagenes() {
         return $this->hasmany('Imagen','cliente_id');
     }
+
+    public function emergencia(){
+        return $this->hasOne('cliente', 'id','emergencia_id');
+    }
+    public function conductor(){
+        return $this->hasOne('cliente', 'id', 'adicional_id');
+    }
+    public function documentos(){
+        return $this->hasMany('documento');
+    }
+    public function comentarios(){
+        return $this->hasMany('Comentario');
+    }
+
 }
+
+
+
+
+
+
+
+
+
+

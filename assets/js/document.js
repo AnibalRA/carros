@@ -22,7 +22,7 @@ $(document).ready(function(e) {
      * @type {String}
      */
     $('.datepicker').datetimepicker({
-        format: "dd-mm-yyyy",
+        format: "yyyy-mm-dd",
         pickerPosition: "top-left",
         language: "es",
         todayBtn: "linked",

@@ -1,47 +1,53 @@
 <?php
 class Prestamo extends Eloquent
 {
-    use SoftDeletingTrait;
+    // use SoftDeletingTrait;
     public $errors;
     protected $table = 'prestamos';
-    protected $dates = ['deleted_at'];
+    // protected $dates = ['deleted_at'];
     protected $perPage = 5;
 
     protected $fillable = [
-        'lugarEntrega',
-        'lugarDevolucion',
-        'horario_rsv',
-        'horario_dvl',
+        'lugarEntrega_id',
+        'lugarDevolucion_id',
+        'fechaReserva',
+        'fechaDevolucion',
         'tipo_pago',
         'descuento',
         'cliente_id',
         'modelo_id',
         'precio_id',
         'extra_id',
-        'estado'
+        'estado',
+        'empresa_id'
     ];
 
-    public function isValid($data,$accion)
-    {
-        if($accion == 1) {
-            $rules = [
+    public function validarPrestamo($data){
+        $rules = [
                 'cliente_id' => 'required',
-                'horario_rsv' => 'required',
-                'horario_dvl' => 'required',
-                'lugarEntrega' => 'required'
+                'fechaReserva' => 'required',
+                'fechaDevolucion' => 'required',
+                'lugarEntrega_id' => 'required'
             ];
-        } elseif($accion == 3) {
-            $rules = [
-                'horario_rsv' => 'required',
-                'horario_dvl' => 'required',
-                'lugarEntrega' => 'required'
-            ];
-        } else {
-            $rules = [
-                'tipo_pago' => 'required',
-                'descuento' => 'integer'
-            ];
-        }
+        return $this->validAndSave($data, $rules);
+    }
+
+    public function isValid($data,$rules)
+    {
+        // if($accion == 1) {
+            
+        // } elseif($accion == 3) {
+        //     $rules = [
+        //         'horario_rsv' => 'required',
+        //         'horario_dvl' => 'required',
+        //         'lugarEntrega' => 'required'
+        //     ];
+        // } else {
+        //     $rules = [
+        //         'tipo_pago' => 'required',
+        //         'descuento' => 'integer'
+        //     ];
+        // }
 
         $validator = Validator::make($data,$rules);
 
@@ -105,31 +111,49 @@ class Prestamo extends Eloquent
      * @param  [type] $data [Datos]
      * @return [type]       [Datos con Nuevo Formato]
      */
-    public function fechaYmd($data)
-    {
-        $data["horario_rsv"] = date('Y-m-d H:i', strtotime($data["horario_rsv"]));
-        $data["horario_dvl"] = date('Y-m-d H:i', strtotime($data["horario_dvl"]));
-        return $data;
-    }
+    // public function fechaYmd($data)
+    // {
+    //     $data["horario_rsv"] = date('Y-m-d H:i', strtotime($data["horario_rsv"]));
+    //     $data["horario_dvl"] = date('Y-m-d H:i', strtotime($data["horario_dvl"]));
+    //     return $data;
+    // }
     /**
      * [Formato de fecha] [d-m-Y a Y-m-d]
      * @param  [type] $data [Datos]
      * @return [type]       [Datos con Nuevo Formato]
      */
-    public function fechaDmy($prestamo)
-    {
-        if($prestamo->horario_rsv == '1970-01-01 00:00:00' || $prestamo->horario_rsv == '0000-00-00 00:00:00')
-            $prestamo->horario_rsv = '';
-        else
-            $prestamo->horario_rsv = date('d-m-Y h:i A', strtotime($prestamo->horario_rsv));
+    // public function fechaDmy($prestamo)
+    // {
+    //     if($prestamo->horario_rsv == '1970-01-01 00:00:00' || $prestamo->horario_rsv == '0000-00-00 00:00:00')
+    //         $prestamo->horario_rsv = '';
+    //     else
+    //         $prestamo->horario_rsv = date('d-m-Y h:i A', strtotime($prestamo->horario_rsv));
 
-        if($prestamo->horario_dvl == '1970-01-01 00:00:00' || $prestamo->horario_dvl == '0000-00-00 00:00:00')
-            $prestamo->horario_dvl = '';
-        else
-            $prestamo->horario_dvl = date('d-m-Y h:i A', strtotime($prestamo->horario_dvl));
+    //     if($prestamo->horario_dvl == '1970-01-01 00:00:00' || $prestamo->horario_dvl == '0000-00-00 00:00:00')
+    //         $prestamo->horario_dvl = '';
+    //     else
+    //         $prestamo->horario_dvl = date('d-m-Y h:i A', strtotime($prestamo->horario_dvl));
 
-        return $prestamo;
+    //     return $prestamo;
+    // }
+
+
+    //getters and setters
+
+    public function setFechaReservaAttribute($date){
+        $this->attributes['fechaReserva'] = date('Y-m-d H:i:s ', strtotime($date));
     }
+    public function setFechaDevolucionAttribute($date){
+       $this->attributes['fechaDevolucion'] = date('Y-m-d H:i:s', strtotime($date));
+    }
+
+    public function getFechaReservaAttribute(){
+        return  date('d-m-Y h:i A', strtotime($this->attributes['fechaReserva']));
+    }
+    public function getFechaDevolucionAttribute(){
+       return date('d-m-Y h:i A', strtotime($this->attributes['fechaDevolucion']));
+    }
+
     /**
      * [Relación]
      * @return [Relación] [Prestamos pertenece a cliente]

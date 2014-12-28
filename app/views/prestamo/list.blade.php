@@ -40,17 +40,17 @@
                 @foreach ($prestamo as $prestamos)
                     <tr>
                         <td>
-                            @if(!empty($prestamos->cliente->nombre))
-                                {{ $prestamos->cliente->nombre }}
+                            @if(!is_null($prestamos->cliente)) 
+                                {{ $prestamos->cliente['nombre'] }}
                             @endif
                         </td>
                         <td>
-                            @if(!empty($prestamos->modelo->modelo))
+                            @if(!empty($prestamos->modelo))
                                 {{ $prestamos->modelo->modelo }}
                             @endif
                         </td>
-                        <td>{{ date('d-m-Y h:i A', strtotime($prestamos->horario_rsv)) }}</td>
-                        <td>{{ date('d-m-Y h:i A', strtotime($prestamos->horario_dvl)) }}</td>
+                        <td>{{ $prestamos->fechaReserva }}</td>
+                        <td>{{ $prestamos->fechaDevolucion }}</td>
                         <td>{{ $prestamos->estado }}</td>
                         <td>
                             <a href="{{ route('contratoEditar', array($prestamos->id)) }}" data-content="Contrato de Arrendamiento" data-placement="bottom" class="crearContrato glyphicon glyphicon-file tool"> </a>

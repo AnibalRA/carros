@@ -22,7 +22,7 @@
                 <!-- <li>{{ HTML::link('boletin', 'Boletin') }}</li> -->
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Carros<strong class="caret"></strong></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuración<strong class="caret"></strong></a>
                 <ul class="dropdown-menu">
                     <li>{{ HTML::link('/marca', 'Marca') }}</li>
                     <li>{{ HTML::link('tipo', 'Tipo') }}</li>

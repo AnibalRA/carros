@@ -1,5 +1,7 @@
 @extends('index')
 @section('content')
+
+@include('errores')
     <br/><br/>
     <div class="row">
         <div class="col-md-12">
@@ -7,7 +9,7 @@
                 <li class="text-center col-md-offset-1 col-md-2 @if($paso == 1 || $paso == 6) {{'active'}} @endif">
                     <a href="@if($paso != 1) {{ route('clienteEditar',$cliente->id) }} @endif">
                         <span class="@if($paso == 1 || $paso == 6) glyphicon glyphicon-pencil @endif"> </span>
-                        Paso 1: Cliente Nuevo
+                        Paso 1: Datos del cliente
                     </a>
                 </li>
                 <li class="text-center col-md-2 @if($paso == 2) {{'active'}} @endif">
@@ -23,9 +25,9 @@
                     </a>
                 </li>
                 <li class="text-center col-md-2 @if($paso == 4) {{'active'}} @endif">
-                    <a href="@if($paso >= 2) {{ route('clienteFoto',$cliente->id) }} @endif">
+                    <a href="@if($paso >= 2) {{ route('clienteInformacion',$cliente->id) }} @endif">
                         <span class="@if($paso == 4) glyphicon glyphicon-pencil @endif"> </span>
-                        Paso 4: Subir Imagenes
+                        Paso 4: Documentos
                     </a>
                 </li>
                 <li class="text-center col-md-2 @if($paso == 5) {{'active'}} @endif">

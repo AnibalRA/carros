@@ -7,8 +7,11 @@ class clientePaso_1Controller extends BaseController
      */
     public function lista()
     {
-        $cliente = Cliente::orderBy('created_at','dsc')
-            ->paginate();
+        $cliente = Cliente::where('tipo', 'local')
+                            ->where('empresa_id', Auth::user()->empresa->id)
+                            ->orWhere('tipo', 'extrangero')
+                            ->orderBy('created_at','dsc')
+                            ->paginate();
 
         return View::make('cliente.list', compact('cliente'));
     }
@@ -34,6 +37,7 @@ class clientePaso_1Controller extends BaseController
             'Extrangero' => 'Extrangero'
         ];
 
+
         $paso = 1;
         return View::make('cliente.formularios.cliente', compact('cliente','form_data','sexo','tipo','paso'));
     }
@@ -46,30 +50,33 @@ class clientePaso_1Controller extends BaseController
         $cliente = new Cliente;
         $form = new Formulario;
         $data = Input::all();
-        $data = $form->fechaYmd($data,1);
+        $data['empresa_id'] = Auth::user()->empresa->id;
 
-        if($cliente->validAndSave($data,1))
+
+
+        // $empresa = Auth::user()->empresa;
+        // $data = $form->fechaYmd($data,1);
+        // return $data;
+
+        if($cliente->validarCliente($data))
         {
-            $bitacora = new Bitacora;
-            $bitacora->Guardar(2,$cliente->id,1);
+            // if(!empty($cliente->email)) {
+            //     $password = new Codigo;
+            //     $generado = $password->generar($cliente->id);
 
-            if(!empty($cliente->email)) {
-                $password = new Codigo;
-                $generado = $password->generar($cliente->id);
+            //     $datosEmail = [
+            //         'clave' => $generado,
+            //         'nombre' => $cliente->nombre
+            //     ];
 
-                $datosEmail = [
-                    'clave' => $generado,
-                    'nombre' => $cliente->nombre
-                ];
+            //     Mail::send('cliente.email.clave',$datosEmail,function($message) use ($cliente) {
+            //         $message->to($cliente->email, $cliente->nombre)
+            //             ->subject('MultiAutos El Salvador');
+            //     });
 
-                Mail::send('cliente.email.clave',$datosEmail,function($message) use ($cliente) {
-                    $message->to($cliente->email, $cliente->nombre)
-                        ->subject('MultiAutos El Salvador');
-                });
-
-                $cliente->password = Hash::make($generado);
-                $cliente->save();
-            }
+            //     $cliente->password = Hash::make($generado);
+            //     $cliente->save();
+            // }
             return Redirect::route('clienteContacto',$cliente->id);
         } else
             return Redirect::back()
@@ -105,6 +112,7 @@ class clientePaso_1Controller extends BaseController
 
         $cliente = $cliente->fechaDmy($cliente);
         $paso = 6;
+        // return $cliente->telefono;
         return View::make('cliente.formularios.cliente', compact('cliente','form_data','sexo','tipo','paso'));
     }
     /**
@@ -123,9 +131,7 @@ class clientePaso_1Controller extends BaseController
         $data = Input::all();
         $data = $form->fechaYmd($data,1);
 
-        if($cliente->validAndSave($data,1)) {
-            $bitacora = new Bitacora;
-            $bitacora->Guardar(2,$cliente->id,2);
+        if($cliente->validarCliente($data)) {
             return Redirect::route('clienteContacto',$cliente->id);
         } else
             return Redirect::back()

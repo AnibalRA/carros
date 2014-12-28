@@ -5,45 +5,30 @@
     {
 
     /**
-
      * [Tabla de Marcas]
-
      * @return [vista] [auto/marca/list]
-
      */
 
     public function lista()
 
     {
 
-        $marca = Marca::orderBy('created_at','dsc')
-
+        $marca = Marca::orderBy('id','dsc')
             ->paginate();
 
-
-
         $form_data = [
-
             'class' => 'form-horizontal',
-
             'id' => 'formMarca'
-
         ];
 
-
-
         $mensaje = 'El campo no tiene que quedar vacío';
-
         return View::make('auto.marca.list', compact('marca','form_data','mensaje'));
 
     }
 
     /**
-
      * [Guardar Datos De la Marcas]
-
      * @return [vista] [auto/marca/list]
-
      */
 
     public function store()
@@ -51,41 +36,24 @@
     {
 
         $marca = new Marca;
-
         $data = Input::all();
 
-
-
         if($marca->validAndSave($data)) {
-
-            $bitacora = new Bitacora;
-
-            $bitacora->Guardar(4,$marca->id,1);
-
             return Redirect::back()
-
                 ->with('mensaje','La marca ha sido creada con éxito')
-
                 ->with('clase', 'alert-success');
+        } 
 
-        } else
-
-            return Redirect::back()
-
-                ->with('mensaje','El campo no tiene que estar vacío')
-
-                ->with('clase', 'alert-danger');
+        return Redirect::back()
+            ->with('mensaje','El campo no tiene que estar vacío')
+            ->with('clase', 'alert-danger');
 
     }
 
     /**
-
      * [Editar Marca] [Formulario]
-
      * @param  [type] $id [ID de la Marca]
-
      * @return [type]     [JSON]
-
      */
 
     public function edit($id)
@@ -93,27 +61,17 @@
     {
 
         $marca = Marca::find($id);
-
-
-
         if(!empty($marca))
-
             return $marca;
-
         else
-
             return 0;
 
     }
 
     /**
-
      * [Actualizar Datos]
-
-     * @param  [type] $id [ID de la Marca]
-
+     * @param  [type] $id [ID de la Marca
      * @return [vista] [auto/marca/list]
-
      */
 
     public function update($id)
@@ -135,35 +93,21 @@
 
 
         if($marca->validAndSave($data)) {
-
-            $bitacora = new Bitacora;
-
-            $bitacora->Guardar(4,$marca->id,2);
-
             return Redirect::back()
-
                 ->with('mensaje','La marca ha sido editada con éxito')
-
                 ->with('clase', 'alert-success');
+        } 
 
-        } else
-
-            return Redirect::back()
-
-                ->with('mensaje','El campo no tiene que estar vacío')
-
-                ->with('clase', 'alert-danger');
+        return Redirect::back()
+            ->with('mensaje','El campo no tiene que estar vacío')
+            ->with('clase', 'alert-danger');
 
     }
 
     /**
-
      * [Mostrar Detalles de la Marca]
-
      * @param  [type] $id [ID de la Marca]
-
      * @return [type]     [description]
-
      */
 
     public function show($id)

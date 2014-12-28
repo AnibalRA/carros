@@ -9,13 +9,14 @@ class clientePaso_2Controller extends BaseController
     {
         $cliente = Cliente::find($id);
 
-        if(is_null($cliente))
-            App::abort(404);
-
+        $emergencia = $cliente->emergencia;
+        // if(is_null($emergencia))
+        //     App::abort(404);
+        // return $emergencia;
         $form = new Formulario;
         $form_data = $form->formData(array('contactoStore',$id),'PATCH',false);
         $paso = 2;
-        return View::make('cliente.formularios.contacto', compact('cliente','form_data','paso'));
+        return View::make('cliente.formularios.contacto', compact('emergencia', 'cliente' ,'form_data','paso'));
     }
     /**
      * [Guardar Datos Del Contacto]
@@ -24,19 +25,22 @@ class clientePaso_2Controller extends BaseController
     public function storage($id)
     {
         $cliente = Cliente::find($id);
-
-        if(is_null($cliente))
-            App::abort(404);
-
+        $emergencia = $cliente->emergencia;//new Cliente;
+        if(is_null($emergencia))
+            $emergencia = new Cliente;
+            // App::abort(404);
         $data = Input::all();
+        $data['empresa_id'] = Auth::user()->empresa->id;
+        $data['tipo'] = 'Emergencia';
 
-        if($cliente->validAndSave($data,2)) {
-            $bitacora = new Bitacora;
-            $bitacora->Guardar(2,$cliente->id,2);
+        if($emergencia->validarEmergencia($data)) {
+            // $cliente = Cliente::find($id);
+            $cliente->emergencia_id = $emergencia->id;
+            $cliente->save();
             return Redirect::route('clienteAdicional',$cliente->id);
         } else
             return Redirect::back()
                 ->withInput()
-                ->withErrors($cliente->errors);
+                ->withErrors($emergencia->errors);
     }
 }

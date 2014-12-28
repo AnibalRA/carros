@@ -75,9 +75,9 @@
 
                         <td>
 
-                            <a href="{{ route('marcaShow', array($marcas->id)) }}">{{ $marcas->marca }}</a></td>
+                            <a href="{{ route('marcaShow', array($marcas->id)) }}">{{ $marcas->nombre }}</a></td>
 
-                        <td>{{ $marcas->modelos->count() }}</td>
+                        <td></td>
 
                         <td>
 

@@ -13,7 +13,7 @@ class prestamoPaso_2Controller extends BaseController
         if(is_null($prestamo))
             App::abort(404);
 
-        $verificar = Modelo::find($prestamo->modelo_id);
+        $verificar = carro::find($prestamo->modelo_id);
 
         if(is_null($verificar)) {
            $idexiste = 0;

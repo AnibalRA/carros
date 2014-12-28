@@ -10,6 +10,8 @@ class prestamoPaso_1Controller extends BaseController
         $prestamo = Prestamo::orderBy('created_at','dsc')
             ->paginate();
 
+
+        // return $prestamo;
         $form_data = [
             'class' => 'form-horizontal',
             'method' => 'patch',
@@ -38,33 +40,39 @@ class prestamoPaso_1Controller extends BaseController
      * @return [vista] [prestamo/form]
      */
     public function create()
-
     {
 
+        date_default_timezone_set('America/El_Salvador');
         $prestamo = new Prestamo;
+        $prestamo->fechaReserva = date("Y-m-d H:i:s");
+        $prestamo->fechaDevolucion = date("Y-m-d H:i:s");
 
-        $form = new Formulario;
+        return $this->crearReserva($prestamo, "POST", "prestamoStore");
+    }
 
-        $form_data = $form->formData('prestamoStore','POST',false);
+    private function crearReserva($prestamo, $metodo, $ruta){
+         $form = new Formulario;
+         $form_data = $form->formData($ruta,$metodo,false);
+         
+        $cliente = Cliente::where('tipo', 'local')
+                                   ->where('empresa_id', Auth::user()->empresa->id)
+                                   ->orWhere('tipo', 'extrangero')
+                                   ->orderBy('created_at','dsc')
+                                   ->lists('nombre', 'id');
 
-        $cliente = $prestamo->formCliente();
+         $lugares = Lugares::where('empresa_id', Auth::user()->empresa->id)->lists('nombre', 'id');
 
-        $entrega = $prestamo->formLugares();
+         $entrega = $lugares; //$prestamo->formLugares();
+         $devolucion = $lugares; //$prestamo->formLugares();
+         $paso = 1;
 
-        $devolucion = $prestamo->formLugares();
-
-        $paso = 1;
-
-        return View::make('prestamo/form', compact('prestamo','form_data','cliente','entrega','devolucion','paso'));
-
+         return View::make('prestamo/form', compact('prestamo','form_data','cliente','entrega','devolucion','paso'));
+        
     }
 
     /**
-
      * [Guardar Datos Del Prestamo]
-
      * @return [route] [selectModelo]
-
      */
 
     public function store()
@@ -72,29 +80,20 @@ class prestamoPaso_1Controller extends BaseController
     {
 
         $prestamo = new Prestamo;
-
         $data = Input::all();
+        $data['empresa_id'] = Auth::user()->empresa->id;
+        // $data = $prestamo->fechaYmd($data);
 
-        $data = $prestamo->fechaYmd($data);
-
-
-
-        if($prestamo->validAndSave($data,1)) {
-
-            $bitacora = new Bitacora;
-
-            $bitacora->Guardar(10,$prestamo->id,1);
-
+        //return date('Y-m-d h:i A', strtotime($data['fechaDevolucion']));
+        if($prestamo->validarPrestamo($data)) {
             return Redirect::route('selectModelo',$prestamo->id);
+        }
 
-        } else
+        
 
-            return Redirect::back()
-
-                ->withInput()
-
-                ->withErrors($prestamo->errors);
-
+        return Redirect::back()
+            ->withInput()
+            ->withErrors($prestamo->errors);
     }
     /**
      * [Editar Prestamo] [Formulario] [Paso 1]
@@ -104,57 +103,43 @@ class prestamoPaso_1Controller extends BaseController
     public function edit($id)
     {
         $form = new Formulario;
-        $listas = new Prestamo;
+        // $listas = new Prestamo;x
         $prestamo = Prestamo::find($id);
 
         if(is_null($prestamo))
             App::abort(404);
 
-        $form_data = $form->formData(array('prestamoUpdate',$id),'PATCH',false);
-        $cliente = $listas->formCliente();
-        $entrega = $listas->formLugares();
-        $devolucion = $listas->formLugares();
-        $prestamo->horario_rsv = date('d-m-Y h:i A', strtotime($prestamo->horario_rsv));
-        $prestamo->horario_dvl = date('d-m-Y h:i A', strtotime($prestamo->horario_dvl));
-        $paso = 5;
+        return $this->crearReserva($prestamo, "PATCH", array('prestamoUpdate',$id));
+        // $form_data = $form->formData(array('prestamoUpdate',$id),'PATCH',false);
+
+        // $cliente = $listas->formCliente();
+        // $entrega = $listas->formLugares();
+        // $devolucion = $listas->formLugares();
+        // $prestamo->horario_rsv = date('d-m-Y h:i A', strtotime($prestamo->horario_rsv));
+        // $prestamo->horario_dvl = date('d-m-Y h:i A', strtotime($prestamo->horario_dvl));
+        // $paso = 5;
         
-        return View::make('prestamo/form', compact('prestamo','form_data','cliente','entrega','devolucion','paso'));
+        // return View::make('prestamo/form', compact('prestamo','form_data','cliente','entrega','devolucion','paso'));
     }
     /**
-
      * [Actualizar Datos]
-
      * @param  [type] $id [ID del Prestamo]
-
-     * @return [route] [selectModelo]
-
      */
 
     public function update($id)
     {
         $prestamo = Prestamo::find($id);
-
         if(is_null($prestamo))
             App::abort(404);
 
         $data = Input::all();
+        // $data = $prestamo->fechaYmd($data);
+        if($prestamo->validarPrestamo($data,1)) {
+            return Redirect::back();//route('selectModelo',$prestamo->id);
 
-        $data = $prestamo->fechaYmd($data);
-
-        if($prestamo->validAndSave($data,1)) {
-
-            $bitacora = new Bitacora;
-
-            $bitacora->Guardar(10,$prestamo->id,2);
-
-            return Redirect::route('selectModelo',$prestamo->id);
-
-        } else
-
-            return Redirect::back()
-
+        } 
+        return Redirect::back()
                 ->withInput()
-
                 ->withErrors($prestamo->errors);
 
     }
@@ -210,13 +195,9 @@ class prestamoPaso_1Controller extends BaseController
     }
 
     /**
-
      * [Requerimiento de Pago]
-
      * @param  [type] $id [ID del prestamo]
-
      * @return [route] [Prestamo/List]
-
      */
 
     public function requerimiento($id)

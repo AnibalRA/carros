@@ -3,7 +3,7 @@
      * [Tabla de Marcas]
      * @return [vista] [auto/marca/list]
      */
-	Route::get('marca/',[
+	Route::get('marca',[
 		'uses' => 'MarcaController@lista'
 	]);
     /**

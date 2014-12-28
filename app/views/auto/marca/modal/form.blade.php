@@ -17,10 +17,10 @@
                     <div class="col-md-12 col-sm-12">
                         {{ Form::model($marca, $form_data) }}
                             <div class="form-group">
-                                {{ Form::label('marca', 'Marca *', array('class' => 'control-label col-md-4 col-sm-4')) }}
+                                {{ Form::label('nombre', 'Marca *', array('class' => 'control-label col-md-4 col-sm-4')) }}
                                 <div class="col-md-7 col-sm-7 input-group">
                                     <span class="input-group-addon glyphicon glyphicon-tag"> </span>
-                                    {{ Form::text('marca', null, array('placeholder' => 'Marca', 'class' => 'form-control')) }}
+                                    {{ Form::text('nombre', null, array('placeholder' => 'Marca', 'class' => 'form-control')) }}
                                 </div>
                             </div>
                             {{ Form::hidden('marca_id', null, array('id' => 'marca_id')) }}

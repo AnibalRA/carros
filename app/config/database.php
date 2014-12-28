@@ -109,7 +109,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'bd_rentcar',
+			'database'  => 'carros',
 			'username'  => 'root',
 			'password'  => '',
 			'charset'   => 'utf8',

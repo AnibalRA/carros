@@ -128,6 +128,8 @@ return array(
 		//
 		//
 		'Barryvdh\DomPDF\ServiceProvider',
+		'Barryvdh\Debugbar\ServiceProvider',
+
 	),
 
 	/*

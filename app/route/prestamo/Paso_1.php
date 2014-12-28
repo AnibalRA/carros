@@ -3,11 +3,8 @@
 	require __DIR__.'/../../controllers/prestamo/prestamoPaso_1Controller.php';
 
     /**
-
      * [Tabla de Prestamos]
-
      * @return [vista] [prestamo/list]
-
      */
 
 	Route::get('prestamo',[
@@ -19,11 +16,8 @@
     ]);
 
     /**
-
      * [Crear Prestamo - Formulario] [Paso 1]
-
      * @return [vista] [prestamo/form]
-
      */
 
     Route::get('prestamo/create',[
@@ -35,11 +29,8 @@
     ]);
 
     /**
-
      * [Guardar Datos Del Prestamo]
-
      * @return [route] [selectModelo]
-
      */
 
     Route::post('prestamo/store',[
@@ -51,11 +42,8 @@
     ]);
 
     /**
-
      * [Editar Prestamo] [Formulario] [Paso 1]
-
           * @return [vista] [prestamo/form]
-
      */
 
     Route::get('prestamo/{id}/edit',[
@@ -67,11 +55,8 @@
     ]);
 
     /**
-
      * [Actualizar Datos]
-
      * @return [route] [selectModelo]
-
      */
 
     Route::patch('prestamo/{id}/update',[
@@ -83,11 +68,8 @@
     ]);
 
     /**
-
      * [Mostrar Detalles del Prestamo]
-
      * @return [vista] [prestamo/show]
-
      */
 
     Route::get('prestamo/{id}/show',[
@@ -99,11 +81,8 @@
     ]);
 
     /**
-
      * [Confirmar Prestamo]
-
      * @return [route] [Prestamo/List]
-
      */
 
     Route::get('prestamo/{prestamo_id}/confirmar/{modelo_id}',[
@@ -115,11 +94,8 @@
     ]);
 
     /**
-
      * [Requerimiento de Pago]
-
      * @return [route] [Prestamo/List]
-
      */
 
     Route::get('prestamo/{id}/requerimiento',[
