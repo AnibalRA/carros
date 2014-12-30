@@ -1,25 +1,26 @@
 <?php
 class Precio extends Eloquent
 {
-    use SoftDeletingTrait;
+    // use SoftDeletingTrait;
     public $errors;
-    protected $perPage = 5;
+    // protected $perPage = 5;lic 
+    public $timestamps = false;
     protected $table = 'precios';
-    protected $dates = ['deleted_at'];
+    // protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'precio',
-        'fecha_ini',
-        'fecha_fin',
-        'modelo_id'
+        'cantidad',
+        'fechaInicio',
+        'fechaFin',
+        'carro_id'
     ];
 
     public function isValid($data)
     {
         $rules = [
-            'precio' => 'required',
-            'fecha_ini' => 'required',
-            'fecha_fin' => 'required',
+            'cantidad'        => 'required',
+            'fechaInicio'   => 'required',
+            'fechaFin'      => 'required',
         ];
 
         $validator = Validator::make($data,$rules);
@@ -41,20 +42,10 @@ class Precio extends Eloquent
         }
         return false;
     }
-    /**
-     * [Relación]
-     * @return [Relación] [Precios pertenece a Modelo]
-     */
-    public function modelo()
-    {
-        return $this->belongsTo('Modelo','modelo_id');
-    }
-    /**
-     * [Relación]
-     * @return [Relación] [Precio tiene muchos prestamos]
-     */
-    public function prestamos()
-    {
-        return $this->hasmany('Prestamo','precio_id');
+   
+   //relaciones
+
+    public function carro(){
+        return $this->belongsTo('carro');
     }
 }

@@ -48,14 +48,14 @@ $(document).ready(function(e) {
      * [Fecha de Precios] [Modelo] [Paso 3]
      * @type {[type]}
      */
-    $('#fecha_ini').rangoFechas({
+    $('#fechaInicio').rangoFechas({
         maxDate:'#fecha_fin'
     });
     /**
      * [Input File]
      * @type {Boolean}
      */
-    $("#ruta_imagen").fileinput({
+    $("#imagen").fileinput({
         showUpload: false,
         showCaption: false
     });
@@ -172,8 +172,8 @@ $(document).ready(function(e) {
      * [Horario de Reserva y Horario de Devolución] [Formulario] [Prestamo] [Paso 1]
      * @type {[type]}
      */
-    $('#horario_rsv').datetimepicker('setStartDate', new Date());
-    $('#horario_rsv').change(function() {
+    $('#fechaReserva').datetimepicker('setStartDate', new Date());
+    $('#fechaDevolucion').change(function() {
         $('#horario_dvl').datetimepicker('setStartDate', $(this).val());
     });
     /**

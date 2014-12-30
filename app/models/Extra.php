@@ -1,26 +1,27 @@
 <?php
 class Extra extends Eloquent
 {
-    use SoftDeletingTrait;
+    // use SoftDeletingTrait;
     public $errors;
     protected $table = 'extras';
-    protected $dates = ['deleted_at'];
+    // protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'extra',
+        'nombre',
         'descripcion',
         'precio',
-        'ruta_imagen',
+        'imagen',
         'obligatorio',
-        'cobro'
+        'cobro',
+        'empresa_id'
     ];
 
     public function isValid($data)
     {
         $rules = [
-            'extra' => 'required|max:100',
-            'descripcion'=>'required|max:250',
-            'precio' =>'required'
+            'nombre'        => 'required|max:100',
+            'descripcion'   =>'required|max:250',
+            'precio'        =>'required'
         ];
 
         $validator = Validator::make($data,$rules);
@@ -41,12 +42,7 @@ class Extra extends Eloquent
         }
         return false;
     }
-    /**
-     * [Relación]
-     * @return [Relación] [Extras tiene muchos Prestamos]
-     */
-    public function prestamos()
-    {
-        return $this->belongsToMany('Prestamo','extra_prestamo','extra_id','prestamo_id')->withTimestamps();
-    }
+
+
+    
 }

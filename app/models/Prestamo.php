@@ -1,54 +1,50 @@
 <?php
+use Carbon\Carbon;
+
 class Prestamo extends Eloquent
 {
     // use SoftDeletingTrait;
     public $errors;
     protected $table = 'prestamos';
     // protected $dates = ['deleted_at'];
-    protected $perPage = 5;
+    // protected $perPage = 5;
 
     protected $fillable = [
         'lugarEntrega_id',
         'lugarDevolucion_id',
         'fechaReserva',
         'fechaDevolucion',
-        'tipo_pago',
+        'tipoPago',
         'descuento',
         'cliente_id',
         'modelo_id',
         'precio_id',
         'extra_id',
-        'estado',
+        'estado_id',
         'empresa_id'
     ];
 
     public function validarPrestamo($data){
         $rules = [
-                'cliente_id' => 'required',
-                'fechaReserva' => 'required',
-                'fechaDevolucion' => 'required',
-                'lugarEntrega_id' => 'required'
+                'cliente_id'        => 'required',
+                'fechaReserva'      => 'required',
+                'fechaDevolucion'   => 'required',
+                'lugarEntrega_id'   => 'required',
+                'estado_id'         => 'required'
             ];
+        return $this->validAndSave($data, $rules);
+    }
+
+    public function validarPago($data){
+        $rules = [
+            'tipoPago'  => 'required',
+            'descuento' => 'integer'
+        ];
         return $this->validAndSave($data, $rules);
     }
 
     public function isValid($data,$rules)
     {
-        // if($accion == 1) {
-            
-        // } elseif($accion == 3) {
-        //     $rules = [
-        //         'horario_rsv' => 'required',
-        //         'horario_dvl' => 'required',
-        //         'lugarEntrega' => 'required'
-        //     ];
-        // } else {
-        //     $rules = [
-        //         'tipo_pago' => 'required',
-        //         'descuento' => 'integer'
-        //     ];
-        // }
-
         $validator = Validator::make($data,$rules);
 
         if($validator->passes())
@@ -78,67 +74,35 @@ class Prestamo extends Eloquent
         $this->save();
         return true;
     }
-    /**
-     * [Lista de Clientes]
-     * @return [array] [Lista de Clientes]
-     */
-    public function formCliente()
-    {
-        $cliente = [
-            '' => '',
-            'Clientes' => Cliente::all()->lists('nombre','id')
-        ];
 
-        return $cliente;
+    //Custom Attributes
+
+    public function getDiasAttribute(){
+        $inicio = Carbon::createFromTimestamp(strtotime($this->attributes['fechaReserva']));
+        $fin = Carbon::createFromTimestamp(strtotime($this->attributes['fechaDevolucion']));
+        return $inicio->diffInDays($fin);
     }
-    /**
-     * [Lista de Lugares de Enterga y Devolución del Auto]
-     * @return [array] [Lugares]
-     */
-    public function formLugares()
-    {
-        $lugares = [
-            '' => '',
-            'Aeropuerto' => 'Aeropuerto',
-            'Oficina Central' => 'Oficina Central',
-            'Adomicilio' => 'Adomicilio'
-        ];
-
-        return $lugares;
+    public function getHorasAttribute(){
+        $inicio = Carbon::createFromTimestamp(strtotime($this->attributes['fechaReserva']));
+        $fin = Carbon::createFromTimestamp(strtotime($this->attributes['fechaDevolucion']));
+        return ($inicio->diffInHours($fin) % 24);
     }
-    /**
-     * [Formato de fecha] [d-m-Y a Y-m-d]
-     * @param  [type] $data [Datos]
-     * @return [type]       [Datos con Nuevo Formato]
-     */
-    // public function fechaYmd($data)
-    // {
-    //     $data["horario_rsv"] = date('Y-m-d H:i', strtotime($data["horario_rsv"]));
-    //     $data["horario_dvl"] = date('Y-m-d H:i', strtotime($data["horario_dvl"]));
-    //     return $data;
-    // }
-    /**
-     * [Formato de fecha] [d-m-Y a Y-m-d]
-     * @param  [type] $data [Datos]
-     * @return [type]       [Datos con Nuevo Formato]
-     */
-    // public function fechaDmy($prestamo)
-    // {
-    //     if($prestamo->horario_rsv == '1970-01-01 00:00:00' || $prestamo->horario_rsv == '0000-00-00 00:00:00')
-    //         $prestamo->horario_rsv = '';
-    //     else
-    //         $prestamo->horario_rsv = date('d-m-Y h:i A', strtotime($prestamo->horario_rsv));
 
-    //     if($prestamo->horario_dvl == '1970-01-01 00:00:00' || $prestamo->horario_dvl == '0000-00-00 00:00:00')
-    //         $prestamo->horario_dvl = '';
-    //     else
-    //         $prestamo->horario_dvl = date('d-m-Y h:i A', strtotime($prestamo->horario_dvl));
+    public function getPrecioDiasAttribute(){
+        return round($this->getDiasAttribute() * $this->attributes['precio'],2);
+    }
+    public function getPrecioHorasAttribute(){
+        return round($this->getHorasAttribute() * ($this->attributes['precio'] / 24),2);
+    }
 
-    //     return $prestamo;
-    // }
+    public function getTotalCarroAttribute(){
+        return round($this->getPrecioDiasAttribute() + $this->getPrecioHorasAttribute(),2);
+    }
 
-
-    //getters and setters
+    public function total($precioExtras){
+        $precio = $this->getTotalCarroAttribute() + $precioExtras;
+        return round($precio - ($precio * ($this->attributes['descuento'] / 100)),2);
+    }
 
     public function setFechaReservaAttribute($date){
         $this->attributes['fechaReserva'] = date('Y-m-d H:i:s ', strtotime($date));
@@ -153,37 +117,32 @@ class Prestamo extends Eloquent
     public function getFechaDevolucionAttribute(){
        return date('d-m-Y h:i A', strtotime($this->attributes['fechaDevolucion']));
     }
+    public function getFechaInicioAttribute(){
+        return  $this->attributes['fechaReserva'];
+    }
+    public function getFechaFinAttribute(){
+       return $this->attributes['fechaDevolucion'];
+    }
 
-    /**
-     * [Relación]
-     * @return [Relación] [Prestamos pertenece a cliente]
-     */
-    public function cliente()
-    {
-        return $this->belongsTo('Cliente','cliente_id');
-    }
-    /**
-     * [Relación]
-     * @return [Relación] [Prestamos pertenece a modelo]
-     */
-    public function modelo()
-    {
-        return $this->belongsTo('Modelo','modelo_id');
-    }
-    /**
-     * [Relación]
-     * @return [Relación] [Prestamos pertenece a precio]
-     */
-    public function precio()
-    {
-        return $this->belongsTo('Precio','precio_id');
-    }
-    /**
-     * [Relación]
-     * @return [Relación] [Prestamos tiene muchos Extras]
-     */
-    public function extras()
-    {
-        return $this->belongsToMany('Extra','extra_prestamo','prestamo_id','extra_id')->withTimestamps();
-    }
+
+    //End custom attributes
+
+
+//custom relationship
+
+    public function lugarEntrega(){     return $this->belongsTo('Lugares','lugarEntrega_id');   }
+
+    public function lugarDevolucion(){  return $this->belongsTo('Lugares','lugarDevolucion_id');}
+
+    public function carro(){           return $this->belongsTo('carro');   }
+
+    public function estado()    {      return $this->belongsTo('estado');    }
+
+    public function cliente()   {      return $this->belongsTo('Cliente','cliente_id');   }
+   
+    public function modelo()    {       return $this->belongsTo('Modelo','modelo_id');    }
+    
+    public function precio()    {       return $this->belongsTo('Precio','precio_id');    }
+   
+    public function extras()    {       return $this->hasMany  ('prestamoExtra');    }
 }

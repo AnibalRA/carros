@@ -1,13 +1,21 @@
 <?php
-	require __DIR__.'/../../controllers/prestamo/prestamoPaso_3Controller.php';
     /**
      * [Seleccionar Accesorios]
      * @return [vista]     [prestamo/select]
      */
     Route::get('prestamo/{id}/extra',[
         'as' => 'selectExtras',
-        'uses' => 'prestamoPaso_3Controller@select'
+        'uses' => 'prestamoPaso_3Controller@index'
     ]);
+
+
+
+
+    Route::get('prestamo/{id}/{extra}/extra',  ['as' => 'prestamoExtra',   'uses' => 'prestamoPaso_3Controller@add']);
+    Route::get('prestamo/{id}/delete-extra',            ['as' => 'extraDelete',     'uses' => 'prestamoPaso_3Controller@delete']);
+//Revisar de aqui para abajo
+
+
     /**
      * [Guardar Datos Del Prestamo] [Extra]
      * @return [route] [formaPago]

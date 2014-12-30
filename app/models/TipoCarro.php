@@ -1,11 +1,11 @@
 <?php
-    class Tipo extends Eloquent
+    class TipoCarro extends Eloquent
     {
-        use SoftDeletingTrait;
+        // use SoftDeletingTrait;
         public $errors;
-        protected $table = 'tipos';
-        protected $dates = ['deleted_at'];
-        protected $perPage = 5;
+        protected $table = 'tipoCarros';
+        // protected $dates = ['deleted_at'];
+        // protected $perPage = 5;
         protected $fillable = ['tipo'];
 
         public function isValid($data)

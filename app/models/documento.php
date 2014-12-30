@@ -35,6 +35,14 @@ class documento extends Eloquent {
 	    return false;
 	}
 
+
+//custom attributes
+	// public function getVencimientoAttribute(){
+	// 	return date('d-m-Y', strtotime($this->attributes['vencimiento']));
+	// }
+
+
+
 	public function tipo(){
 		return $this->belongsTo('tipoDocumento', 'tipoDocumento_id');
 	}

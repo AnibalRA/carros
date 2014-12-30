@@ -1,6 +1,49 @@
-<?php
+ <?php
 class prestamoPaso_3Controller extends BaseController
 {
+
+
+    public function index($id){
+        $prestamo = Prestamo::with('lugarEntrega','lugarDevolucion', 'extras', 'extras.definicion', 'carro', 'carro.modelo','carro.modelo.marca')
+                            ->find($id);
+        if(is_null($prestamo))
+            App::abort(404);
+
+        $paso = 3;
+        $extras =   Extra::where('empresa_id', Auth::user()->empresa->id)
+                    ->where('activo', 1)
+                    ->get();
+        return View::make('prestamo/extra',compact('prestamo','extras','paso'));
+    }
+
+    public function add($id, $idExtra){
+        $extra = Extra::find($idExtra);
+        $newExtra = new prestamoExtra;
+        $newExtra->prestamo_id  = $id;
+        $newExtra->extra_id     = $idExtra;
+        $newExtra->unaVez       = $extra->cobro;
+        $newExtra->precio       = $extra->precio;
+        $newExtra->save();
+
+        $prestamo = Prestamo::find($id);
+        if($prestamo->estado_id == 2)
+        {
+            $prestamo->estado_id = 4;
+            $prestamo->save();
+        }
+
+        return Redirect::back();
+
+    }
+
+    public function delete($id){
+        $extra = prestamoExtra::find($id);
+        $extra->delete();
+        return Redirect::back();
+    }
+
+
+
     /**
      * [Seleccionar Accesorios]
      * @param  [type] $id [ID del prestamo]

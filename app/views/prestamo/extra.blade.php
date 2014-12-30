@@ -1,60 +1,33 @@
 @extends('prestamo/pasos')
 @section('content_form')
-        <script type="text/javascript">
-            if(history.forward(1))
-                location.replace(history.forward(1))
-        </script>
-<br/>
 
 <br/>
-
-{{ Form::model($prestamo, $form_data) }}
-@foreach ($extra as $extras)
-    <div class="row" style="border-bottom: 1px inset #DDDDDD">
-        <div class="col-md-3 col-sm-3">
-            @if(!empty($extras->ruta_imagen))
-                <img class="img-responsive" src="{{ asset('assets/img/'.$extras->ruta_imagen) }}" alt="foto del accesorio"/>
-            @endif
-        </div>
-        <div class="col-md-3 col-sm-3 text-justify">
-            {{ Form::label($extras->extra) }}
-        </div>
-        <div class="col-md-3 col-sm-3 text-justify">
-            {{ Form::label($extras->descripcion) }}
-        </div>
-        <div class="col-md-2 col-sm-2 text-justify">
-            <span class="glyphicon glyphicon-usd"> </span> {{$extras->precio }}
-        </div>
-        <div class="col-md-1 col-sm-1 text-justify">
-            <?php $bd = false; ?>
-            @foreach ($prestamo->extras as $key => $pivote)
-                @if($extras->id == $pivote->pivot->extra_id)
-                    @if($extras->obligatorio == 1 || $extras->cobro == 1)
-                        <a href="javascript:void(0)" title="" class="close glyphicon glyphicon-ok"></a>
-                    @else
-                        <a href="{{ route('quitarExtra', array($pivote->pivot->prestamo_id,$pivote->pivot->extra_id)) }}" title="" class="close glyphicon glyphicon-ok"></a>
-                    @endif
-                    <?php $bd = true; ?>
-                @endif
-            @endforeach
-            @if(!$bd)
-                @if($extras->obligatorio == 1 || $extras->cobro == 1)
-                    <input type="checkbox" class="styled" name="checkbox_extras[]" value="{{ $extras->id }}" checked style='position: relative; z-index: -10; opacity: .5'/>
-                @else
-                    <input type="checkbox" class="styled" name="checkbox_extras[]" value="{{ $extras->id }}" />
-                @endif
-            @endif
-        </div>
-    </div>
-    <br>
-@endforeach
 <br/>
-<div class="row">
-    <div class="col-md-2 col-sm-5">
-    </div>
-    <div class="col-md-offset-8 col-md-2 col-sm-offset-5 col-sm-2">
-        {{ Form::submit('Siguiente', array('class' => 'btn btn-danger')) }}
-    </div>
+
+<div class="col-md-9">
+    @foreach ($extras as $extra)
+        <div class="row" style="border-bottom: 1px inset #DDDDDD">
+            <div class="col-md-3 col-sm-3">
+                <img class="img-responsive" src="{{ asset('assets/img/'.$extra->imagen) }}" alt="foto del accesorio" width="80px" />
+            </div>
+            <div class="col-md-2 text-justify">
+                {{ Form::label($extra->nombre) }}
+            </div>
+            <div class="col-md-3 col-sm-4 text-justify">
+                {{ Form::label($extra->descripcion) }}
+            </div>
+            <div class="col-md-2 col-sm-2 text-justify">
+                <a href="{{ route('prestamoExtra', array($prestamo->id, $extra->id)) }}" class="btn btn-primary" style="font-size:2em; padding:0.1em 1em;">
+                   $ {{ $extra->precio}}
+                </a>
+            </div>
+           
+        </div>
+        <br>
+    @endforeach
 </div>
-{{ Form::close() }}
+<div class="col-md-3">
+    @include('prestamo/resumen')
+</div>
+<br/>
 @stop

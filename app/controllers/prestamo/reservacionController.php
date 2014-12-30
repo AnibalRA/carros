@@ -1,44 +1,11 @@
 <?php
-class prestamoPaso_1Controller extends BaseController
+class reservacionController extends BaseController
 {
     /**
      * [Tabla de Prestamo]
      * @return [vista] [prestamo/list]
      */
-    public function lista()
-    {
-        $prestamo = Prestamo::orderBy('created_at','dsc')
-            ->paginate();
-
-
-        // return $prestamo;
-        $form_data = [
-            'class' => 'form-horizontal',
-            'method' => 'patch',
-            'id' => 'formContrato',
-            'target' => '_blank'
-        ];
-
-        $form_data_2 = [
-            'class' => 'form-horizontal',
-            'method' => 'patch',
-            'id' => 'formPagare',
-            'target' => '_blank'
-        ];
-        
-        $data = [
-            '' => '',
-            'Cliente' => 'Cliente',
-            'Adicional' => 'Conductor Adicional'
-            ];
-
-        $mensaje = 'El campo no tiene que quedar vacío';
-        return View::make('prestamo.list', compact('prestamo','form_data','form_data_2','data','mensaje'));
-    }
-    /**
-     * [Crear Prestamo] [Formulario] [Paso 1]
-     * @return [vista] [prestamo/form]
-     */
+   
     public function create()
     {
 
@@ -47,10 +14,11 @@ class prestamoPaso_1Controller extends BaseController
         $prestamo->fechaReserva = date("Y-m-d H:i:s");
         $prestamo->fechaDevolucion = date("Y-m-d H:i:s");
 
-        return $this->crearReserva($prestamo, "POST", "prestamoStore");
+        return $this->crearReserva($prestamo, "POST", "prestamoStore", 1);
     }
 
-    private function crearReserva($prestamo, $metodo, $ruta){
+    private function crearReserva($prestamo, $metodo, $ruta, $paso)
+    {
          $form = new Formulario;
          $form_data = $form->formData($ruta,$metodo,false);
          
@@ -64,7 +32,7 @@ class prestamoPaso_1Controller extends BaseController
 
          $entrega = $lugares; //$prestamo->formLugares();
          $devolucion = $lugares; //$prestamo->formLugares();
-         $paso = 1;
+         // $paso = 1;
 
          return View::make('prestamo/form', compact('prestamo','form_data','cliente','entrega','devolucion','paso'));
         
@@ -82,6 +50,7 @@ class prestamoPaso_1Controller extends BaseController
         $prestamo = new Prestamo;
         $data = Input::all();
         $data['empresa_id'] = Auth::user()->empresa->id;
+        $data['estado_id'] = 1;
         // $data = $prestamo->fechaYmd($data);
 
         //return date('Y-m-d h:i A', strtotime($data['fechaDevolucion']));
@@ -109,17 +78,8 @@ class prestamoPaso_1Controller extends BaseController
         if(is_null($prestamo))
             App::abort(404);
 
-        return $this->crearReserva($prestamo, "PATCH", array('prestamoUpdate',$id));
-        // $form_data = $form->formData(array('prestamoUpdate',$id),'PATCH',false);
-
-        // $cliente = $listas->formCliente();
-        // $entrega = $listas->formLugares();
-        // $devolucion = $listas->formLugares();
-        // $prestamo->horario_rsv = date('d-m-Y h:i A', strtotime($prestamo->horario_rsv));
-        // $prestamo->horario_dvl = date('d-m-Y h:i A', strtotime($prestamo->horario_dvl));
-        // $paso = 5;
-        
-        // return View::make('prestamo/form', compact('prestamo','form_data','cliente','entrega','devolucion','paso'));
+        return $this->crearReserva($prestamo, "PATCH", array('prestamoUpdate',$id), 1);
+       
     }
     /**
      * [Actualizar Datos]
@@ -133,7 +93,6 @@ class prestamoPaso_1Controller extends BaseController
             App::abort(404);
 
         $data = Input::all();
-        // $data = $prestamo->fechaYmd($data);
         if($prestamo->validarPrestamo($data,1)) {
             return Redirect::back();//route('selectModelo',$prestamo->id);
 
@@ -250,9 +209,10 @@ class prestamoPaso_1Controller extends BaseController
 
         if (is_null($prestamo))
             App::abort(404);
-
-        $prestamo->delete();
-        $bitacora = new Bitacora;
-        $bitacora->Guardar(10,$id,3);
+        $prestamo->estado_id = 7;
+        $prestamo->save();
+        // $prestamo->delete();
+        // $bitacora = new Bitacora;
+        // $bitacora->Guardar(10,$id,3);
     }
 }

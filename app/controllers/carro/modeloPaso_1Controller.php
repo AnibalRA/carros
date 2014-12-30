@@ -5,11 +5,8 @@ class modeloPaso_1Controller extends BaseController
 {
 
     /**
-
      * [Tabla de Modelos]
-
-     * @return [vista] [auto/modelo/list]
-
+     * @return [vista] [auto/modelo/list
      */
 
     public function lista()

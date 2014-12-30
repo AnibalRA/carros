@@ -129,7 +129,6 @@ class clientePaso_1Controller extends BaseController
             App::abort(404);
 
         $data = Input::all();
-        $data = $form->fechaYmd($data,1);
 
         if($cliente->validarCliente($data)) {
             return Redirect::route('clienteContacto',$cliente->id);

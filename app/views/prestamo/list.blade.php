@@ -5,16 +5,6 @@
         <h1 class='text-center'>Prestamos</h1>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12 col-sm-12">
-        @if(Session::has('mensaje'))
-            <div class="alert {{Session::get('color')}}">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{ Session::get('mensaje') }}
-            </div>
-        @endif
-    </div>
-</div>
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="row">
@@ -34,42 +24,35 @@
                     <th>Modelo</th>
                     <th>Horario de Reserva</th>
                     <th>Horario de Devolución</th>
+                    <th>Precio</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
-                @foreach ($prestamo as $prestamos)
-                    <tr>
+                @foreach ($prestamos as $prestamo) 
+                    <tr class="@if($prestamo->estado_id == 7) danger @endif">
                         <td>
-                            @if(!is_null($prestamos->cliente)) 
-                                {{ $prestamos->cliente['nombre'] }}
+                            @if(!is_null($prestamo->cliente)) 
+                                {{ $prestamo->cliente['nombre'] }}
                             @endif
                         </td>
                         <td>
-                            @if(!empty($prestamos->modelo))
-                                {{ $prestamos->modelo->modelo }}
+                            @if(!empty($prestamo->carro_id))
+                                {{ $prestamo->carro->modelo->nombre }}
                             @endif
                         </td>
-                        <td>{{ $prestamos->fechaReserva }}</td>
-                        <td>{{ $prestamos->fechaDevolucion }}</td>
-                        <td>{{ $prestamos->estado }}</td>
+                        <td>{{ $prestamo->fechaReserva }}</td>
+                        <td>{{ $prestamo->fechaDevolucion }}</td>
+                        <td>$ {{ $prestamo->valor }}</td>
                         <td>
-                            <a href="{{ route('contratoEditar', array($prestamos->id)) }}" data-content="Contrato de Arrendamiento" data-placement="bottom" class="crearContrato glyphicon glyphicon-file tool"> </a>
-                            <a href="{{ route('contratoEditar', array($prestamos->id)) }}" data-content="Pagare" data-placement="bottom" class="crearPagare glyphicon glyphicon-file tool"> </a>
-                            <a href="#" data-id="{{ $prestamos->id }}" data-form="#form-prt" data-content="Eliminar" data-placement="bottom" class="glyphicon glyphicon-trash tool"> </a>
-                            <a href="#" class="opc glyphicon glyphicon-chevron-up" data-content="
-                                <a href={{ route('prestamoEditar', $prestamos->id) }}>Editar</a>
-                                <br>
-                                <a href={{ route('prestamoShow', $prestamos->id) }}>Ver</a>
-                                @if($prestamos->estado == 'Pre-reservado')
-                                    <br>
-                                    <a href={{ route('prestamoConfirmar', array($prestamos->id,$prestamos->modelo_id)) }}>Confirmar Reserva</a>
-                                @endif
-                                @if($prestamos->estado == 'Pendiente de Pago')
-                                    <br>
-                                    <a href={{ route('prestamoRequerimiento', array($prestamos->id)) }}>Requerimiento de Pago</a>
-                                @endif
-                                ">
+                          <a href="{{route($prestamo->estado->url, $prestamo->id)}}" data-content="{{$prestamo->estado->popUpText}}" data-placement="bottom" class="tool"> 
+                            {{ $prestamo->estado->nombre }}
                             </a>
+                        </td>
+                        <td>
+                            @if($prestamo->estado_id < 6)
+                                <a href="{{route('prestamoEditar', $prestamo->id)}}" data-content="Editar" data-placement="bottom" class="glyphicon glyphicon-edit tool"> </a>
+                                <a href="#" data-id="{{ $prestamo->id }}" data-form="#form-prt" data-content="Cancelar Prestamo" data-placement="bottom" class="glyphicon glyphicon-trash tool"> </a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -77,15 +60,9 @@
         </div>
     </div>
     <div class="panel-footer">
-        {{ $prestamo->links() }}
+        {{ $prestamos->links() }}
         {{ Form::open(array('route' => array('prestamoDestroy', 'TERM_ID'), 'method' => 'DELETE', 'role' => 'form', 'id' => 'form-prt')) }}
         {{ Form::close() }}
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12 col-md-12">
-         @include('prestamo/modal/modal')
-         @include('prestamo/modal/modal2')
     </div>
 </div>
 @stop

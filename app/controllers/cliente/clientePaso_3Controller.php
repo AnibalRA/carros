@@ -1,4 +1,4 @@
-<?php
+ <?php
 class clientePaso_3Controller extends BaseController
 {
     /**
@@ -12,8 +12,22 @@ class clientePaso_3Controller extends BaseController
         if(is_null($cliente))
             App::abort(404);
 
-        // $cliente = $cliente->fechaDmy($cliente);
         $conductor = $cliente->conductor;
+        // $cliente = $cliente->fechaDmy($cliente);
+        if($conductor){
+            $documento = $conductor->documentos()->where('tipoDocumento_id',4)->first();
+            if(!empty($documento))
+                $conductor->documento = $documento->numero;
+
+
+
+            $licencia = $conductor->documentos()->where('tipoDocumento_id',2)->first();
+
+            $conductor->licencia            = $licencia->numero;
+            $conductor->fechaLicencia       = $licencia->emision;
+            $conductor->fechaVencimiento    = $licencia->vencimiento;
+        }
+
         $form = new Formulario;
         $form_data = $form->formData(array('adicionalStore',$id),'PATCH',true);
         $paso = 3;
@@ -38,23 +52,41 @@ class clientePaso_3Controller extends BaseController
         $data = Input::all();
         $data['tipo'] = 'adicional';
         $data['empresa_id'] = Auth::user()->empresa->id;
-        // $data = $form->fechaYmd($data,2);
-        // $file = Input::file('ruta_imagen');
-
-        // if(Input::file('ruta_imagen')) {
-        //     $data['ruta_imagen'] = Input::file('ruta_imagen')->getClientOriginalName();
-        //     $file->move("assets/img",$data['ruta_imagen']);
-        // } else
-        //     $data['ruta_imagen'] = $cliente->ruta_imagen;
-
         if($conductor->validarConductor($data)) {
             $cliente->adicional_id = $conductor->id;
             $cliente->save();
-            return Redirect::route('clienteFoto',$cliente->id);
+
+            $documento = $conductor->documentos()->where('tipoDocumento_id',4)->first();
+            // return $documento;
+            if(empty($documento))
+            {
+                $documento = new documento;
+                $documento->tipoDocumento_id = 4;
+                $documento->cliente_id = $conductor->id;
+            }
+            $documento->numero = Input::get('documento');            
+            // return $documento;
+            $documento->save();
+
+            $licencia = $conductor->documentos()->where('tipoDocumento_id',2)->first();
+            if(empty($licencia))
+            {
+                $licencia = new documento;
+                $licencia->tipoDocumento_id = 2;
+                $licencia->cliente_id = $conductor->id;
+            }
+            $licencia->numero       = Input::get('licencia');
+            $licencia->emision      = Input::get('fechaLicencia');
+            $licencia->vencimiento  = Input::get('fechaVencimiento');
+            $licencia->save(); 
+            // $documento->vencimiento = 
+
+
+            return Redirect::route('clienteInformacion',$cliente->id);
         }
          // else
             return Redirect::back()
                 ->withInput()
-                ->withErrors($cliente->errors);
+                ->withErrors($conductor->errors);
     }
 }

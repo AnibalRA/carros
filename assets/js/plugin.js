@@ -12,17 +12,18 @@
             var postUrl = $(form).attr('action').replace('TERM_ID', $(this).data('id'));
 
             if(confirm('Esta seguro de borrar la fila?')) {
-                row.fadeOut(1000);
-
+               
+                row.toggleClass('danger')
                 $.ajax({
                     url: postUrl,
                     type: 'POST',
                     data: $(form).serialize(),
                     dataType: 'JSON',
                     success: function(data) {
-                        setTimeout(function() {
-                            row.delay(1000).remove();
-                        }, 1000);
+                        row.toggleClass('danger')
+                        // setTimeout(function() {
+                        //     row.delay(1000).remove();
+                        // }, 1000);
                     }
                 });
             }

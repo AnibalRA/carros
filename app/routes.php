@@ -43,13 +43,18 @@ Route::group(array('before'=>'auth'), function() {
     /**
      * [url] [/modelos]
      */
-    require __DIR__.'/route/modelo/Paso_1.php';
-    require __DIR__.'/route/modelo/Paso_2.php';
-    require __DIR__.'/route/modelo/Paso_3.php';
+    // require __DIR__.'/route/modelo/Paso_1.php';
+    // require __DIR__.'/route/modelo/Paso_2.php';
+    // require __DIR__.'/route/modelo/Paso_3.php';
     /**
      * [url] [/extras]
      */
     Route::resource('extra','ExtraController');
+
+
+    require __DIR__.'/route/carros.php';
+
+
     /**
      * [url] [/prestamos]
      */

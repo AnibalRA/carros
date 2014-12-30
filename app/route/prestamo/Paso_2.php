@@ -1,13 +1,16 @@
 <?php
-	require __DIR__.'/../../controllers/prestamo/prestamoPaso_2Controller.php';
-    /**
-     * [Seleccionar Modelo del Auto]
-     * @return [vista]     [prestamo/select]
-     */
-    Route::get('prestamo/{id}/select',[
-        'as' => 'selectModelo',
-        'uses' => 'prestamoPaso_2Controller@select'
-    ]);
+    Route::get('prestamo/{id}/select',['as' => 'selectModelo', 'uses' => 'prestamoPaso_2Controller@select']);
+    
+
+    Route::get('prestamo/{id}/{carro}/{precio}/select', ['as' => 'prestamoCarro', 'uses' => 'prestamoPaso_2Controller@addCarro' ]);
+
+
+
+
+
+
+
+//de aqui hacia abajo posiblemente halla que eliminar las rutas que esta dando anibal
     /**
      * [Guardar Datos Del Prestamo] [Modelo] [Precio]
      * @return [route] [selectExtra]

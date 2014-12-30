@@ -21,16 +21,18 @@
                 <li>{{ HTML::link('prospecto', 'Prospectos') }}</li>
                 <!-- <li>{{ HTML::link('boletin', 'Boletin') }}</li> -->
             </li>
-            <li class="dropdown">
+           <!--  <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuración<strong class="caret"></strong></a>
                 <ul class="dropdown-menu">
                     <li>{{ HTML::link('/marca', 'Marca') }}</li>
                     <li>{{ HTML::link('tipo', 'Tipo') }}</li>
-                    <li>{{ HTML::link(route('modeloLista'), 'Modelos') }}</li>
+                    <li>{{ HTML::link(route('carros'), 'Modelos') }}</li>
                     <li class="divider"></li>
                     <li>{{ HTML::link('extra', 'Extras / Servicios') }}</li>
                 </ul>
-            </li>
+            </li> -->
+            <li>{{ HTML::link(route('carros'), 'Carros') }}</li>
+            <li>{{ HTML::link('extra', 'Extras / Servicios') }}</li>
         </ul>
         <?php
             $name = explode(" ", Auth::user()->nombre);

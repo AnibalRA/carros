@@ -1,6 +1,7 @@
 @extends('cliente/pasos')
 @section('content_form')
     
+
 <br/>
 <br/>
 <div class="row">

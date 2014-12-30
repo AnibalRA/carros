@@ -40,45 +40,28 @@
             <table class="table table-striped">
 
                 <tr class="active">
-
-                    <th>Extra</th>
-
-                    <th>Descripción</th>
-
-                    <th>Precio</th>
-
                     <th>Imagen</th>
-
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
                     <th>opciones</th>
-
                 </tr>
 
                 @foreach ($extra as $extras)
-
-                    <tr>
-
+                    <tr class="@if(!$extras->activo) danger @endif">
                         <td>
-
-                            <a href="{{ route('extra.show', array($extras->id)) }}">{{ $extras->extra }}</a>
-
+                            <img class="img-responsive" src="{{ asset('assets/img/'.$extras->imagen) }}" alt="foto del accesorio" width="40px" />
                         </td>
-
+                        <td>
+                            <a href="{{ route('extra.show', array($extras->id)) }}">{{ $extras->nombre }}</a>
+                        </td>
                         <td>{{ $extras->descripcion }}</td>
-
                         <td>${{ $extras->precio }}</td>
-
-                        <td>{{ $extras->ruta_imagen }}</td>
-
                         <td>
-
                             <a href="{{ route('extra.edit', array($extras->id)) }}" data-content="Editar" data-placement="bottom" class="glyphicon glyphicon-edit tool"> </a>
-
-                            <a href="#" data-id="{{ $extras->id }}" data-form="#form-ext" data-content="Eliminar" data-placement="bottom" class="glyphicon glyphicon-trash tool"> </a>
-
+                            <a href="#" data-id="{{ $extras->id }}" data-form="#form-ext" data-content="Activar/Desactivar" data-placement="bottom" class="glyphicon glyphicon-trash tool"> </a>
                         </td>
-
                     </tr>
-
                 @endforeach
 
             </table>

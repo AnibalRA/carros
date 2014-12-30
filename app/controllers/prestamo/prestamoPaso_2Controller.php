@@ -1,56 +1,55 @@
 <?php
 class prestamoPaso_2Controller extends BaseController
 {
-    /**
-     * [Seleccionar Modelo del Auto]
-     * @param  [type] $id [ID del prestamo]
-     * @return [vista]     [prestamo/select]
-     */
     public function select($id)
     {
-        $prestamo = Prestamo::find($id);
+        $prestamo = Prestamo::with('lugarEntrega', 'lugarDevolucion')->find($id);
 
         if(is_null($prestamo))
             App::abort(404);
 
-        $verificar = carro::find($prestamo->modelo_id);
-
-        if(is_null($verificar)) {
-           $idexiste = 0;
-           $paso = 2;
-        } else {
-            $idexiste = $verificar->id;
-            $paso = 6;
-        }
-
-        $modelo = Modelo::orderBy('created_at','dsc')
-                        // ->whereHas('precios', function($q) use ($prestamo){
-                        //     return $q->where('fecha_ini', '<=', $prestamo->horario_rsv)
-                        //                 ->where('fecha_fin', '>=', $prestamo->horario_dvl)
-                        //                 ->get();
-                        // })
-                        ->paginate(3);
-        $precio = $modelo[0]->precios()
-                        ->where('fecha_ini', '<=', $prestamo->horario_rsv)
-                        ->where('fecha_fin', '>=', $prestamo->horario_dvl)
-                        ->get();
-
-        foreach ($modelo as $model) {
-            $precios = $model->precios()
-                            ->where('fecha_ini', '<=', $prestamo->horario_rsv)
-                            ->where('fecha_fin', '>=', $prestamo->horario_dvl)
-                            ->orderBy('precio', 'DESC')
+        $carros = carro::orderBy('created_at','dsc')
+                        ->with('color', 'combustible', 'modelo','modelo.marca', 'tipo')
+                        ->where('empresa_id', Auth::user()->empresa->id)
+                        ->paginate(5);
+        foreach ($carros as $carro) {
+            $precios = $carro->precios()
+                            ->where('fechaInicio', '<=', $prestamo->fechaInicio)
+                            ->where('fechaFin', '>=', $prestamo->fechaFin)
+                            ->orderBy('cantidad', 'DESC')
                             ->get();
-            $model->precio = $precios[0]->precio;
+            if(count($precios) > 0)
+                $carro->precio = $precios[0]->cantidad;
         }
-        // return $modelo;
-
-
-        // return $modelo;
-
-
-        return View::make('prestamo/select',compact('prestamo','modelo','idexiste','paso'));
+        $paso = 2;
+        return View::make('prestamo/select',compact('prestamo','carros','paso'));
     }
+
+
+    public function addCarro($id, $idCarro, $precio){
+        $prestamo           = Prestamo::find($id);
+        $prestamo->carro_id = $idCarro;
+        $prestamo->precio   = $precio;
+        if($prestamo->estado_id == 1)
+            $prestamo->estado_id = 2;
+        $prestamo->save();
+
+        return Redirect::back();
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+// revisar mas adelante las finciones de aqi hacia abajo
     /**
      * [Guardar Datos Del Prestamo] [Modelo] [Precio]
      * @return [route] [selectExtra]
