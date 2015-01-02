@@ -36,17 +36,17 @@
 		<div class="contenido">
 			<p>
 				Yo,
-				@if($prestamo->modelo->conductor == 'Cliente')
+				@if($prestamo->conductor_id == $prestamo->cliente_id)
 					{{ $prestamo->cliente->nombre }}.
 				@else
-					{{ $prestamo->cliente->adicional_nombre }}
+					{{ $prestamo->cliente->conductor->nombre }}
 				@endif
-				Por medio de este PAGARE sin protesto, me obligo a pagar en EL Salvador a la orden de MULTIACTIVOS SOCIEDAD ANONIMA DE CAPITAL VARIABLE la cantidad de ${{ $prestamo->modelo->valor }} 00/100, dólares más interes del 1.5% por ciento mensual, pagaderos el día {{ date('d/m/Y', strtotime($prestamo->horario_rsv)) }}.
-				El pago se hará en las oficinas principales situadas en la ciudad de Ilobasco Departamento de Cabañas, o en cualquiera de sus oficinas en la República de El Salvador. Dicha suma de dinero se destina para el pago de Deuda o daños, así como para cubrir cualquiera transacción comercial o legal proveniente de dichas operaciones. En caso de mora, reconoceré 1.5 puntos más de intereses sobre el convenido.
+				Por medio de este PAGARE sin protesto, me obligo a pagar en El Salvador a la orden de MULTIACTIVOS SOCIEDAD ANONIMA DE CAPITAL VARIABLE la cantidad de $ {{ $prestamo->valorReposicion }} 00/100, dólares más interés del 1.5% por ciento mensual, pagaderos el día {{ date('d/m/Y', strtotime($prestamo->fechaReserva)) }}.
+				El pago se hará en las oficinas principales situadas en la ciudad de Ilobasco Departamento de Cabañas, o en cualquiera de sus oficinas en la República de El Salvador. Dicha suma de dinero se destina para el pago de Deuda o daños, así como para cubrir cualquier transacción comercial o legal proveniente de dichas operaciones. En caso de mora, reconoceré 1.5 puntos más de intereses sobre el convenido.
 				<br/><br/>
 				Para todos los efectos de esta obligación, mercantil, fijo como domicilio especial la ciudad de San Salvador, y en caso de acción judicial renuncio al derecho de apelar del decreto de embargo, sentencia de remate y toda otra providencia apelable que se dictare en el juicio ejecutivo o sus incidencias, siendo a mi cargo, todos los gastos que MULTIACTIVOS SOCIEDAD ANONIMA DE CAPITAL VARIABLE, hiciera en el cobro de este Pagaré en cualquier concepto, incluidos los de cancelación y de cobranza judiciales o extrajudiciales, inclusive los llamados personales y aun cuando por regla general no fuere condenado a ello, faculto a MULTIACTIVOS SOCIEDAD ANONIMA DE CAPITAL VARIABLE para que designe a la persona depositaria de los bienes que se embarguen, a quien relevo de la obligación de rendir fianza para ejercer su cargo. En la ciudad de San Salvador.
 				<br/><br/>
-				@if($prestamo->modelo->conductor == 'Cliente')
+				@if($prestamo->conductor_id == $prestamo->cliente_id)
 					Deudor: {{ $prestamo->cliente->nombre }}.
 					<br/>
 					DOCUMENTO DE IDENTIDAD: {{ $prestamo->cliente->doc_unico }}

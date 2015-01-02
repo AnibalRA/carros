@@ -13,7 +13,7 @@
 
             if(confirm('Esta seguro de borrar la fila?')) {
                
-                row.toggleClass('danger')
+                // row.toggleClass('danger')
                 $.ajax({
                     url: postUrl,
                     type: 'POST',
@@ -21,9 +21,6 @@
                     dataType: 'JSON',
                     success: function(data) {
                         row.toggleClass('danger')
-                        // setTimeout(function() {
-                        //     row.delay(1000).remove();
-                        // }, 1000);
                     }
                 });
             }

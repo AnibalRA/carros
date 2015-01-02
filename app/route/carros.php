@@ -13,6 +13,7 @@ Route::get('carro/{id}/placas',		['as' => 'carroPlacas',		'uses' => 'PlacasContr
 Route::post('carro/{id}/placas',	['as' => 'placaGuardar',	'uses' => 'PlacasController@guardar']);
 Route::get('carro/placa/{id}',		['as' => 'placaEditar',		'uses' => 'PlacasController@editar']);
 Route::patch('carro/placa/{id}',	['as' => 'placaUpdate',		'uses' => 'PlacasController@update']);
+Route::delete('carro/placa/{id}',	['as' => 'placaDestroy',	'uses' => 'PlacasController@destroy']);
 
 
 
@@ -21,3 +22,7 @@ Route::get('carro/{id}/precios',	['as' => 'carroPrecios',	'uses' => 'PrecioContr
 Route::post('carro/{id}/precio',	['as' => 'precioGuardar',	'uses' => 'PrecioController@guardar']);
 Route::get('carro/{id}/precio',		['as' => 'precioEditar',	'uses' => 'PrecioController@editar']);
 Route::patch('carro/{id}/precio',	['as' => 'precioUpdate',	'uses' => 'PrecioController@update']);
+
+
+Route::get('carro/{id}/mantenimiento',	['as' => 'carroManto',	'uses' => 'CarroController@manto']);
+Route::post('carro/mantenimiento/save', ['as' => 'mantoSave',	'uses' => 'CarroController@mantoSave']);

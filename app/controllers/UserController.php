@@ -88,10 +88,6 @@ class UserController extends \BaseController {
 
         if($user->validAndSave($data)) {
 
-        	$bitacora = new Bitacora;
-
-            $bitacora->Guardar(1,$user->id,1);
-
         	return Redirect::route('user.index');
 
         } else
@@ -226,9 +222,6 @@ class UserController extends \BaseController {
 
 		if($user->validAndSave($data,2)) {
 
-			$bitacora = new Bitacora;
-
-			$bitacora->Guardar(1,$user->id,2);
 
 			return Redirect::route('user.index');
 

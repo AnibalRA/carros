@@ -21,21 +21,21 @@
             <table class="table table-striped">
                 <tr class="active">
                     <th>Nombre</th>
-                    <th>Documento Identidad</th>
+                    <th>Telefono</th>
                     <th>Correo Electrónico</th>
                     <th>Acciones</th>
                 </tr>
-                @foreach ($prospecto as $prospectos)
+                @foreach ($prospectos as $prospecto)
                 <tr>
                     <td>
-                        <a href="{{ route('prospectoShow', $prospectos->id) }}">{{ $prospectos->nombre }}</a>
+                        <a href="{{ route('prospectoShow', $prospecto->id) }}">{{ $prospecto->nombre }}</a>
                     </td>
-                    <td>{{ $prospectos->doc_unico }}</td>
-                    <td>{{ $prospectos->email }}</td>
+                    <td>{{ $prospecto->telefono }}</td>
+                    <td>{{ $prospecto->email }}</td>
                     <td>
-                        <a href="{{ route('prospectoEditar', $prospectos->id) }}" data-content="Editar" data-placement="bottom" class="glyphicon glyphicon-edit tool"> </a>
-                        <a href="#" data-id="{{ $prospectos->id }}" data-form="#form-prpt" data-content="Eliminar" data-placement="bottom" class="glyphicon glyphicon-trash tool"> </a>
-                        <a href="{{ route('prospectoConvertir', $prospectos->id) }}" data-content="Convertir a cliente" data-placement="bottom" class="glyphicon glyphicon-transfer tool"> </a>
+                        <a href="{{ route('prospectoEditar', $prospecto->id) }}" data-content="Editar" data-placement="bottom" class="glyphicon glyphicon-edit tool"> </a>
+                        <!-- <a href="#" data-id="{{ $prospecto->id }}" data-form="#form-prpt" data-content="Eliminar" data-placement="bottom" class="glyphicon glyphicon-trash tool"> </a> -->
+                        <a href="{{ route('prospectoConvertir', $prospecto->id) }}" data-content="Convertir a cliente" data-placement="bottom" class="glyphicon glyphicon-transfer tool"> </a>
                     </td>
                 </tr>
                 @endforeach
@@ -43,7 +43,7 @@
         </div>
     </div>
     <div class="panel-footer">
-        {{ $prospecto->links() }}
+        {{ $prospectos->links() }}
         {{ Form::open(array('route' => array('prospectoDestroy', 'TERM_ID'), 'method' => 'DELETE', 'role' => 'form', 'id' => 'form-prpt')) }}
         {{ Form::close() }}
     </div>

@@ -1,8 +1,6 @@
 @extends('index')
 @section('content')
-
-@include('errores')
-    <br/><br/>
+    <br/>
     <div class="row">
         <div class="col-md-12">
             <ul class="nav nav-tabs">

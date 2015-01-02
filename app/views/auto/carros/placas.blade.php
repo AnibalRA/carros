@@ -60,6 +60,7 @@
                             <td>{{$placa->kilometraje}}</td>
                             <td>
                                 <a href="{{ route('placaEditar', $placa->id) }}" data-content="Editar"  class="glyphicon glyphicon-edit tool pull-left"> </a>
+                                <a href="#" data-id="{{ $placa->id }}" data-form="#form-prt" data-content="Activar/Desactivar" data-placement="bottom" class="glyphicon glyphicon-trash tool"> </a>
                             </td>
                         </tr>
                     @endforeach
@@ -68,5 +69,8 @@
         </div>
     </div>
 </div>
+{{ Form::open(array('route' => array('prestamoDestroy', 'TERM_ID'), 'method' => 'DELETE', 'role' => 'form', 'id' => 'form-prt')) }}
+{{ Form::close() }}
+
 @stop
             

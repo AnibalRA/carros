@@ -6,27 +6,33 @@
         $pasos  = array(
                         array(
                             "label"  => "Fechas",
-                            "enlace" => "prestamoEditar"
+                            "enlace" => "prestamoEditar",
+                            "paso"  => 1
                         ),
                         array(
                             "label" => "Carro",
-                            "enlace" => "selectModelo"
+                            "enlace" => "selectModelo",
+                            "paso"  => 2
                         ),
                         array(
                             "label" => "Extras",
-                            "enlace" => "selectExtras"
+                            "enlace" => "selectExtras",
+                            "paso"  => 3
                         ),
                         array(
                             "label" => "Pago",
-                            "enlace" => "formaPago"
+                            "enlace" => "formaPago",
+                            "paso"  => 5
                         ),
                         array(
                             "label" => "Contrato",
-                            "enlace" => "prestamoEditar"
+                            "enlace" => "prestamoContrato",
+                            "paso"  => 6
                         ),
                         array(
                             "label" => "Devolver",
-                            "enlace" => "prestamoEditar"
+                            "enlace" => "prestamoRecibir",
+                            "paso"  => 7
                         )
                     );
         $step = 1;
@@ -36,9 +42,9 @@
             <ul class="nav nav-tabs">
                 @foreach($pasos as $pass)
                     <li class="text-center col-md-2 @if($paso == $step) active @endif">
-                        <a href="@if($prestamo->estado_id + 1 >= $step) {{ route($pass['enlace'], $prestamo->id) }} @endif">
+                        <a href="@if(($prestamo->estado_id + 1 >= $pass['paso'])) {{ route($pass['enlace'], $prestamo->id) }} @endif">
                             <span class="@if($paso == $step) glyphicon glyphicon-pencil @endif"> </span>
-                            Paso {{$prestamo->estado_id}} - {{$step}}: {{$pass['label']}}
+                            Paso {{$step}}: {{$pass['label']}}
                         </a>
                     </li> 
                     <?php $step++; ?>

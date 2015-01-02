@@ -1,4 +1,4 @@
-<?php 
+ <?php 
 
 class PlacasController extends BaseController{
 	public function index($id){
@@ -40,5 +40,12 @@ class PlacasController extends BaseController{
 		$carro = $placa->carro;
 
 		return $this->save($placa, $carro->id);
+	}
+
+	public function destroy($id){
+		$placa = Placa::find($id);
+		$placa->activo = !$placa->activo;
+		$placa->save();
+		return Response::json(array('yes', 200));
 	}
 }

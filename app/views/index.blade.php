@@ -25,5 +25,7 @@
         </div>
         {{-- Librerias JS --}}
         @include('index/librerias_js')
+
+        @yield('script')
     </body>
 </html>

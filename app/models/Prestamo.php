@@ -21,7 +21,10 @@ class Prestamo extends Eloquent
         'precio_id',
         'extra_id',
         'estado_id',
-        'empresa_id'
+        'empresa_id',
+        'placa_id',
+        'conductor_id',
+        'valorReposicion'
     ];
 
     public function validarPrestamo($data){
@@ -31,6 +34,14 @@ class Prestamo extends Eloquent
                 'fechaDevolucion'   => 'required',
                 'lugarEntrega_id'   => 'required',
                 'estado_id'         => 'required'
+            ];
+        return $this->validAndSave($data, $rules);
+    }
+    public function validarContrato($data){
+        $rules = [
+                'placa_id'          => 'required',
+                'conductor_id'   => 'required|integer',
+                'valorReposicion'   => 'required|integer'
             ];
         return $this->validAndSave($data, $rules);
     }
@@ -130,6 +141,7 @@ class Prestamo extends Eloquent
 
 //custom relationship
 
+    public function placa()             { return $this->belongsTo('Placa');}
     public function lugarEntrega(){     return $this->belongsTo('Lugares','lugarEntrega_id');   }
 
     public function lugarDevolucion(){  return $this->belongsTo('Lugares','lugarDevolucion_id');}
@@ -139,6 +151,7 @@ class Prestamo extends Eloquent
     public function estado()    {      return $this->belongsTo('estado');    }
 
     public function cliente()   {      return $this->belongsTo('Cliente','cliente_id');   }
+    public function conductor()   {      return $this->belongsTo('Cliente','conductor_id');   }
    
     public function modelo()    {       return $this->belongsTo('Modelo','modelo_id');    }
     

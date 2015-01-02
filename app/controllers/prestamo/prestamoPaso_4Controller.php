@@ -1,11 +1,6 @@
 <?php
 class prestamoPaso_4Controller extends BaseController
 {
-    /**
-     * [Forma de Pago]
-     * @param  [type] $id [ID del Prestamo]
-     * @return [type]     [description]
-     */
     public function pago($id)
     {
         $prestamo = Prestamo::with('extras', 'extras.definicion')
@@ -39,7 +34,7 @@ class prestamoPaso_4Controller extends BaseController
             App::abort(404);
             
         if($prestamo->validarPago(Input::all())){
-            if($prestamo->estado_id == 3){
+            if($prestamo->estado_id == 4){
                 $prestamo->estado_id = 5;
                 $prestamo->save();
             }

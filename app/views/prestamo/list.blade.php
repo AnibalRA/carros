@@ -29,7 +29,7 @@
                     <th>Acciones</th>
                 </tr>
                 @foreach ($prestamos as $prestamo) 
-                    <tr class="@if($prestamo->estado_id == 7) danger @endif">
+                    <tr class="@if($prestamo->cancelado) danger @endif">
                         <td>
                             @if(!is_null($prestamo->cliente)) 
                                 {{ $prestamo->cliente['nombre'] }}
@@ -49,10 +49,11 @@
                             </a>
                         </td>
                         <td>
-                            @if($prestamo->estado_id < 6)
+                            @if($prestamo->estado_id < 7 && !$prestamo->cancelado)
                                 <a href="{{route('prestamoEditar', $prestamo->id)}}" data-content="Editar" data-placement="bottom" class="glyphicon glyphicon-edit tool"> </a>
-                                <a href="#" data-id="{{ $prestamo->id }}" data-form="#form-prt" data-content="Cancelar Prestamo" data-placement="bottom" class="glyphicon glyphicon-trash tool"> </a>
+                                
                             @endif
+                            <a href="#" data-id="{{ $prestamo->id }}" data-form="#form-prt" data-content="Cancelar Prestamo" data-placement="bottom" class="glyphicon glyphicon-trash tool"> </a>
                         </td>
                     </tr>
                 @endforeach

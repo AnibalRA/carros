@@ -8,7 +8,14 @@
 		<div class="list-group-item ">
 			<h4 class="list-group-item-heading text-center">{{$prestamo->carro->modelo->marca->nombre}}
 				<br>
-				<small>{{$prestamo->carro->modelo->nombre}} {{$prestamo->carro->ano}}</small>
+				<small>
+					{{$prestamo->carro->modelo->nombre}} {{$prestamo->carro->ano}}
+					@if($prestamo->placa_id)
+						({{$prestamo->placa->numero}})
+					@endif
+
+
+				</small>
 			</h4>
 			<p class="list-group-item-text"> 1 día = ${{$prestamo->precio}}</p>
 			<p class="list-group-item-text">

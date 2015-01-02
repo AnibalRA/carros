@@ -209,8 +209,9 @@ class reservacionController extends BaseController
 
         if (is_null($prestamo))
             App::abort(404);
-        $prestamo->estado_id = 7;
+        $prestamo->cancelado = !$prestamo->cancelado;
         $prestamo->save();
+        return Response::json(array('success' => 'success'),200);
         // $prestamo->delete();
         // $bitacora = new Bitacora;
         // $bitacora->Guardar(10,$id,3);

@@ -1,0 +1,262 @@
+.access-content { 
+    width: 495px;
+}
+
+a.continue_button.red_button:hover {
+
+	background: url(../images/continue_button_hover.png) no-repeat right center red;
+
+}
+
+a.continue_button.red_button {
+
+	background: url(../images/continue_button.png) no-repeat right center red;
+
+}
+
+.widget > h4.extras_2 {
+	color: #000;
+	background: #dde9f7;
+}
+
+.access-content img {
+
+	width: 13px;
+
+	height: 11px;
+
+}
+
+.access-content span {
+
+	background: #DDD;
+
+	border-radius: 26px;
+
+	padding: 5px;
+
+}
+
+/* BOTON CONTINUAR */
+
+a.orange_button {
+
+	text-transform: uppercase; 	
+
+	color: #fff;
+
+	cursor: pointer;
+
+	font-weight: bold;
+
+	height: 46px;
+
+    font-size: 13px;
+
+    margin-left: 2px;
+
+    padding: 13px 32px 13px 28px;
+
+    border-radius: 6px;
+
+	text-decoration: none;
+
+	border: 1px solid #cc692f;
+
+	background: #f08643;
+
+	-moz-box-shadow: 0 1px 2px 0 #f5ac7c inset, inset 0 -15px 15px 0 #ec702f;
+
+    -webkit-box-shadow: 0 1px 2px 0 #f5ac7c inset, inset 0 -15px 15px 0 #ec702f;
+
+    box-shadow: 0 1px 2px 0 #f5ac7c inset, inset 0 -15px 15px 0 #ec702f;
+
+}
+
+a.orange_button:hover {	
+
+	background: #ec702f;
+
+	-moz-box-shadow: 0 1px 2px 0 #f5ac7c inset, inset 0 -15px 15px 0 #f08643;
+
+    -webkit-box-shadow: 0 1px 2px 0 #f5ac7c inset, inset 0 -15px 15px 0 #f08643;
+
+    box-shadow: 0 1px 2px 0 #f5ac7c inset, inset 0 -15px 15px 0 #f08643;
+
+}
+
+a.form-continue.orange_button {
+
+	background: url(../images/continue.png) no-repeat right center #f08643;
+
+}
+
+a.form-continue.orange_button:hover {
+
+	background: url(../images/continue.png) no-repeat right center #ec702f;
+
+}
+
+
+
+
+
+
+
+.product-widget .main-block-2 {
+
+	width: 610px;
+
+	padding: 5px;
+
+}
+
+.additional-block_container-2 {
+
+    background: none;
+
+}
+
+.cont-move-der {
+
+	width: 50%;
+
+	margin-left: -10px;
+
+}
+
+.cont-move-izq {
+
+	width: 50%;
+
+}
+
+
+
+.form-block .datepicker, .form-block .select {
+
+	width: 80%;
+
+}
+
+
+
+#slider-content .type-lugar {
+
+	width: 193px;
+
+	text-align: left;
+
+}
+
+#slider-content .type-lugar-2 {
+
+	text-align: left;
+
+	width: 193px;
+
+	margin-top: 0px;
+
+}
+
+/* input text */
+.inpuText {
+	position: relative;
+	padding-left: 10px;
+	width: 95%;
+}
+/* textarea*/
+.textarea {
+		padding-left: 10px;
+	width: 95%;
+resize: vertical;
+}
+/* select */
+
+.sbHolder {
+
+	width: 85%;
+
+}
+
+.sbToggle {
+
+	background: url(../images/arrow.png) no-repeat scroll right 19px transparent;
+
+	display: block;
+
+	height: 44px;
+
+	outline: none;
+
+	position: absolute;
+
+	right: 0;
+
+	top: 0;
+
+	width: 15%;
+
+}
+
+.sbOptions {
+
+	width: 100%;
+
+}
+
+/* css for timepicker */
+
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+
+.ui-timepicker-div dl { text-align: left; }
+
+.ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }
+
+.ui-timepicker-div dl dd { margin: 0 10px 10px 45%; }
+
+.ui-timepicker-div td { font-size: 90%; }
+
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+
+
+.ui-timepicker-rtl{ direction: rtl; }
+
+.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
+
+.ui-timepicker-rtl dl dt{ float: right; clear: right; }
+
+.ui-timepicker-rtl dl dd { margin: 0 45% 10px 10px; }
+
+
+
+/* Pedidos pendientes */
+
+#widget-cont .izq {
+
+	padding: 0 25px 10px 25px;
+
+	float: left;
+
+}
+
+#widget-cont .der {
+
+	padding: 0 25px 10px 25px;
+
+	float: right;
+
+}
+
+.widget-content .izq {
+
+	float: left;
+
+}
+
+.widget-content .der {
+
+	float: right;
+
+}

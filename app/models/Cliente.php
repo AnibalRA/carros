@@ -15,7 +15,8 @@ class Cliente extends Eloquent
         'empresa_id',
         'telefono',
         'celular',
-        'telefonoExtranjero'
+        'telefonoExtranjero',
+        'como'
     ];
 
 
@@ -25,7 +26,7 @@ class Cliente extends Eloquent
             'tipo'              => 'required',
             'nombre'            => 'required',
             'direccion'         => 'required',
-            'fechaNacimiento'   => 'required',
+            // 'fechaNacimiento'   => 'required',
             'sexo'              => 'required',
             // 'empresa_id'        => 'required',
             // 'email'             => 'required',
@@ -88,10 +89,20 @@ class Cliente extends Eloquent
         $cliente->adicional_fevenlic = ($cliente->adicional_fevenlic == '0000-00-00') ? '' : date('d-m-Y', strtotime($cliente->adicional_fevenlic));
         return $cliente;
     }
-    /**
-     * [Relación]
-     * @return [Relación] [Cliente tiene muchos prestamos]
-     */
+
+
+    public function getNacimientoAttribute(){
+        return date('d-m-Y', strtotime($this->attributes['fechaNacimiento']));
+    }
+
+    public function datosDocumento($documento){
+        return $this->documentos()
+                        ->whereHas('tipo', function($q) use ($documento){
+                            return $q->where('tipo', $documento);
+                        })
+                        ->first();
+    }
+
     public function prestamos() {
         return $this->hasmany('Prestamo','cliente_id');
     }

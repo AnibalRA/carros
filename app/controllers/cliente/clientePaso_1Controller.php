@@ -52,31 +52,8 @@ class clientePaso_1Controller extends BaseController
         $data = Input::all();
         $data['empresa_id'] = Auth::user()->empresa->id;
 
-
-
-        // $empresa = Auth::user()->empresa;
-        // $data = $form->fechaYmd($data,1);
-        // return $data;
-
         if($cliente->validarCliente($data))
         {
-            // if(!empty($cliente->email)) {
-            //     $password = new Codigo;
-            //     $generado = $password->generar($cliente->id);
-
-            //     $datosEmail = [
-            //         'clave' => $generado,
-            //         'nombre' => $cliente->nombre
-            //     ];
-
-            //     Mail::send('cliente.email.clave',$datosEmail,function($message) use ($cliente) {
-            //         $message->to($cliente->email, $cliente->nombre)
-            //             ->subject('MultiAutos El Salvador');
-            //     });
-
-            //     $cliente->password = Hash::make($generado);
-            //     $cliente->save();
-            // }
             return Redirect::route('clienteContacto',$cliente->id);
         } else
             return Redirect::back()

@@ -1,17 +1,14 @@
-@extends('cliente/pasos')
-
-@section('content_form')
 <div class="row">
         {{ Form::model($cliente, $form_data) }}
 
         <div class="col-md-6 col-sm-6 col-md-offset-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Datos del Cliente</h3>
+            <div class="panel panel-default ">
+                <div class="panel-heading text-center" >
+                    <h3 class="panel-title">Datos Generales</h3>
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        {{ Form::label('tipo', 'Tipo de Cliente *', array('class' => 'control-label col-md-4 col-sm-4')) }}
+                        {{ Form::label('tipo', 'Tipo *', array('class' => 'control-label col-md-4 col-sm-4')) }}
                         <div class="col-md-7 col-sm-7 input-group">
                             <span class="input-group-addon glyphicon glyphicon-user"> </span>
                             {{ Form::select('tipo', $tipo, null); }}
@@ -21,7 +18,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        {{ Form::label('nombre', 'Nombre Completo *', array('class' => 'control-label col-md-4 col-sm-4')) }}
+                        {{ Form::label('nombre', 'Nombre *', array('class' => 'control-label col-md-4 col-sm-4')) }}
                         <div class="col-md-7 col-sm-7 input-group">
                             <span class="input-group-addon glyphicon glyphicon-user"> </span>
                             {{ Form::text('nombre', Input::old('nombre'), array('placeholder' => 'Nombre Completo', 'class' => 'form-control')) }}
@@ -134,5 +131,3 @@
     {{ Form::close() }}
 
 </div>
-
-@stop

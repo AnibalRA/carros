@@ -10,3 +10,7 @@
     {{ HTML::script('assets/js/html5shiv.js') }}
     {{ HTML::script('assets/js/respond.min.js') }}
 <![endif]-->
+
+
+
+{{ HTML::style('/assets/css/calendar.min.css', array('media' => 'screen')) }}

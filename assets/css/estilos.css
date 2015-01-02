@@ -8,6 +8,17 @@
     color: #FFF;
 }
 
+
+.btn-success{
+  color: #1F500C;
+  background-color: #D8F3D8;
+  border-color: #4CAE4C;
+}
+.btn-primary{
+  color: #31708F;
+  background-color: #D9EDF7;
+}
+
 body { color: #222222; }
 
 .panel-default .panel-heading {

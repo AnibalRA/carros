@@ -9,3 +9,9 @@
 {{ HTML::script('/assets/js/fileinput.min.js') }}
 {{ HTML::script('/assets/js/plugin.js') }}
 {{ HTML::script('/assets/js/document.js') }}
+
+
+
+
+{{ HTML::script('/assets/js/underscore.min.js') }}
+{{ HTML::script('/assets/js/calendar.min.js') }}

@@ -70,4 +70,37 @@ class CarroController extends BaseController {
 		return View::make('auto.carros.form', compact('carro','form_data','marca','tipo','paso', 'transmision', 'colores', 'combustibles', 'modelos'));
 	}
 
+
+
+	//Mantenimiento
+	public function manto($id){
+		$manto = new Cliente;
+		$form = new Formulario;
+		$paso = 5;
+		$carro = Carro::find($id);
+		// $carros = $carro->lists('','id');
+		$carros = [
+				'' => 'Seleccione el numero de placa',
+				'Placas Disponibles' =>	$carro->placas()->lists('numero', 'id')
+			];
+		// return $carros;
+
+		$tipos = tipoMantenimiento::lists('nombre', 'id');//['1' => 'Aceite', '2' => 'Reparacion'];
+
+		$formData = $form->formData('mantoSave', 'POST',false);
+
+		return View::make('auto.carros.manto', compact('manto', 'formData', 'paso', 'carro', 'tipos', 'carros'));
+	}
+
+	public function mantoSave(){
+		$manto = new mantenimiento;
+		if($manto->validAndSave(Input::all()))
+			return Redirect::back();
+
+		return Redirect::back()
+						->withInput()
+						->withErrors($manto->errors);
+	}
+	//End Mantenimiento
+
 }
