@@ -1,6 +1,10 @@
 <?php
 
-Route::get('/', 		['as' => 'home', 'uses' => 'rentaController@index']);
+Route::get('/', 			['as' => 'home', 		'uses' => 'rentaController@index']);
+Route::get('/choose-car',	['as' => 'chooseCar', 	'uses' => 'rentaController@chooseCar']);
+Route::get('/cars/{inicio}/{fin}', 		['as' => 'carros', 		'uses' => 'rentaController@carros']);
+
+
 
 
 Route::get('/nosotros', ['as' => 'nosotros']);

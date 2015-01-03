@@ -8,23 +8,29 @@ class prestamoPaso_2Controller extends BaseController
         if(is_null($prestamo))
             App::abort(404);
 
-        $carros = carro::orderBy('created_at','dsc')
-                        ->with('color', 'combustible', 'modelo','modelo.marca', 'tipo')
-                        ->where('empresa_id', Auth::user()->empresa->id)
-                        ->paginate(5);
-        foreach ($carros as $carro) {
-            $precios = $carro->precios()
-                            ->where('fechaInicio', '<=', $prestamo->fechaInicio)
-                            ->where('fechaFin', '>=', $prestamo->fechaFin)
-                            ->orderBy('cantidad', 'DESC')
-                            ->get();
-            if(count($precios) > 0)
-                $carro->precio = $precios[0]->cantidad;
-        }
+        $carros = $this->jsonCarros($prestamo->fechaInicio, $prestamo->fechaFin, Auth::user()->empresa->id);
         $paso = 2;
         return View::make('prestamo/select',compact('prestamo','carros','paso'));
     }
 
+    public function jsonCarros($fechaInicio, $fechaFin, $empresaID){
+        $carros = carro::orderBy('created_at','dsc')
+                        ->with('color', 'combustible', 'modelo','modelo.marca', 'tipo')
+                        ->where('empresa_id', $empresaID)
+                        ->paginate(5);
+        foreach ($carros as $carro) {
+            $precios = $carro->precios()
+                            ->where('fechaInicio', '<=', $fechaInicio)
+                            ->where('fechaFin', '>=', $fechaFin)
+                            ->orderBy('cantidad', 'DESC')
+                            ->get();
+            if(count($precios) > 0)
+                $carro->precio = $precios[0]->cantidad;
+            else
+                $carro->precio = "NTN";
+        }
+        return $carros;
+    }
 
     public function addCarro($id, $idCarro, $precio){
         $prestamo           = Prestamo::find($id);

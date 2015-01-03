@@ -16,9 +16,9 @@
                 <ul class="dropdown-menu">
                    
                 </ul> -->
-                <li>{{ HTML::link('prestamo', 'Prestamos') }}</li>
+                <li>{{ HTML::link(route('prestamoLista'), 'Prestamos') }}</li>
                 <li>{{ HTML::link(route('clienteLista'), 'Clientes') }}</li>
-                <li>{{ HTML::link('prospecto', 'Prospectos') }}</li>
+                <li>{{ HTML::link(route('prospectoList'), 'Prospectos') }}</li>
                 <!-- <li>{{ HTML::link('boletin', 'Boletin') }}</li> -->
             </li>
            <!--  <li class="dropdown">
@@ -32,7 +32,7 @@
                 </ul>
             </li> -->
             <li>{{ HTML::link(route('carros'), 'Carros') }}</li>
-            <li>{{ HTML::link('extra', 'Extras / Servicios') }}</li>
+            <li>{{ HTML::link(route('extra'), 'Extras / Servicios') }}</li>
         </ul>
         <?php
             $name = explode(" ", Auth::user()->nombre);

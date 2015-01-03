@@ -47,7 +47,17 @@ Route::group(array('before'=>'auth'), function() {
 
         require __DIR__.'/route/Marca.php';
         require __DIR__.'/route/Tipo.php';
-        Route::resource('extra','ExtraController');
+
+
+        Route::get(     'extra',             ['as' => 'extra',       'uses' => 'ExtraController@index'] );
+        Route::get(     'extra/create',      ['as' => 'extraNuevo',  'uses' => 'ExtraController@create']);
+        Route::post(    'extra/create',      ['as' => 'extraSave',   'uses' => 'ExtraController@store']);
+        Route::get(     'extra/{id}/edit',   ['as' => 'extraEdit',   'uses' => 'ExtraController@edit']);
+        Route::patch(   'extra/{id}/update', ['as' => 'extraUpdate', 'uses' => 'ExtraController@update']);
+        Route::delete(  'extra/{id}/destroy',['as' => 'extraDestroy','uses' => 'ExtraController@destroy']);
+        
+
+        // Route::resource('extra','ExtraController');
 
 
         require __DIR__.'/route/carros.php';

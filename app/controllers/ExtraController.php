@@ -16,7 +16,7 @@ class ExtraController extends \BaseController {
 	{
 		$extra = new Extra;
 		$form = new Formulario;
-		$form_data = $form->formData('extra.store','POST',true);
+		$form_data = $form->formData('extraSave','POST',true);
         return View::make('extra/form', compact('extra','form_data'));
 	}
 
@@ -26,7 +26,7 @@ class ExtraController extends \BaseController {
 	}
 
 
-	public function show($id)
+	public function show($id) 
 	{
         $extra = Extra::find($id);
         return View::make('extra/show', compact('extra'));
@@ -39,7 +39,7 @@ class ExtraController extends \BaseController {
         if(is_null($extra))
         	App::abort(404);
 
-		$form_data = $form->formData(array('extra.update', $id),'PATCH',true);
+		$form_data = $form->formData(array('extraUpdate', $id),'PATCH',true);
         return View::make('extra/form', compact('extra','form_data'));
 	}
 
@@ -62,7 +62,7 @@ class ExtraController extends \BaseController {
 
 		if($extra->validAndSave($data))
 		{
-			return Redirect::route('extra.index');
+			return Redirect::route('extra');
 
 		} else
             return Redirect::back()

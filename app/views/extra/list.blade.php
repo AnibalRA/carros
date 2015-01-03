@@ -22,7 +22,7 @@
 
             <p class="hidden-lg"></p>
 
-               <a href="{{ route('extra.create') }}" class="btn btn-default">
+               <a href="{{ route('extraNuevo') }}" class="btn btn-default">
 
                     <span class="glyphicon glyphicon-file"></span> Nuevo
 
@@ -53,12 +53,12 @@
                             <img class="img-responsive" src="{{ asset('assets/img/'.$extras->imagen) }}" alt="foto del accesorio" width="40px" />
                         </td>
                         <td>
-                            <a href="{{ route('extra.show', array($extras->id)) }}">{{ $extras->nombre }}</a>
+                            <a href="{{ route('extraEdit', array($extras->id)) }}">{{ $extras->nombre }}</a>
                         </td>
                         <td>{{ $extras->descripcion }}</td>
                         <td>${{ $extras->precio }}</td>
                         <td>
-                            <a href="{{ route('extra.edit', array($extras->id)) }}" data-content="Editar" data-placement="bottom" class="glyphicon glyphicon-edit tool"> </a>
+                            <a href="{{ route('extraEdit', array($extras->id)) }}" data-content="Editar" data-placement="bottom" class="glyphicon glyphicon-edit tool"> </a>
                             <a href="#" data-id="{{ $extras->id }}" data-form="#form-ext" data-content="Activar/Desactivar" data-placement="bottom" class="glyphicon glyphicon-trash tool"> </a>
                         </td>
                     </tr>
@@ -74,7 +74,7 @@
 
         {{ $extra->links() }}
 
-        {{ Form::open(array('route' => array('extra.destroy', 'TERM_ID'), 'method' => 'DELETE', 'role' => 'form', 'id' => 'form-ext')) }}
+        {{ Form::open(array('route' => array('extraDestroy', 'TERM_ID'), 'method' => 'DELETE', 'role' => 'form', 'id' => 'form-ext')) }}
 
         {{ Form::close() }}
 

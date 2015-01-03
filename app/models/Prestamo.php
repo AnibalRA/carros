@@ -129,10 +129,10 @@ class Prestamo extends Eloquent
        return date('d-m-Y h:i A', strtotime($this->attributes['fechaDevolucion']));
     }
     public function getFechaInicioAttribute(){
-        return  $this->attributes['fechaReserva'];
+         return date('Y-m-d', strtotime($this->attributes['fechaReserva']));
     }
     public function getFechaFinAttribute(){
-       return $this->attributes['fechaDevolucion'];
+       return date('Y-m-d', strtotime($this->attributes['fechaDevolucion']));
     }
 
 
