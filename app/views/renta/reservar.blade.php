@@ -1,4 +1,4 @@
-<form id="slider-form" class="main-form" action="{{route('chooseCar')}}" method="get" ng-controller="reservaController">
+<form id="slider-form" class="main-form" action="{{route('chooseCar')}}" method="POST" ng-controller="reservaController">
 	<div class="main_form_navigation">				
 		<div id="manage_reservation" class="title-form back"><a href="#" title="">Administrar Reservacion</a></div>
 		<div id="book_car" class="title-form current"><a href="#" title="">Reservar Carro</a></div>

@@ -1,11 +1,10 @@
 
 angular.module('chooseCar', ['renta'])
 
-.controller('chooseCarController', ['chooseCarService', 'reservaService', '$log', '$scope', function (chooseCarService, reservaService, $log, $scope){
+.controller('chooseCarController', ['chooseCarService', 'reservaService', '$log', '$scope', '$window', function (chooseCarService, reservaService, $log, $scope, $window){
 	$scope.carros = [];
 	$log.info('controlere')
 	
-
 	function search(){
 		fechas = reservaService.get();
 			chooseCarService.all(fechas, 1).then(function (data){
@@ -13,12 +12,15 @@ angular.module('chooseCar', ['renta'])
 			// $log.info(data);
 		})
 	}
+	$scope.seleccionar = function (carro){
+		chooseCarService.set(carro);
+		$window.location.href = 'choose-extras';
 
-
+	}
 	search();
 }])
 
-.factory('chooseCarService', ['$q', '$log', '$http', function ($q, $log, $http) {
+.factory('chooseCarService', ['$q', '$log', '$http', 'reservaService', function ($q, $log, $http, reservaService) {
 
 	function all(fechas, page){
 		$log.info('service')
@@ -33,12 +35,21 @@ angular.module('chooseCar', ['renta'])
 		return defer.promise;
 	}
 
+	function set(carro){
+		reserva = reservaService.get();
+		reserva.carro = carro;
+		reservaService.set(reserva);
+		$log.info(reserva)
+		return true;
+	}
+
 	function byId(){
 
 	}
 
 	return {
-		all : all,
-		byId : byId
+		all 	: all,
+		byId 	: byId,
+		set 	: set
 	}
 }])

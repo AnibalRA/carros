@@ -12,7 +12,7 @@
 		<link rel="stylesheet" id="stylesheet-ie" href="assets/renta/css/css_ie.css" type="text/css" media="all" />
 		<![endif]-->
 	</head>
-	<body class="left-slider two-column" ng-app='renta'>
+	<body class="{{$clase}}" ng-app='renta'>
 		<div id="conteiner">
 			@include('renta.menu')
 			@yield('main')
@@ -70,14 +70,7 @@
 								</script>
 							</div>
 							<div class="google_plus_one">
-								<div class="g-plusone" data-size="medium"></div>
-								<script type="text/javascript">
-								  (function() {
-								    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-								    po.src = 'https://apis.google.com/assets/renta/js/plusone.js';
-								    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-								  })();
-								</script>								
+														
 							</div>
 						</div>
 						<div class="clear"></div> 						
@@ -164,8 +157,6 @@
 	<script type="text/javascript" src="assets/renta/js/jquery-1.10.1.min.js"></script>
 	<script type="text/javascript" src="assets/renta/js/jquery-migrate-1.2.1.min.js"></script>
 	<script type="text/javascript" src="assets/renta/js/jquery-ui.js"></script>
-	<script type="text/javascript" src="node_modules/underscore/underscore-min.js"></script>
-	<script type="text/javascript" src="node_modules/backbone/backbone-min.js"></script>
 	<script type="text/javascript" src="assets/renta/js/jquery.maskedinput.js"></script>
 	
 	<!--[if IE]>
@@ -178,10 +169,10 @@
 	<!-- -->
 	<script type="text/javascript" src="assets/renta/js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="assets/renta/js/jquery.ui.datepicker-es.js"></script>
-	<script type="text/javascript" src="assets/renta/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="assets/renta/js/custom.js"></script>
 	<script type="text/javascript" src="assets/renta/js/script.js"></script>
 
 	<script type="text/javascript" src="assets/renta/js/angular.app.js"></script>
+	<script type="text/javascript" src="assets/renta/js/choosecar.js"></script>
 	</body>
 </html>

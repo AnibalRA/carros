@@ -1,8 +1,17 @@
 <?php
 
 Route::get('/', 			['as' => 'home', 		'uses' => 'rentaController@index']);
+Route::post('/choose-car',	['as' => 'chooseCar', 	'uses' => 'rentaController@chooseCar']);
 Route::get('/choose-car',	['as' => 'chooseCar', 	'uses' => 'rentaController@chooseCar']);
+
 Route::get('/cars/{inicio}/{fin}', 		['as' => 'carros', 		'uses' => 'rentaController@carros']);
+Route::get('/choose-extras', 			['as' => 'extras', 		'uses' => 'rentaController@chooseExtras']);
+Route::get('/extras',					['as' => 'extrasJSON',	'uses' => 'rentaController@extras']);
+
+Route::get('/revisar',			['as' => 'revisar', 			'uses' => 'rentaController@revisar']);
+Route::post('/guardar',	 		['as' => 'prestamoClienteSave', 'uses' => 'rentaController@prestamoSave']);
+Route::get('/user',				['as' => 'user', 				'uses' => 'rentaController@user']);
+// Route::post('/save')
 
 
 

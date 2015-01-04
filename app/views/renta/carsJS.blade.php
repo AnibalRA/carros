@@ -1,4 +1,4 @@
-<div ng-controller="chooseCarController">
+<div ng-controller="chooseCarController" >
 	<div class="widget-title">
 		<div>
 			<img src="images/list.png" alt="" />
@@ -40,7 +40,7 @@
 					<div class="additional-block">
 						<p>$ @{{carro.precio}}</p>
 						<p class="span">Millas ilimitadas incluidas</p>
-						<input class="continue_button blue_button" type="submit" value="Seleccionar" />
+						<input class="continue_button blue_button" type="submit" value="Seleccionar" ng-click='seleccionar(carro)' />
 					</div>
 				</div>									
 			</div>
