@@ -23,10 +23,66 @@ Route::get('pdf1', function(){
 Route::get('login', 'LoginController@showLogin');
 Route::post('login', 'LoginController@postLogin');
 
-Route::group(array('before'=>'auth'), function() {
 
+// Route::get('email/confirmacion', ['as' => 'emailConfirmacion', 'uses' => function(){
+//     $prestamo = Prestamo::find(97);
+
+//     Mail::send('emails.reservado', array('prestamo' => $prestamo), function($message)
+//     {
+//         $message->to('rsanabria@hotmail.es', 'Rene Sanrbai')->subject('Reserva aprobada');
+//     });
+
+//     return View::make('emails.reservado', compact('prestamo'));
+// }]);
+
+
+
+
+
+
+Route::group(array('before'=>'auth'), function() {
+     Route::get('cal', function(){
+            return View::make('inicio.calendario');
+        });
+
+    Route::get('logout', ['as' => 'logOut', 'uses' => 'LoginController@logOut']);
 
     Route::group(array('prefix' => 'admin'), function(){
+
+
+       
+
+        Route::get('search/{query}', function($query){
+            $clientes = Cliente::where('nombre', 'LIKE', '%'. $query .'%')
+                        ->where('tipo', '!=', 'adicional')
+                        ->where('tipo', '!=', 'Emergencia')
+                        ->get();
+            // $clientes = Cliente::all();
+            $results = [];
+            foreach ($clientes as $cliente) {
+                $data = array(
+                        'name'  => $cliente->nombre . ' - ' . $cliente->como,
+                        'id'    => $cliente->id,
+                        'ruta'  =>  Route('clienteShow', $cliente->id)
+                    );
+                $results[] = $data;
+            }
+
+            $placas = Placa::where('numero', 'LIKE', "%" . $query . "%")->get();
+
+            foreach ($placas as $placa) {
+                $data = array(
+                        'name'  => $placa->numero,
+                        'id'    => $placa->carro->id,
+                        'ruta'  =>  Route('carroPlacas', $placa->carro->id)
+                    );
+                $results[] = $data;
+            }
+
+            // return View::make('index');
+            return Response::json($results, 200);
+
+        });
     // Route::get('/', function() {
     //     return Redirect::to('prestamo');
     // });
@@ -34,7 +90,6 @@ Route::group(array('before'=>'auth'), function() {
         require __DIR__ . '/route/inicio.php';
         require __DIR__ . '/route/api.php';
 
-        Route::get('logout', 'LoginController@logOut');
         Route::resource('user','UserController');
         /**
          * [url] [/clientes]

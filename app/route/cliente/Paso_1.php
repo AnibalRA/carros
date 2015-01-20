@@ -81,19 +81,3 @@
 		'uses' => 'clientePaso_1Controller@update'
 
 	]);
-
-    /**
-
-     * [Mostrar Detalles del Cliente]
-
-     * @return [vista] [cliente/show]
-
-     */
-
-    Route::get('cliente/{id}/show/',[
-
-        'as' => 'clienteShow',
-
-        'uses' => 'clientePaso_1Controller@show'
-
-    ]);

@@ -3,6 +3,7 @@
 	<div id="book_car" class="title-form current">
 		<img src="images/search.png" alt="" />
 		Buscar un carro:
+		<div class="label label-danger pull-right" ng-hide="reserva.fechaReserva"> Selecciona las fechas para que te mostremos los carros disponibles</div>
 	</div>
 	<div id="book_car_content" class="content-form ">
 		<div class="form-block type-lugar">
@@ -26,7 +27,7 @@
 					{{ Form::text('fechaDevolucion', null, array('placeholder' => 'Fecha / Hora de Devolución', 'class' => 'datepicker maxDate', 'id' => 'fechaDevolucion',  'ng-model' => 'reserva.fechaDevolucion', 'style' => 'width:140px')) }}
 				</div>
 				<div class="form-block form-submit">
-					<input class="orange_button form-update" type="submit" value="Actualizar"/>
+					<input class="orange_button form-update" ng-click="update()" type="submit" value="Buscar"/>
 				</div>
 	</div>					
 	<div class="clear"></div>

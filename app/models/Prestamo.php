@@ -24,7 +24,8 @@ class Prestamo extends Eloquent
         'empresa_id',
         'placa_id',
         'conductor_id',
-        'valorReposicion'
+        'valorReposicion',
+        'cobroPorHora'
     ];
 
     public function validarPrestamo($data){
@@ -33,6 +34,7 @@ class Prestamo extends Eloquent
                 'fechaReserva'      => 'required',
                 'fechaDevolucion'   => 'required',
                 'lugarEntrega_id'   => 'required',
+                'cobroPorHora'      => 'required',
                 'estado_id'         => 'required'
             ];
         return $this->validAndSave($data, $rules);
@@ -103,7 +105,9 @@ class Prestamo extends Eloquent
         return round($this->getDiasAttribute() * $this->attributes['precio'],2);
     }
     public function getPrecioHorasAttribute(){
-        return round($this->getHorasAttribute() * ($this->attributes['precio'] / 24),2);
+        if($this->attributes['cobroPorHora'] )
+            return round($this->getHorasAttribute() * ($this->attributes['precio'] / 24),2);
+        return  ($this->getHorasAttribute() > 0 ? $this->attributes['precio'] : 0);
     }
 
     public function getTotalCarroAttribute(){
@@ -112,6 +116,7 @@ class Prestamo extends Eloquent
 
     public function total($precioExtras){
         $precio = $this->getTotalCarroAttribute() + $precioExtras;
+        // return $precio;
         return round($precio - ($precio * ($this->attributes['descuento'] / 100)),2);
     }
 

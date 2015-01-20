@@ -59,7 +59,8 @@
     Route::post('cliente/{id}/informacion',['as' => 'guardarDocumento', 'uses' => 'clientePaso_4Controller@saveDocumento']);
     Route::get('cliente/{id}/editar',['as' => 'editarDocumento', 'uses' => 'clientePaso_4Controller@editDocumento']);
     Route::patch('cliente/{id}/informacion',['as' => 'guardarDocumento', 'uses' => 'clientePaso_4Controller@updateDocumento']);
-
+    
+    Route::get('cliente/{id}/show/',['as' => 'clienteShow',  'uses' => 'clientePaso_1Controller@show'  ]);
 
 
 

@@ -13,12 +13,12 @@ return array(
 	|
 	*/
 
-	"password" => "La contraseña debe tener al menos 6 caracteres y coincidir con la confirmación.",
+	// "password" => "La contraseña debe tener al menos 6 caracteres y coincidir con la confirmación.",
 
-	"user" => "No podemos encontrar el usuario con esa dirección de correo.",
+	// "user" => "No podemos encontrar el usuario con esa dirección de correo.",
 
-	"token" => "Este token de reestablecimiento de contraseña es inválido.",
+	// "token" => "Este token de reestablecimiento de contraseña es inválido.",
 
-	"sent" => "Recordatorio de contraseña enviado!",
+	// "sent" => "Recordatorio de contraseña enviado!",
 
 );

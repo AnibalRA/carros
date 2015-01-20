@@ -21,6 +21,15 @@ class Cliente extends Eloquent
 
 
 
+    public function validarClienteRenta($data){
+        $rules = [
+            'tipo'      => 'required',
+            'nombre'    => 'required',
+            'email'     => 'required'
+        ];
+        return $this->validAndSave($data,$rules);
+    }
+
     public function validarCliente($data){
         $rules = [
             'tipo'              => 'required',

@@ -1,24 +1,36 @@
-var app = angular.module('renta', [])
+var app = angular.module('renta', ['ui.bootstrap'])
 
 app.controller('reservaController', ['reservaService', '$log', '$scope', '$rootScope', function (reservaService, $log, $scope, $rootScope){
 
+	$scope.edit = true;
 	$scope.book = function (){
 		$scope.reserva.fechaReserva = $('#fechaReserva').val(); //cambiar por fecha del dia
 		$scope.reserva.fechaDevolucion = $('#fechaDevolucion').val(); //cambiar por fecha del dia + 1 dia
 		$scope.reserva.lugarEntrega = $('#lugarEntrega').val();
 		$scope.reserva.lugarDevolucion = $('#lugarDevolucion').val();
+		$scope.reserva.extras = $scope.reserva.extras || [];
 		reservaService.set($scope.reserva);
 	}
 
-	restaFechas = function(f1,f2)
+	 function restaFechas(f1,f2)
 	 {	
-		var aFecha1 = f1.split('-'); 
-		var aFecha2 = f2.split('-'); 
-		var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
-		var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
-		var dif = fFecha2 - fFecha1;
-		var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+	 	$log.info('restarFechas')
+		fFecha1 = timeStamp(f1);
+		fFecha2 = timeStamp(f2);
+		var dif = (fFecha2 - fFecha1) / (1000 * 60 * 60);
+		
+		var dias = Math.floor(dif / 24); 
+		if(dif % 24)
+			dias++;
 		return dias;
+	 }
+
+	 function timeStamp(fecha){ //devuelve el timestamp para luego hacer el calculo de las horas que han transcurrido
+	 	fecha = fecha.split('-')
+	 	$log.info(fecha)
+	 	horas = fecha[3].split(':')
+	 	// fechas = fecha[0].split('/');
+	 	return Date.UTC(fecha[2],fecha[1],fecha[0],horas[0]);
 	 }
 
 	
@@ -31,12 +43,14 @@ app.controller('reservaController', ['reservaService', '$log', '$scope', '$rootS
 
 	function calcularTotal(){
 		$scope.reserva.total = $scope.reserva.totalCarro;
-		$scope.reserva.extras.forEach(function (extra){
-			if(extra.cobro)
-				$scope.reserva.total += (extra.precio)
-			else 
-				$scope.reserva.total += (extra.precio * $scope.reserva.dias)
-		})
+		if($scope.reserva.extras){
+			$scope.reserva.extras.forEach(function (extra){
+				if(extra.cobro)
+					$scope.reserva.total += (extra.precio)
+				else 
+					$scope.reserva.total += (extra.precio * $scope.reserva.dias)
+			})
+		}
 		return true;
 	}
 	$rootScope.$on('addExtra', function(event, extra){
@@ -52,18 +66,25 @@ app.controller('reservaController', ['reservaService', '$log', '$scope', '$rootS
 		// $log.info($scope.reserva)
 	}
 
+	$scope.update = function(){
+		$scope.book()
+		$rootScope.$emit('updateCarro')
+	}
+
 }])
 
 app.factory('reservaService', ['$window', '$log', function ($window, $log){
-	function get(){
-		return JSON.parse($window.localStorage['fechaReserva'] || defecto());
+	function get(lugar = "fechaReserva"){
+		return JSON.parse($window.localStorage[lugar] || defecto());
 	}
 
 	function defecto()
 	{	now = new Date();
 		today  = now.getDay() + "-" + (now.getMonth() + 1) + "-" + now.getFullYear() + " " + now.getHours() + ":" + now.getMinutes();
 		tomorrow = today;
-		return '{"fechaReserva":"' + today + '", "fechaDevolucion":"' + tomorrow + '", "lugarEntrega" : 1,"lugarDevolucion" : 1	}';
+		$log.info($('#fechaReserva').val());
+		return '{"lugarEntrega" : 1,"lugarDevolucion" : 1	}';
+		// return "{}"
 	}
 
 	function set(reserva){
@@ -76,23 +97,69 @@ app.factory('reservaService', ['$window', '$log', function ($window, $log){
 }])
 
 
-.controller('chooseCarController', ['chooseCarService', 'reservaService', '$log', '$scope', '$window', function (chooseCarService, reservaService, $log, $scope, $window){
+.controller('chooseCarController', ['chooseCarService', 'reservaService', 'getService', '$log', '$scope', '$window', '$rootScope', '$timeout', function (chooseCarService, reservaService, getService, $log, $scope, $window, $rootScope, $timeout){
 	$scope.carros = [];
-	$log.info('controlere')
-	
-	function search(){
-		fechas = reservaService.get();
-			chooseCarService.all(fechas, 1).then(function (data){
-			$scope.carros = data['data'];
-			// $log.info(data);
-		})
+	$scope.predicate 	= 'precio';
+	$scope.reverse 		= false;
+	$scope.marcas 		= []
+	// $scope.currentPage = 1;
+
+	function search(pageNo){
+		$scope.reserva = reservaService.get();
+	if($scope.reserva.fechaReserva){
+		$scope.loading = true;
+		$timeout(function(){
+			$scope.currentPage = pageNo;
+			chooseCarService.all($scope.reserva, pageNo).then(function (data){
+				$scope.totalItems 	= data['total'];
+				$scope.perPage 		= data['per_page'];
+				$scope.to 			= data['to'];
+				$log.info(data)
+				$scope.carros = data['data'];
+				$scope.loading = false;
+				// getService.all('marcacount').then(function (marcas){
+				// 	$scope.marcas = marcas;
+				// })
+			})
+		}, 10);
 	}
+	
+	}
+
+
+	$scope.setPage = function (pageNo) {
+		$scope.currentPage = pageNo;
+	};
+
+	$scope.pageChanged = function() {
+		search($scope.currentPage)
+	};
+
 	$scope.seleccionar = function (carro){
 		chooseCarService.set(carro);
 		$window.location.href = 'choose-extras';
 
 	}
-	search();
+	$scope.filterAlreadyAdded = function(arrayName) {
+        var array = $parse(arrayName)($scope);
+        console.log(array);
+        return function(item) {
+            return (array.indexOf(item) == -1);
+        }
+    };
+    $scope.marcasFilter = function(array) {
+        // var array = $parse(arrayName)($scope);
+        console.log(array);
+        return function(item) {
+            return (array.indexOf(item) == -1);
+        }
+    };
+	search(1);
+
+
+	//para actualizar
+	$rootScope.$on('updateCarro', function (event){ search(1) })
+
 }])
 
 .factory('chooseCarService', ['$q', '$log', '$http', 'reservaService', function ($q, $log, $http, reservaService) {
@@ -130,10 +197,16 @@ app.factory('reservaService', ['$window', '$log', function ($window, $log){
 }])
 
 
-.controller('extraController', ['getService', 'reservaService', '$scope', '$log','$rootScope', function (extraService, reservaService, $scope, $log, $rootScope){
-	extraService.all('extras').then(function(data){
-		$scope.extras = data['data'];
-	})
+.controller('extraController', 	 ['getService', 'reservaService', '$scope', '$log','$rootScope','$timeout', 
+						function (extraService, reservaService, $scope, $log, $rootScope, $timeout){
+	$scope.loading = true;
+	$timeout(function() {
+		extraService.all('extras').then(function(data){
+			$scope.extras = data['data'];
+		})
+		$scope.loading = false;
+	}, 2000);
+	
 	$scope.add = function (extra){ 
     	$rootScope.$emit('addExtra', extra);
 	}
@@ -170,24 +243,67 @@ app.factory('reservaService', ['$window', '$log', function ($window, $log){
 }])
 
 
-.controller('revisarController', ['getService', '$scope', '$log', 'reservaService', function (getService, $scope, $log, reservaService){
+.controller('revisarController', ['getService', '$scope', '$timeout', 'reservaService','$window', '$log', function (getService, $scope, $timeout, reservaService, $window, $log){
 	getService.all('user').then(function (user){
 		$scope.user = user;
 	})
+	reserva = reservaService.get(); //obteniendo datos de reserva
+	if(! reserva.carro){
+		$timeout(function(){
+			$window.location = 'choose-car';
+		}, 2000)
+	}
 
 	$scope.guardar = function(){
-		reserva 		= reservaService.get(); //obteniendo datos de reserva
 		reserva.usuario = {};
-		// reserva.usuario = $scope.user.concat(); //esto seria lo ideal, pero ni modo no me sale asi
-
 		reserva.usuario.nombre 		= $scope.user.nombre;
 		reserva.usuario.email 		= $scope.user.email;	
 		reserva.usuario.telefono 	= $scope.user.telefono;
-
-		$log.info($scope.user);
-		$log.info(reserva);
-		getService.post('guardar', reserva);
+		// $log.info(reserva)
+		getService.post('guardar', reserva).then(function (data){
+			// $log.info(data)
+			// reservaService.set('')
+			$window.localStorage.removeItem("fechaReserva");
+			$window.localStorage['confirmacionReserva'] = JSON.stringify(reserva);
+			$window.location = "/confirmacion";
+		});
 	}
+}])
+
+.controller('loginController', ['getService', '$scope', '$log', '$window', function (getService, $scope, $log, $window){
+	$scope.user 		= {
+		'email' 	: 'rsanabria@hotmail.es',
+		'password'	: ''
+	};
+	$scope.registerUser = {
+		'nombre'	: 'Lando',
+		'email'	    : 'rsanabria.unicaes@gmail.com'
+	};
+
+	$scope.iniciarSesion = function (){
+		getService.post('/entrar',$scope.user).then( function (data){
+			$window.location  = "/";
+		}, function (data){
+			$scope.error = data;
+			//aqui hay que mostrar los errores cuando lo halla.
+		})
+	}
+
+	$scope.registrar = function (){
+		$log.info('registrando')
+		getService.post('registrar', $scope.registerUser).then( function (data){
+			$window.location = '/'
+			// $log.info(data)
+		},function (data){
+			$log.info(data)
+			$scope.errores = data;
+			//mostrar errores aqui.
+		})
+	}
+}])
+.controller('confirmationController', ['$window', '$scope', 'reservaService', '$log', function ($window, $scope, reservaService, $log){
+	$scope.reserva = reservaService.get('confirmacionReserva');
+	$scope.edit = false;
 }])
 
 

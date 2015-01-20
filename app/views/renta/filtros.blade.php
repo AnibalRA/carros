@@ -10,20 +10,21 @@
 	<div class="widget filter_widget">
 		<h3 class="widget-title">
 			<img src="images/filter_results.png" alt="" />
-			Filter results
+			Filtrar resultados
 		</h3>
-		<h4>Price range</h4>
+		<!-- <h4>Price range</h4>
 		<div class="widget-content-range">								
 			<input class="price_range" value="250;1000" name="price_range" />
-		</div>
-		<h4>Manufacturers</h4>
-		<div class="widget-content widget-filter">									
-			<div class="filter">
-				<input id="manufacturers_ford" type="checkbox" class="styled" name="manufacturers_ford" value="1"/> 
-				<label for="manufacturers_ford">Ford</label> 
-				<div class="filter_quantity">1</div>
+		</div> -->
+		<h4>Marcas</h4>
+		<div class="widget-content widget-filter">	
+
+			<div class="filter" ng-repeat='marca in marcas'>
+				<input id="manufacturers_ford" type="checkbox" class="styled" name="manufacturers_ford" /> 
+				<label for="manufacturers_ford" ng-bind="marca.nombre"></label> 
+				<div class="filter_quantity" ng-bind='marca.cantidad'></div>
 			</div>
-			<div class="filter">
+			<!-- <div class="filter">
 				<input id="manufacturers_reno" type="checkbox" class="styled" name="manufacturers_reno" value="1"/> 
 				<label for="manufacturers_reno">Reno</label> 
 				<div class="filter_quantity">3</div>
@@ -42,13 +43,13 @@
 				<input id="manufacturers_bmw" type="checkbox" class="styled" name="manufacturers_bmw" value="1"/> 
 				<label for="manufacturers_bmw">BMW</label> 
 				<div class="filter_quantity">17</div>
-			</div>
+			</div> -->
 		</div>
-		<h4>Number of passangers</h4>
+		<!-- <h4>Number of passangers</h4>
 		<div class="widget-content-range">								
 			<input class="passangers_range" value="1;5" name="passangers_range" />
-		</div>
-		<h4>Vehicle type</h4>
+		</div> -->
+		<h4>Tipo de Vehiculo</h4>
 		<div class="widget-content widget-filter">
 			<div class="filter">
 				<input id="type_economy" type="checkbox" class="styled" name="type_economy" value="1"/> 

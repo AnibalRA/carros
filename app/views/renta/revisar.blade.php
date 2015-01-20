@@ -1,4 +1,8 @@
 @extends('renta.template')
+	
+	@section('titulo')
+		Revisar reserva.
+	@stop
 	@section('main')
 		<style>
 			.ng-dirty .ng-invalid{border-color: red}
@@ -10,6 +14,7 @@
 				<div class="clear"></div>
 				@include('renta.extraAside')
 				<div id="content" class="sidebar-middle" ng-controller="revisarController">  
+					
 					<form name ="usuario" novalidate ng-submit=" usuario.$valid && guardar()">
 						<div class="widget main-widget main-widget-3column">
 							<div class="widget-title">
@@ -19,14 +24,7 @@
 								</div>
 								<div class="clear"></div>
 							</div>
-							<h4>Nota</h4>
-							<div class="widget-content widget-note">
-								<h4>Al completar el formulario usted recibirá:</h4>
-								<ul>
-									<li>Your rental voucher to produce on arrival at the rental desk</li>
-									<li>A toll-free customer support number</li>
-								</ul>
-							</div>
+							
 							<h4>Información personal</h4>
 							<div class="widget-content">
 									<div class="form_element">
@@ -54,7 +52,14 @@
 									</div>
 									<div class="clear"></div>
 							</div>
-							
+							<h4>Nota</h4>
+							<div class="widget-content widget-note">
+								<h4>Al completar el formulario usted recibirá:</h4>
+								<ul>
+									<li>Your rental voucher to produce on arrival at the rental desk</li>
+									<li>A toll-free customer support number</li>
+								</ul>
+							</div>
 						<div class="next_page">
 							<input class="continue_button blue_button" ng-disabled="usuario.$invalid"type="submit" value="Reservar" />
 						</div>

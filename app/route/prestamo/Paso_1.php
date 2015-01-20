@@ -18,7 +18,7 @@ Route::get('prestamo/{id}/show',        ['as' => 'prestamoVer',   'uses' => 'res
 
 
 
-Route::get('prestamo/{prestamo_id}/confirmar/{modelo_id}',['as' => 'prestamoConfirmar',     'uses' => 'reservacionController@confirmar'    ]);
-Route::get('prestamo/{id}/requerimiento',                 ['as' => 'prestamoRequerimiento', 'uses' => 'reservacionController@requerimiento']);
+Route::get('prestamo/confirmar/{id}',		['as' => 'prestamoConfirmar',     'uses' => 'reservacionController@confirmar'    ]);
+Route::get('prestamo/{id}/requerimiento',   ['as' => 'prestamoRequerimiento', 'uses' => 'reservacionController@requerimiento']);
 
 Route::delete('prestamo/destroy/{id}',['as' => 'prestamoDestroy', 'uses' => 'reservacionController@destroy' ]);

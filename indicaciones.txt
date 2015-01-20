@@ -1,0 +1,5 @@
+
+
+//configuración
+
+Al cambiar el prefijo de admin, hay que arreglar el de busquedas.

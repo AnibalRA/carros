@@ -446,11 +446,9 @@ input.continue_button.grey_button:hover {
 }
 .site-logo {
     float: left;
-    height: 59px;
-    margin: 12px 2px 0;
-    position: absolute;
-    width: 59px;
-    opacity: 0.3;
+	height: 70px;
+	margin: 12px 2px 0px;
+	position: absolute;
 }
 .site-title {
     color: #434B56;
@@ -683,7 +681,7 @@ a.sign_button {
 }
 #sign_up { 
 	clear:both;
-	background: url(http://placehold.it/940x85) no-repeat right #f7f7f7;
+	background: url(../images/search-background.png) no-repeat right #f7f7f7;
 	background-size: 100% 100%;
 	color: #fff;
 	font-size: 16px;
@@ -1107,7 +1105,7 @@ a.sign_button {
 .progress-bar-step {
 	padding: 20px 22px 17px;
 	float: left;
-	width: 191px;
+	/*width: 191px;*/
 	color: #c7c9cd;
 	border-right: 1px solid #d2d2d2;
 }
@@ -2286,7 +2284,7 @@ input.connect_twitter {
 }
 #footer-content .site-logo {
     margin: 0;
-    opacity: 0.15;
+    opacity: 0.3;
 }
 .company-name {
 	margin-top: -28px;
@@ -2370,4 +2368,69 @@ input.connect_twitter {
 .google_plus_one {
     margin-left: 16px;
     width: 65px;
+}
+
+
+
+
+//custom css
+
+
+.widget-title{
+	position: relative;
+}
+.pullRight{
+	float: right;
+}
+
+.enLinea {
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 30px;
+}
+
+.btnOrange{
+	background: url("../images/continue.png") no-repeat scroll right center #F08643;
+	padding: 5px;
+	padding-right: 30px;
+	border-radius: 5px;
+	color: white;
+	font-style: italic;
+	border: 1px solid #CC692F;
+}
+
+.btnOrange a:link{
+	color: #ffffff;
+}
+
+
+.enLinea  h4 {
+    background: none repeat scroll 0% 0% #EEE;
+    color: #7C8490;
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: 4px 20px;
+}
+
+.enLinea .widget-footer widget-footer-total{
+	vertical-align: bottom;
+}
+
+.loading{
+	position: absolute;
+	margin: 0px auto;
+	z-index: 1;
+	background-color: rgba(0, 0, 0, 0.03);
+	text-align: center;
+	width: 66%;
+	height: 55%;
+	line-height: 73;
+}
+
+
+.loginError{
+	color: rgb(51, 56, 62);
+	padding: 10px;
+	background-color: rgb(245, 188, 188);
+	margin-bottom: 10px;
 }

@@ -1,6 +1,9 @@
 
 <div id="primary">
 	<div class="clear"></div>
+	asdfasdf
+		@include('renta.pedidoSinFinalizar')
+	<div class="clear"></div>
 	<div id="content">
 		<div class="post">
 			<div class="entry-header">

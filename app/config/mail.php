@@ -114,7 +114,7 @@ return array(
 
 
 
-	'from' => array('address' => 'pasantia.cdmype@gmail.com', 'name' => 'RENT-CAR'),
+	'from' => array('address' => 'rsanabria.unicaes@gmail.com', 'name' => 'Rene Sanabria'),
 
 
 

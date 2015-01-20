@@ -12,6 +12,11 @@
 
 
 
+{{ HTML::script('/assets/js/angular.min.js') }}
+{{ HTML::script('/assets/js/ui-bootstrap-tpls-0.12.0.min-1.js') }}
 
-{{ HTML::script('/assets/js/underscore.min.js') }}
-{{ HTML::script('/assets/js/calendar.min.js') }}
+
+
+{{ HTML::script('/assets/js/searchApp.js') }}
+
+

@@ -17,14 +17,12 @@
                 <div class="panel-heading text-center">
                     <h3 class="panel-title">Datos Generales</h3>
                 </div>
-
                 <div class="panel-body">
-
                     <div class="form-group">
                         {{ Form::label('marca_id', 'Marca *', array('class' => 'control-label col-md-4 col-sm-4')) }}
                         <div class="col-md-7 col-sm-7 input-group">
                             <span class="input-group-addon glyphicon glyphicon-tag"> </span>
-                            {{ Form::select('marca_id', $marca, null) }}
+                            {{ Form::select('marca_id', $marca, null, array('class' => 'form-control')) }}
                             @if($errors->has('marca_id') )
                                 <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
                             @endif

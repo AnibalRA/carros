@@ -10,7 +10,7 @@ class CarroController extends BaseController {
 	}
 
 	public function nuevo(){
-		return $this->formulario(new carro, "POST", 'carroGuardar', 4);
+		return $this->formulario(new carro, "POST", 'carroGuardar', 1);
 	}
 
 	public function guardar(){

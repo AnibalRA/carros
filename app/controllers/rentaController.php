@@ -25,6 +25,11 @@ class rentaController extends BaseController{
         return View::make('renta.chooseExtra', compact('clase', 'paso'));
     }
 
+    public function confirmacion(){
+        $clase = "left-slider two-column";
+        return View::make('renta.confirmacion', compact('clase'));
+    }
+
     public function revisar(){
         $clase  = "page page-two-column";
         $paso = 4;
@@ -38,12 +43,14 @@ class rentaController extends BaseController{
         $data['lugarDevolucion_id'] = $data['lugarDevolucion'];
         $data['estado_id'] = 3;
         $data['empresa_id'] = 1;
+        $data['cobroPorHora'] = false;
+
+        // return $data;
 
         if($data['usuario']){
-            // $data['cliente_id'] = $cliente->id;
             $data['cliente_id'] = $this->searchCliente($data['usuario']);
         }else
-            return Response::json(array("ERROR 201"), 200);
+            return Response::json(array("ERROR 201"), 401);
 
         if($data['carro']){
             $data['carro_id']  = $data['carro']['id'];
@@ -65,20 +72,25 @@ class rentaController extends BaseController{
             //en esta parte habria que enviar un correo al cliente
             //con los datos de la reserva, diciendole que alguien se pondra en contacto con el para 
             //confirmar la reserva.
+            Mail::send('emails.confirmacion.template', array('prestamo' => $prestamo), function($message) use ($prestamo)
+            {
+                $message->to($prestamo->cliente->email, $prestamo->cliente->nombre)->subject('Confirmación de solicitud ' . $prestamo->carro->modelo->nombre);
+            });
             return Response::json($prestamo, 201);
         }
 
-        return Response::json(Input::all(),200);
+        return Response::json($prestamo->errors,200);
     }
 
     private function searchCliente($usuario){
         //buscar clietne para conocer si este existe
         $cliente = Cliente::where('email',$usuario['email'])->first();
-        if(!$cliente->exists()){
+        if($cliente == []){
             $cliente = new Cliente;
-            $cliente->nombre   = $usuario['nombre'] ;
+            $cliente->nombre    = $usuario['nombre'] ;
             $cliente->telefono  = $usuario['telefono'];
             $cliente->email     = $usuario['email'];
+            $cliente->como      = 2; 
             $cliente->empresa_id= 1;
             $cliente->save();
 
@@ -86,7 +98,7 @@ class rentaController extends BaseController{
             $user->empresa_id = 1;
             $user->email        = $cliente->email;
             $user->tipo         = 'Cliente';
-            $user->password     = strtolower($cliente->email); //hay que enviar correo al cliente con la contrasena;
+            $user->password     = Hash::make(strtolower($cliente->email)); //hay que enviar correo al cliente con la contrasena;
             $user->save();
         }
         return $cliente->id;
@@ -96,16 +108,23 @@ class rentaController extends BaseController{
     public function carros($inicio, $fin){
         $prestamo = new prestamo;
         $prestamo->fechaReserva = $inicio;
+
+        // return $inicio;
         $prestamo->fechaDevolucion = $fin;
+
+        // return $prestamo;
         $carros = detalleCarro::where('fechaInicio', '<=', $prestamo->fechaInicio)
                                 ->where('fechaFin', '>=', $prestamo->fechaFin)
                                 ->groupBy('id')
-                                ->paginate();
+                                ->orderBy('precio', 'asc')
+                                ->paginate(2);
         return Response::json($carros, 200);
     }
 
     public function extras(){
-        $extras = Extra::where('empresa_id', 1)->paginate();
+        $extras = Extra::where('empresa_id', 1)
+                    ->where('activo', 1)
+                    ->paginate();
 
         return Response::json($extras, 200);
     }
@@ -119,4 +138,47 @@ class rentaController extends BaseController{
             $cliente = new Cliente;
         return Response::json($cliente, 200);
     }
+
+    public function marcaCount(){
+        $marcaCount = marcaCount::all();
+        return Response::json($marcaCount, 200);
+    }
+
+
+    //regitrar e inicio de sesión-
+
+    public function registrar(){
+        $data = [
+            'nombre'                => Input::get('nombre'),
+            'email'                 => Input::get('email'),
+            'password'              => Input::get('password'),
+            'password_confirmation' => Input::get('password'),
+            'tipo'                  => 'cliente',
+            'empresa_id'            => 1,
+            'como'                  => 'prospecto'
+        ];
+
+        // return Response::json($data, 200);
+        $user = new User;
+        if($user->validAndSave($data)){
+            $cliente = new Cliente;
+            $cliente->validarClienteRenta($data);
+            return $this->iniciarSesion();
+        }
+        return Response::json($user->errors, 401);
+    }
+
+    public function iniciarSesion(){
+        $userdata = [
+            'email' => Input::get('email'),
+            'password' => Input::get('password')
+        ];
+
+        if(Auth::attempt($userdata, Input::get('remember-me', false)))
+            return Response::json("Aceptado", 200);
+        return Response::json('Datos de acceso incorrectos', 401);
+    }
+
+
+
 }

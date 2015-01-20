@@ -16,7 +16,7 @@
 </div>
 <br/>
 <div class="row" style="border-bottom: 1px inset #DDDDDD">
-    <div class="col-md-6 col-sm-6">
+    <div class="col-md-4 col-sm-6">
         <dl class="dl-horizontal">
             <p>
                 <dt class="text-left">{{ Form::label('Nombre:') }}</dt>
@@ -60,7 +60,7 @@
             </p>
         </dl>
     </div>
-    <div class="col-md-6 col-sm-6">
+    <div class="col-md-4 col-sm-6">
         <dl class="dl-horizontal">
             <p>
                 <dt class="text-left">{{ Form::label('Pasaporte:') }}</dt>
@@ -90,65 +90,67 @@
                 <dt class="text-left">{{ Form::label('Tipo Cliente:') }}</dt>
                 <dd class="text-left">{{ Form::label($cliente->tipo) }}</dd>
             </p>
-            <a href="#" id='caso'>En caso de emergencias cominicarse con:</a>
-            <div id='emergencia' style='display:none'>
-                <p>
-                    <dt class="text-left">{{ Form::label('Nombre:') }}</dt>
-                    <dd class="text-left">{{ Form::label($cliente->emergencia_nombre) }}</dd>
-                </p>
-                <p>
-                    <dt class="text-left">{{ Form::label('Dirección:') }}</dt>
-                    <dd class="text-left">{{ Form::label($cliente->emergencia_direccion) }}</dd>
-                </p>
-                <p>
-                    <dt class="text-left">{{ Form::label('Teléfono:') }}</dt>
-                    <dd class="text-left">{{ Form::label($cliente->emergencia_telefono) }}</dd>
-                </p>
-            </div>
-            <br/>
-            <br/>
-            <a href="#" id='conductor'>Conductor Adicional:</a>
-            <div id='adicional' style='display:none'>
-                <p>
-                    <dt class="text-left">{{ Form::label('Nombre:') }}</dt>
-                    <dd class="text-left">{{ Form::label($cliente->adicional_nombre) }}</dd>
-                </p>
-                <p>
-                    <dt class="text-left">{{ Form::label('Documento Identidad:') }}</dt>
-                    <dd class="text-left">{{ Form::label($cliente->doc_unico_2) }}</dd>
-                </p>
-                <p>
-                    <dt class="text-left">{{ Form::label('Número Licencia:') }}</dt>
-                    <dd class="text-left">{{ Form::label($cliente->adicional_licencia) }}</dd>
-                </p>
-                <p>
-                    <dt class="text-left">{{ Form::label('Fecha Emi. Licencia:') }}</dt>
-                    <dd class="text-left">{{ Form::label($cliente->adicional_femilic) }}</dd>
-                </p>
-                <p>
-                    <dt class="text-left">{{ Form::label('Fecha Ven. Licencia:') }}</dt>
-                    <dd class="text-left">{{ Form::label($cliente->adicional_fevenlic) }}</dd>
-                </p>
-                <p>
-                    <dt class="text-left">{{ Form::label('Licencia:') }}</dt>
-                    <dd class="text-left thumbnail">
-                        <img class="img-responsive" src="{{ asset('assets/img/'.$cliente->ruta_imagen) }}" />
-                    </dd>
-                </p>
-            </div>
+        </div>
+        <div class="col-md-4">
+            @if($cliente->emergencia_id)
+                <p>En caso de emergencias cominicarse con:</p>
+
+                <div id='emergencia'>
+                    <p>
+                        <dt class="text-left">Nombre: </dt>
+                        <dd class="text-left">{{$cliente->emergencia->nombre}}</dd>
+                    </p>
+                    <p>
+                        <dt class="text-left">Dirección: </dt>
+                        <dd class="text-left">{{$cliente->emergencia->direccion}}</dd>
+                    </p>
+                    <p>
+                        <dt class="text-left">Telefono: </dt>
+                        <dd class="text-left">{{$cliente->emergencia->telefono}}</dd>
+                    </p>
+                </div>
+            @endif
+            @if($cliente->adicional_id)
+                <p>Conductor Adicional:</p>
+                <div >
+                    <p>
+                        <dt class="text-left">Nombre: </dt>
+                        <dd class="text-left">{{ Form::label($cliente->conductor->nombre) }}</dd>
+                    </p>
+                    <p>
+                        <dt class="text-left">Direccion: </dt>
+                        <dd class="text-left">{{ Form::label($cliente->conductor->direccion) }}</dd>
+                    </p>
+                    <p>
+                        <dt class="text-left">Telefono: </dt>
+                        <dd class="text-left">{{ Form::label($cliente->conductor->telefono) }}</dd>
+                    </p>
+                    <p>
+                        <dt class="text-left">Licencia: </dt>
+                        <dd class="text-left">{{ Form::label($cliente->conductor_femilic) }}</dd>
+                    </p>
+                </div>
+            @endif
         </dl>
     </div>
 </div>
 <br/>
-<div class="row" style="border-bottom: 1px inset #DDDDDD">
-    <div class="col-md-12 col-sm-12">
-        <dl class="dl-horizontal">
-            <p class="text-justify">
-                <dt class="text-left">{{ Form::label('Comentario:') }}</dt>
-                <dd class="text-left">{{ Form::label($cliente->comentario) }}</dd>
-            </p>
-        </dl>
-    </div>
+<div class="row" style="border-bottom: 1px inset #DDDDDD">     
+    <div class="col-md-6 col-sm-6 col-md-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Comentarios</h3>
+            </div>
+            <div class="list-group">
+                @foreach($cliente->comentarios as $comment)
+                  <a href="#" class="list-group-item">
+                    <h4 class="list-group-item-heading">{{$comment->texto}}</h4>
+                    <p class="list-group-item-text">{{$comment->created_at}}</p>
+                  </a>
+                @endforeach
+            </div>
+        </div>
+    </div>    
 </div>
 <div class="row">
     <div class="col-md-12 col-sm-12">
@@ -164,28 +166,28 @@
                     <th>Horario de Reserva</th>
                     <th>Horario de Devolución</th>
                     <th>Estado</th>
-                    <th>Acción</th>
                 </tr>
-                @foreach ($prestamo as $prestamos)
+                @foreach ($prestamos as $prestamo)
                     <tr>
                         <td>
-                            @if(!empty($prestamos->modelo->modelo))
-                                {{ $prestamos->modelo->modelo }}
+                            @if($prestamo->carro_id)
+                                {{ $prestamo->carro->modelo->nombre }}
                             @endif
                         </td>
-                        <td>{{ date('d-m-Y h:i A', strtotime($prestamos->horario_rsv)) }}</td>
-                        <td>{{ date('d-m-Y h:i A', strtotime($prestamos->horario_dvl)) }}</td>
-                        <td>{{ $prestamos->estado }}</td>
+                        <td>{{ $prestamo->fechaReserva }}</td>
+                        <td>{{ $prestamo->fechaDevolucion }}</td>
                         <td>
-                            <a href="{{ route('prestamoShow', $prestamos->id) }}" data-content="Ver" data-placement="bottom" class="glyphicon glyphicon-eye-open tool"> </a>
-                        </td>
+                            <a href="{{route($prestamo->estado->url, $prestamo->id)}}" data-content="{{$prestamo->estado->popUpText}}" data-placement="bottom" class="tool"> 
+                              {{ $prestamo->estado->nombre }}
+                            </a>
+                        </td>                        
                     </tr>
                 @endforeach
             </table>
         </div>
     </div>
     <div class="panel-footer">
-        {{ $prestamo->links() }}
+        {{ $prestamos->links() }}
     </div>
 </div>
 <div class="row">

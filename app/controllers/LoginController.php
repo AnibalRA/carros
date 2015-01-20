@@ -69,7 +69,7 @@ class LoginController extends BaseController
 
 
 
-        return Redirect::to('login')
+        return Redirect::route('home')
 
             ->with('mensaje_info','Tu sesión ha sido cerrada.')
 

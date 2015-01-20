@@ -128,14 +128,11 @@ class clientePaso_1Controller extends BaseController
 
         $cliente = $cliente->fechaDmy($cliente);
 
-        $galeria = Imagen::where('cliente_id',$id)
-            ->orderBy('ruta_imagen','asc')
-            ->get();
-
-        $prestamo = Prestamo::where('cliente_id',$id)
-            ->orderBy('horario_rsv','dsc')
+       
+        $prestamos = Prestamo::where('cliente_id',$id)
+            ->orderBy('fechaReserva','dsc')
             ->paginate();
 
-        return View::make('cliente/show', compact('cliente','galeria','prestamo'));
+        return View::make('cliente/show', compact('cliente','prestamos'));
     }
 }

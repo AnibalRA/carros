@@ -39,7 +39,7 @@
 			<div class="form-block airport_codes"><a href="#" title="">Airport codes</a></div>
 			<input class="location" type="text" value="" placeholder="Enter airport, city or zip code" name="location_1"/>
 			<input id="location-checkbox-1" type="checkbox" class="styled" name="checkbox_location_1" value="1"/>
-			<label for="location-checkbox-1"> Return at different location</label>
+			<label for="location-checkbox-1">Devolver en ubicación diferente</label>
 		</div>
 		<div class="location-block return_location">
 			<div class="form-block location">Return location</div>
@@ -80,5 +80,7 @@
 	</div>		
 </div>
 <div id="slider-front-img">	
-	<img src="http://placehold.it/450x220" alt="" />
+	<img alt="" src="assets/renta/images/slider_front_img.png"></img>
 </div>
+
+

@@ -7,17 +7,36 @@
 	});
 	$(document).ready(function(){
 		"use strict";
+
+		$('#fechaReserva').datetimepicker({
+			lang	: 'es',
+			format	: 'd-m-Y H:i',
+			minDate:'-1970/01/01',
+			defaultDate:'+1970/01/01'
+		});
+
+		$('#fechaDevolucion').datetimepicker({
+			lang	: 'es',
+			format	: 'd-m-Y H:i',
+			minDate	: $('#fechaReserva').val(),
+			defaultDate:'+1970/01/02'
+			
+		});
+
+
+		
+
 		// add calendar
-		$(".datepicker").datetimepicker({
-			 dateFormat:'d-m-yy'
-		});
-		$("body").click( function( event ) {		
-			if ( $(event.target).parent().closest(".ui-datepicker-header").length !== 0 || $(event.target).hasClass("datetimepicker") === true ) {
-				//
-			} else {
-				$(".datetimepicker").datetimepicker('hide',0);
-			}
-		});
+		// $(".datepicker").datetimepicker({
+		// 	 dateFormat:'d-m-yy'
+		// });
+		// $("body").click( function( event ) {		
+		// 	if ( $(event.target).parent().closest(".ui-datepicker-header").length !== 0 || $(event.target).hasClass("datetimepicker") === true ) {
+		// 		//
+		// 	} else {
+		// 		$(".datetimepicker").datetimepicker('hide',0);
+		// 	}
+		// });
 		// to switch between the tabs for the main form
 		$(".title-form").click(function() {
 			var this_id = $(this).attr('id');

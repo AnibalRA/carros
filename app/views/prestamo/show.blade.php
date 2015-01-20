@@ -31,10 +31,10 @@
         </div>
         <dl class="horizontal">
             <br/>
-            <dd class='text-justify'><span class="glyphicon glyphicon-calendar"> </span> {{ Form::label('Fecha / Hora Reserva: ' . date('d-m-Y h:i A', strtotime($prestamo->horario_rsv))) }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-time"> </span> {{ Form::label('Fecha / Hora de Devolución: ' . date('d-m-Y h:i A', strtotime($prestamo->horario_dvl))) }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-home"> </span> {{ Form::label('Lugar de Entrega: ' . $prestamo->lugarEntrega) }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-home"> </span> {{ Form::label('Lugar de Devolución: ' . $prestamo->lugarDevolucion) }}</dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-calendar"> </span> {{ Form::label('Fecha / Hora Reserva: ' . $prestamo->horario_rsv) }}</dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-time"> </span> {{ Form::label('Fecha / Hora de Devolución: ' . $prestamo->horario_dvl) }}</dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-home"> </span> {{ Form::label('Lugar de Entrega: ' . $prestamo->lugarEntrega->nombre) }}</dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-home"> </span> {{ Form::label('Lugar de Devolución: ' . $prestamo->lugarDevolucion->nombre) }}</dd>
             <dd class='text-justify'><span class="glyphicon glyphicon-credit-card"> </span> {{ Form::label('Tipo de Pago: ' . $prestamo->tipo_pago) }}</dd>
         </dl>
     </div>
@@ -49,45 +49,11 @@
         </div>
         <dl class="horizontal">
             <br/>
-            <dd class='text-justify'><span class="glyphicon glyphicon-calendar"> </span> {{ Form::label($dias . ' Días, Auto: $' . $precioDiaAuto . ' |' . ' Extras: $' . $precioDiaExtra) }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-time"> </span> {{ Form::label($horas . ' Horas, Auto: $' . $precioHoraAuto . ' |' . ' Extras $' . $precioHoraExtra) }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-record"> </span> {{ Form::label('Extras Adicionales: $' . $precioUnico) }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-record"> </span> {{ Form::label($prestamo->descuento . '%' . ' de Descuento: $' . $cantidadDescontar) }}</dd>
-            <br>
-            <dd class='text-justify'><span class="glyphicon glyphicon-usd"> </span> <strong>{{ Form::label('Total, Auto: $' . ($precioDiaAuto + $precioHoraAuto)) }}</strong></dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-usd"> </span> <strong>{{ Form::label('Total, Extras: $' . (($precioDiaExtra + $precioHoraExtra) + $precioUnico)) }}</strong></dd>
-            <br/>
-            <dd class='text-justify'><span class="glyphicon glyphicon-usd"> </span> <strong>{{ Form::label('Total a Pagar: $' . $total) }}</strong></dd>
-        </dl>
+            </dl>
     </div>
 </div>
 <br/>
 <div class="row" >
-    <div class="col-md-4 col-sm-6">
-        <div class="row" style="border-bottom: 1px inset #DDDDDD">
-            <div class="col-md-12 col-sm-12">
-                <h4>Auto</h4>
-            </div>
-        </div>
-        <br/>
-        <dl class="horizontal">
-            <div id="my_carusel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    @foreach (Foto::where('modelo_id',$prestamo->modelo_id)->get() as $key => $fotos)
-                        <div class="item @if($key == 0) {{ 'active' }} @endif">
-                            <img alt='Foto del Auto' src='{{ asset("assets/img/$fotos->ruta_imagen") }}' class='img-responsive' />
-                        </div>
-                    @endforeach
-                </div>
-                <a class="left carousel-control" href="#my_carusel" role="button" data-slide="prev">
-                    <span class="glyphicon glyphicon-chevron-left"></span>
-                </a>
-                <a class="right carousel-control" href="#my_carusel" role="button" data-slide="next">
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                </a>
-            </div>
-        </dl>
-    </div>
     <div class="col-md-4 col-sm-6">
         <div class="row" style="border-bottom: 1px inset #DDDDDD">
             <div class="col-md-12 col-sm-12">
@@ -96,17 +62,16 @@
         </div>
         <dl class="horizontal">
             <br/>
-            <dd class='text-justify'><span class="glyphicon glyphicon-usd"> </span>{{ $fotos->modelo->precios->first()->precio }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-record"> </span> {{ Form::label($fotos->modelo->modelo) }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-time"> </span> {{ Form::label('Año: ' . $fotos->modelo->año) }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-tasks"> </span> {{ Form::label('Motor: ' . $fotos->modelo->motor) }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-record"> </span> {{ Form::label('Transmisión: ' . $fotos->modelo->transmision) }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-record"> </span> {{ Form::label($fotos->modelo->puertas . ' Puertas') }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-tint"> </span> {{ Form::label('Color: ' . $fotos->modelo->color) }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-record"> </span> {{ Form::label($fotos->modelo->capacidad . ' Pasajeros') }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-road"> </span> {{ Form::label($fotos->modelo->km_galon . ' Km/g') }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-tint"> </span> {{ Form::label('Combustible: ' . $fotos->modelo->tipo_combustible) }}</dd>
-            <dd class='text-justify'><span class="glyphicon glyphicon-briefcase"> </span> {{ Form::label('Equipamiento: ' . $fotos->modelo->equipamiento) }}</dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-record"> </span> Modelo: {{$prestamo->carro->modelo->nombre}}</dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-time"> </span> Año: {{$prestamo->carro->ano}}</dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-tasks"> </span> Motor: {{$prestamo->carro->motor}}</dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-record"> </span> Transmisión: {{$prestamo->carro->transmision}} </dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-record"> </span> Puertas: {{$prestamo->carro->puertas}} </dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-tint"> </span> Color: {{$prestamo->carro->color->color}}</dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-record"> </span> Pasajeros: {{$prestamo->carro->pasajeros}}</dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-road"> </span> KM/G: {{$prestamo->carro->kmGalon}}</dd>
+            <dd class='text-justify'><span class="glyphicon glyphicon-tint"> </span> Combustible: {{$prestamo->carro->combustible->nombre}}
+            <dd class='text-justify'><span class="glyphicon glyphicon-briefcase"> </span> Equipamiento: {{$prestamo->carro->equipamiento}}</dd>
         </dl>
     </div>
     <div class="col-md-4 col-sm-6">

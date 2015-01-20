@@ -87,7 +87,7 @@ class ProspectoController extends BaseController
         $cliente = Cliente::find($id);
         if (is_null($cliente))
             App::abort(404);
-        $cliente->como = 1;
+        $cliente->como = 1; //1 = Cliente
         $cliente->save();
 
         return Redirect::route('clienteEditar',$cliente->id);

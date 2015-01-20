@@ -23,7 +23,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         'nombre',
         'email',
         'password',
-        'tipo'
+        'tipo',
+        'empresa_id'
         ];
 
 	/**
@@ -54,10 +55,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function isValid($data)
     {
         $rules = [
-            'nombre' => 'required|max:100',
-            'email' => 'email|required|max:75|unique:users',
-            'password' => 'required|min:8|confirmed',
-            'tipo' => 'required'
+            'nombre'    => 'required|max:100',
+            'email'     => 'email|required|max:75|unique:users',
+            'password'  => 'required|min:8|confirmed',
+            'tipo'      => 'required'
             ];
 
         if ($this->exists)

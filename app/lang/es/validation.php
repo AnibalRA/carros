@@ -59,7 +59,7 @@ return array(
 		"file"    => "El campo :attribute must be :size kilobyte.",
 		"string"  => "El campo :attribute must be :size caracteres.",
 	),
-	"unique"         => "El campo :attribute ya ha sido tomado.",
+	"unique"         => "Ya existe un usuario con este :attribute",
 	"url"            => "El formato de :attribute es invalido.",
 
 	/*
@@ -96,17 +96,17 @@ return array(
 
 
 	'attributes' => array(
-		'password' => 'contraseña',
-        'dui' => 'DUI',
-        'nit' => 'NIT',
-        'email' => 'correo electrónico',
-        'marca_id' => 'tipo',
-        'ruta_imagen' => 'imagen',
-        'fecha_ini' => 'fecha inicio',
-        'fecha_fin' => 'fecha fin',
-        'hora_rsv' => 'hora reserva',
-        'fecha_rsv' => 'fecha reserva',
-        'km_galon' => 'kilómetro por galón'
+		// 'password' 		=> 'contrasena',
+        'dui' 			=> 'DUI',
+        'nit' 			=> 'NIT',
+        'email' 		=> 'correo electronico',
+        'marca_id' 		=> 'tipo',
+        'ruta_imagen' 	=> 'imagen',
+        'fecha_ini' 	=> 'fecha inicio',
+        'fecha_fin' 	=> 'fecha fin',
+        'hora_rsv' 		=> 'hora reserva',
+        'fecha_rsv' 	=> 'fecha reserva',
+        'km_galon' 		=> 'kilómetro por galón'
 	),
 
 );
