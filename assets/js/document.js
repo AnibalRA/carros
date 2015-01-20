@@ -3,9 +3,9 @@ $(document).ready(function(e) {
      * [Select]
      * @type {Placeholder}
      */
-    $("select").select2({
-        placeholder: "Seleccione una opción"
-    });
+    // $("select").select2({
+    //     placeholder: "Seleccione una opción"
+    // });
     /**
      * [Tooltip]
      * @type {String}

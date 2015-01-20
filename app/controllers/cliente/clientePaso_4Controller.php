@@ -119,6 +119,8 @@ class clientePaso_4Controller extends BaseController
 
     }
 
+
+
     public function saveDocumento($id){
         // $cliente = Cliente::find($id);
         // if(is_null($cliente))
@@ -127,6 +129,8 @@ class clientePaso_4Controller extends BaseController
         $data['Cliente_id'] =  $id;
 
         $documento = new documento;
+        $data['imagen'] = $this->saveImage(null);
+
         if($documento->validAndSave($data)){
             return Redirect::back();
         }
@@ -139,13 +143,25 @@ class clientePaso_4Controller extends BaseController
     public function editDocumento($id){
         $documento = documento::find($id);
         // return $documento->cliente;
-        return $this->showInformacion($documento->cliente->id, $documento, "PATCH");
+        return $this->showInformacion($documento->id, $documento, "PATCH");
+    }
+
+    private function saveImage($imagen){
+        if(Input::hasFile('imagen')){
+            $file = Input::file('imagen');
+            $destinationPath = 'assets/images/documentos/';
+            $filename = $file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+            // $data['imagen'] = $filename;
+            return $filename;
+        }
+        return $imagen;
     }
 
     public function updateDocumento($id){
         $documento = documento::find($id);
         $data = Input::all();
-
+        $data['imagen'] = $this->saveImage($documento->imagen);
         if ($documento->validAndSave($data)) 
             return Redirect::route('clienteInformacion', $documento->cliente->id);
 

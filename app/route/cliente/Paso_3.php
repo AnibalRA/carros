@@ -13,3 +13,4 @@
 		'as' => 'adicionalStore',
 		'uses' => 'clientePaso_3Controller@storage'
 	]);
+ 

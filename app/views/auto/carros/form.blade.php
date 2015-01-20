@@ -6,10 +6,11 @@
 
 <br/>
 
-<div class="row">
+<div class="row"  ng-controller="carroController">
     {{ Form::model($carro, $form_data) }}
     
-    <div class="panel-body">
+
+    <div class="panel-body" ng-init='modeloID = <?php echo $carro->modelo_id ?>'>
 
         <div class="col-md-6 col-sm-6">
 
@@ -17,23 +18,30 @@
                 <div class="panel-heading text-center">
                     <h3 class="panel-title">Datos Generales</h3>
                 </div>
+                <input type="hidden" name="modelo_id" value="@{{modeloId.id}}" />
                 <div class="panel-body">
+
                     <div class="form-group">
                         {{ Form::label('marca_id', 'Marca *', array('class' => 'control-label col-md-4 col-sm-4')) }}
                         <div class="col-md-7 col-sm-7 input-group">
                             <span class="input-group-addon glyphicon glyphicon-tag"> </span>
-                            {{ Form::select('marca_id', $marca, null, array('class' => 'form-control')) }}
+                            {{ Form::select('marca_id', $marca, null, array('class' => 'form-control', 'ng-model'=>'marca','ng-change' => 'getModelos()')) }}
                             @if($errors->has('marca_id') )
                                 <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
                             @endif
                         </div>
                     </div>
+                     <!-- ng-options="modelo.nombre as modelo.nombre for modelo in modelos" -->
 
                     <div class="form-group">
                         {{ Form::label('modelo', 'Modelo *', array('class' => 'control-label col-md-4 col-sm-4')) }}
                         <div class="col-md-7 col-sm-7 input-group">
                             <span class="input-group-addon glyphicon glyphicon-record"> </span>
-                            {{ Form::select('modelo_id', $modelos, null) }}
+                            <select class="form-control" 
+                                    ng-model="modeloId" 
+                                    ng-options="modelo as modelo.nombre for modelo in modelos track by modelo.id">
+                                   
+                            </select>
                             @if($errors->has('modelo_id') )
                                 <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
                             @endif
@@ -43,8 +51,7 @@
                     <div class="form-group">
                         {{ Form::label('tipoCarro_id', 'Tipo *', array('class' => 'control-label col-md-4 col-sm-4')) }}
                         <div class="col-md-7 col-sm-7 input-group">
-                            <span class="input-group-addon glyphicon glyphicon-record"> </span>
-                            {{ Form::select('tipoCarro_id', $tipo, null) }}
+                            {{ Form::select('tipoCarro_id', $tipo, null,  array('class' => 'form-control')) }}
                             @if($errors->has('tipoCarro_id') )
                                 <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
                             @endif
@@ -56,7 +63,7 @@
                         {{ Form::label('transmision', 'Transmisión *', array('class' => 'control-label col-md-4 col-sm-4')) }}
                         <div class="col-md-7 col-sm-7 input-group">
                             <span class="input-group-addon glyphicon glyphicon-record"> </span>
-                            {{ Form::select('transmision', $transmision, null) }}
+                            {{ Form::select('transmision', $transmision, null,  array('class' => 'form-control')) }}
                             @if($errors->has('transmision') )
                                 <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
                             @endif
@@ -67,7 +74,7 @@
                        {{ Form::label('combustible_id', 'Tipo de Combustible *', array('class' => 'control-label col-md-4 col-sm-4')) }}
                        <div class="col-md-7 col-sm-7 input-group">
                            <span class="input-group-addon glyphicon glyphicon-tint"> </span>
-                            {{ Form::select('combustible_id', $combustibles, null) }}
+                            {{ Form::select('combustible_id', $combustibles, null,  array('class' => 'form-control')) }}
                            @if($errors->has('combustible_id') )
                                <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
                            @endif
@@ -77,12 +84,22 @@
                        {{ Form::label('color', 'Color', array('class' => 'control-label col-md-4 col-sm-4')) }}
                        <div class="col-md-7 col-sm-7 input-group">
                            <span class="input-group-addon glyphicon glyphicon-tint"> </span>
-                           {{ Form::select('color_id', $colores, null) }}
+                           {{ Form::select('color_id', $colores, null,  array('class' => 'form-control')) }}
                            @if($errors->has('color_id') )
                                <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
                            @endif
                        </div>
-                   </div>                    
+                   </div>   
+                    <div class="form-group">
+                        {{ Form::label('imagen', 'Imagen *', array('class' => 'control-label col-md-4 col-sm-4')) }}
+                        <div class="col-md-7 col-sm-7 input-group">
+                            <span class="input-group-addon glyphicon glyphicon-record"> </span>
+                            {{ Form::file('imagen', array('class' => 'form-control')) }}
+                            @if($errors->has('imagen') )
+                                <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
+                            @endif
+                        </div>
+                    </div>                 
                 </div>
             </div>
         </div>
@@ -96,6 +113,17 @@
                 </div>
 
                 <div class="panel-body">
+
+                <div class="form-group">
+                    {{ Form::label('proveedor', 'Proveedor ', array('class' => 'control-label col-md-4 col-sm-4')) }}
+                    <div class="col-md-7 col-sm-7 input-group">
+                        <span class="input-group-addon glyphicon glyphicon-time"> </span>
+                        {{ Form::text('proveedor', null, array('placeholder' => 'Proveedor del carro', 'class' => 'form-control')) }}
+                        @if($errors->has('proveedor') )
+                            <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
+                        @endif
+                    </div>
+                </div>
 
                 <div class="form-group">
                     {{ Form::label('ano', 'Año *', array('class' => 'control-label col-md-4 col-sm-4')) }}
@@ -178,5 +206,7 @@
     {{ Form::close() }}
 
 </div>
+
+
 
 @stop

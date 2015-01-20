@@ -37,7 +37,7 @@
             <li>{{ HTML::link(route('carros'), 'Carros') }}</li>
             <li>{{ HTML::link(route('extra'), 'Extras / Servicios') }}</li>
         </ul>
-        <form class="navbar-form navbar-left" role="search" ng-app='search' ng-controller='searchController'>
+        <form class="navbar-form navbar-left" role="search"  ng-controller='searchController'>
           <div class="form-group">
             <input type="text" ng-model="search" placeholder="¿Qué quieres buscar?" 
                     typeahead="result as result.name for result in getSearch($viewValue)" 

@@ -11,7 +11,7 @@
                         {{ Form::label('tipo', 'Tipo *', array('class' => 'control-label col-md-4 col-sm-4')) }}
                         <div class="col-md-7 col-sm-7 input-group">
                             <span class="input-group-addon glyphicon glyphicon-user"> </span>
-                            {{ Form::select('tipo', $tipo, null); }}
+                            {{ Form::select('tipo', $tipo, null, array('class' => 'form-control')); }}
                             @if($errors->has('tipo') )
                                 <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
                             @endif
@@ -61,7 +61,7 @@
                         {{ Form::label('sexo', 'Sexo *', array('class' => 'control-label col-md-4 col-sm-4')) }}
                         <div class="col-md-7 col-sm-7 input-group">
                             <span class="input-group-addon glyphicon glyphicon-user"> </span>
-                            {{ Form::select('sexo', $sexo, null); }}
+                            {{ Form::select('sexo', $sexo, null, array('class' => 'form-control')); }}
                             @if($errors->has('sexo') )
                                 <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
                             @endif

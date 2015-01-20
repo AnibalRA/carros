@@ -18,9 +18,11 @@ class carro extends Eloquent {
 	    'combustible_id',
 	    'equipamiento',
 	    // 'existencias',
+	    'imagen',
 	    'empresa_id',
 	    'estado',
-	    'tipoCarro_id'
+	    'tipoCarro_id',
+	    'proveedor'
 	];
 
 
@@ -28,7 +30,7 @@ class carro extends Eloquent {
 	{
 	    $rules = [
 	        'tipoCarro_id' 		=> 'required',
-	        'modelo_id'			=> 'required',
+	        'modelo_id'			=> 'required|exists:modelos,id',
 	        'ano' 				=> 'required|integer',
 	        'motor' 			=> 'required|max:20',
 	        'transmision' 		=> 'required|max:50',
@@ -37,7 +39,10 @@ class carro extends Eloquent {
 	        'capacidad' 		=> 'required|max:20',
 	        'kmGalon' 			=> 'required|max:30',
 	        'combustible_id' 	=> 'required|max:30',
-	        'equipamiento' 		=> 'max:20'
+	        'equipamiento' 		=> 'max:20',
+	        'proveedor' 		=> 'max:50',
+
+	        // 'imagen'			=> 'required|max:10000|mimes:png,jpg,jpeg'
 	        // 'existencias' 		=> 'integer|required'
 	    ];
 
@@ -59,6 +64,7 @@ class carro extends Eloquent {
 	    }
 	    return false;
 	}
+
 
 	public function color(){
 		return $this->belongsTo('Color');

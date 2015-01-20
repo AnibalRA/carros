@@ -55,31 +55,33 @@ class rentaController extends BaseController{
         if($data['carro']){
             $data['carro_id']  = $data['carro']['id'];
             $data['precio']  = $data['carro']['precio'];
-        }
+       
 
-        // return Response::json($data, 200);
-        if($prestamo->validarPrestamo($data)){
-            if($data['extras']){
-                // return Response::json($data['extras'], 200);
-                foreach ($data['extras'] as $key => $extra) {
-                    $prestamoExtra = new prestamoExtra;
-                    $prestamoExtra->extra_id    = $extra['id'];
-                    $prestamoExtra->precio      = $extra['precio'];
-                    $prestamoExtra->unaVez      = $extra['cobro'];
-                    $prestamo->extras()->save($prestamoExtra);
+            // return Response::json($data, 200);
+            if($prestamo->validarPrestamo($data)){
+                if($data['extras']){
+                    // return Response::json($data['extras'], 200);
+                    foreach ($data['extras'] as $key => $extra) {
+                        $prestamoExtra = new prestamoExtra;
+                        $prestamoExtra->extra_id    = $extra['id'];
+                        $prestamoExtra->precio      = $extra['precio'];
+                        $prestamoExtra->unaVez      = $extra['cobro'];
+                        $prestamo->extras()->save($prestamoExtra);
+                    }
                 }
+                //en esta parte habria que enviar un correo al cliente
+                //con los datos de la reserva, diciendole que alguien se pondra en contacto con el para 
+                //confirmar la reserva.
+                Mail::send('emails.confirmacion.template', array('prestamo' => $prestamo), function($message) use ($prestamo)
+                {
+                    $message->to($prestamo->cliente->email, $prestamo->cliente->nombre)->subject('Confirmación de solicitud ' . $prestamo->carro->modelo->nombre);
+                });
+                return Response::json($prestamo, 201);
             }
-            //en esta parte habria que enviar un correo al cliente
-            //con los datos de la reserva, diciendole que alguien se pondra en contacto con el para 
-            //confirmar la reserva.
-            Mail::send('emails.confirmacion.template', array('prestamo' => $prestamo), function($message) use ($prestamo)
-            {
-                $message->to($prestamo->cliente->email, $prestamo->cliente->nombre)->subject('Confirmación de solicitud ' . $prestamo->carro->modelo->nombre);
-            });
-            return Response::json($prestamo, 201);
-        }
 
-        return Response::json($prestamo->errors,200);
+            return Response::json($prestamo->errors,200);
+        }
+        return Response::json('No hay carro', 501);
     }
 
     private function searchCliente($usuario){

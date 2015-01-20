@@ -5,7 +5,7 @@ class documento extends Eloquent {
 	public $errors;
 	public $timestamps = false;
 
-	protected $fillable = ['numero', 'emision', 'vencimiento', 'tipoDocumento_id', 'Cliente_id'];
+	protected $fillable = ['numero', 'emision', 'vencimiento', 'tipoDocumento_id', 'Cliente_id', 'imagen'];
 
 
 
@@ -36,12 +36,9 @@ class documento extends Eloquent {
 	}
 
 
-//custom attributes
-	// public function getVencimientoAttribute(){
-	// 	return date('d-m-Y', strtotime($this->attributes['vencimiento']));
-	// }
-
-
+	public function getImagen(){
+		return url('imagen') . $this->attributes['imagen'];
+	}
 
 	public function tipo(){
 		return $this->belongsTo('tipoDocumento', 'tipoDocumento_id');

@@ -11,11 +11,11 @@
             {{ Form::model($prestamo, $form_data) }}
                 <div class="panel-body">
                     <div class="form-group col-md-12 col-sm-12">
-                        {{ Form::label('tipoPago', 'Tipo de pago *', array('class' => 'control-label')) }}
+                        {{ Form::label('tipoPago', 'Tipo de pago *', array('class' => 'control-label ')) }}
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon glyphicon glyphicon-th-list"> </span>
-                            {{ Form::select('tipoPago', $tipoDePago, null); }}
+                            {{ Form::select('tipoPago', $tipoDePago, null, array('class' => 'form-control')); }}
                             @if($errors->has('tipoPago') )
                                 <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
                             @endif

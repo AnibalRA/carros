@@ -1,9 +1,8 @@
  @extends('auto/carros/pasos')
 
 @section('content_form')
-{{ HTML::script('/assets/js/angular.min.js') }}
 <br/>
-<div class="row" ng-app='manto' ng-controller='mantoController'>
+<div class="row" ng-controller='mantoController'>
     <div class="col-md-6 col-sm-6 col-md-offset-2">
 
     <!-- <h1 class="text-center">Mantenimiento</h1> -->
@@ -99,43 +98,6 @@
 
 <br/>
 
-<script>
-angular.module('manto', [])
-.controller('mantoController', ['mantoService', '$log', '$scope', function(mantoService, $log, $scope){
-    
-    $scope.mantos = function (){
-        $scope.mantenimientos = [];
-        if($scope.placa){
-            mantoService.all($scope.placa).then(
-                function (data){
-                    $log.info(data)
-                    $scope.mantenimientos = data;
-                },
-                function (data){
-                    $log.info('error')
-                }
-            )
-        }
-    }
-}])
-.factory('mantoService', ['$q', '$http', '$log', function($q, $http, $log){
-    function all(id){
-        defer = $q.defer();
-        $http.get("{{url('admin/api/mantenimientos')}}/" + id)
-        .success(function (data){
-            defer.resolve(data);
-        })
-        .error( function (data){
-            defer.reject(data);
-        })
-        return defer.promise;
-    }
-    return {
-        all : all
-    }
-}])
-
-</script>
 
 
 

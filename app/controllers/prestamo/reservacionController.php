@@ -93,6 +93,11 @@ class reservacionController extends BaseController
         {
             $message->to($prestamo->cliente->email, $prestamo->cliente->nombre)->subject('Prestamo aprobado ' . $prestamo->carro->modelo->nombre);
         });
+
+        $cliente = $prestamo->cliente;
+        $cliente->como = 1; //1 = Cliente
+        $cliente->save();
+
         return Redirect::route('formaPago',$id);
     }
 
@@ -104,7 +109,7 @@ class reservacionController extends BaseController
 
         $estado = [ 'estado' => 'esto es una prueba'];
         Mail::send('prestamo.email.requerimiento',$estado,function($message) use ($prestamo) {
-            $message->to($prestamo->cliente->email, $prestamo->cliente->nombre)\
+            $message->to($prestamo->cliente->email, $prestamo->cliente->nombre)
                 ->subject('MultiAutos El Salvador');
         });
 

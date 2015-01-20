@@ -18,6 +18,8 @@ Route::delete('carro/placa/{id}',	['as' => 'placaDestroy',	'uses' => 'PlacasCont
 
 
 
+
+
 Route::get('carro/{id}/precios',	['as' => 'carroPrecios',	'uses' => 'PrecioController@index']);
 Route::post('carro/{id}/precio',	['as' => 'precioGuardar',	'uses' => 'PrecioController@guardar']);
 Route::get('carro/{id}/precio',		['as' => 'precioEditar',	'uses' => 'PrecioController@editar']);
@@ -26,3 +28,16 @@ Route::patch('carro/{id}/precio',	['as' => 'precioUpdate',	'uses' => 'PrecioCont
 
 Route::get('carro/{id}/mantenimiento',	['as' => 'carroManto',	'uses' => 'CarroController@manto']);
 Route::post('carro/mantenimiento/save', ['as' => 'mantoSave',	'uses' => 'CarroController@mantoSave']);
+
+//AngularJs get mantenimientos // http://localhost:8000/admin/carro/6/mantenimientos/5
+
+Route::get('carro/{id}/mantenimientos/{idd}', function($idCarro, $id){
+	$mantos = mantenimiento::with('tipo')->where('placa_id', $id)->get();
+	return Response::json($mantos, 200);
+});
+
+// carro/5/modelos/1
+Route::get('carro/{idCarro}/modelos/{id}', function($carro, $marca){
+	$modelos = Modelo::where('marca_id',$marca)->get();
+	return Response::json($modelos,200);
+});

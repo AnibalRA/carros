@@ -21,7 +21,7 @@
                         {{ Form::label('cliente_id', 'Nombre *', array('class' => 'control-label col-md-4 col-sm-4')) }}
                         <div class="col-md-7 col-sm-7 input-group">
                             <span class="input-group-addon glyphicon glyphicon-user"> </span>
-                            {{ Form::select('cliente_id', $cliente, null); }}
+                            {{ Form::select('cliente_id', $cliente, null, array('class' => 'form-control')); }}
                             @if($errors->has('cliente_id') )
                                 <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
                             @endif
@@ -54,7 +54,7 @@
                         {{ Form::label('lugarEntrega_id', 'Lugar de Entrega *', array('class' => 'control-label col-md-4 col-sm-4')) }}
                         <div class="col-md-7 col-sm-7 input-group">
                             <span class="input-group-addon glyphicon glyphicon-home"> </span>
-                            {{ Form::select('lugarEntrega_id', $entrega, null); }}
+                            {{ Form::select('lugarEntrega_id', $entrega, null, array('class' => 'form-control')); }}
                             @if($errors->has('lugarEntrega_id') )
                                 <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
                             @endif
@@ -72,7 +72,7 @@
                         {{ Form::label('lugarDevolucion_id', 'Lugar de Devolución', array('class' => 'control-label col-md-4 col-sm-4')) }}
                         <div class="col-md-7 col-sm-7 input-group">
                             <span class="input-group-addon glyphicon glyphicon-home"> </span>
-                            {{ Form::select('lugarDevolucion_id', $devolucion, null); }}
+                            {{ Form::select('lugarDevolucion_id', $devolucion, null, array('class' => 'form-control')); }}
                         </div>
                     </div>
                 </div>

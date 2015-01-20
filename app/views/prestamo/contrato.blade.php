@@ -12,7 +12,7 @@
            	{{ Form::label('conductor_id', 'Conductor *', array('class' => 'control-label col-md-4 col-sm-4')) }}
            	<div class="col-md-7 col-sm-7 input-group">
                	<span class="input-group-addon glyphicon glyphicon-home"> </span>
-               	{{ Form::select('conductor_id', $conductores, null); }}
+               	{{ Form::select('conductor_id', $conductores, null, array('class' => 'form-control')); }}
                	@if($errors->has('conductor_id') )
                    	<span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
                	@endif
@@ -23,7 +23,7 @@
            	{{ Form::label('placa_id', 'Número de placa*', array('class' => 'control-label col-md-4 col-sm-4')) }}
            	<div class="col-md-7 col-sm-7 input-group">
                	<span class="input-group-addon glyphicon glyphicon-home"> </span>
-               	{{ Form::select('placa_id', $placas, null); }}
+               	{{ Form::select('placa_id', $placas, null, array('class' => 'form-control')); }}
                	@if($errors->has('placa_id') )
                    <span class="input-group-addon glyphicon glyphicon-remove alert-danger"> </span>
                	@endif

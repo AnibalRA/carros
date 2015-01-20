@@ -39,6 +39,7 @@ Route::post('login', 'LoginController@postLogin');
 
 
 
+        require __DIR__ . '/route/api.php';
 
 Route::group(array('before'=>'auth'), function() {
      Route::get('cal', function(){
@@ -51,7 +52,7 @@ Route::group(array('before'=>'auth'), function() {
 
 
        
-
+        //pjp esto hay que cambiarlo
         Route::get('search/{query}', function($query){
             $clientes = Cliente::where('nombre', 'LIKE', '%'. $query .'%')
                         ->where('tipo', '!=', 'adicional')
@@ -88,7 +89,6 @@ Route::group(array('before'=>'auth'), function() {
     // });
 
         require __DIR__ . '/route/inicio.php';
-        require __DIR__ . '/route/api.php';
 
         Route::resource('user','UserController');
         /**

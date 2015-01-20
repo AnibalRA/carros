@@ -23,9 +23,11 @@ class clientePaso_3Controller extends BaseController
 
             $licencia = $conductor->documentos()->where('tipoDocumento_id',2)->first();
 
-            $conductor->licencia            = $licencia->numero;
-            $conductor->fechaLicencia       = $licencia->emision;
-            $conductor->fechaVencimiento    = $licencia->vencimiento;
+            if($licencia){
+                $conductor->licencia            = $licencia->numero;
+                $conductor->fechaLicencia       = $licencia->emision;
+                $conductor->fechaVencimiento    = $licencia->vencimiento;
+            }
         }
 
         $form = new Formulario;

@@ -1,4 +1,16 @@
-<!-- <!DOCTYPE html>
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.6/fullcalendar.min.js" /> 
+<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.6/fullcalendar.min.css" />
+<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.6/fullcalendar.print.css " />
+
+
+
+ -->
+
+
+
+
+
+<!DOCTYPE html>
 <html>
 <head>
    <title>Twitter Bootstrap jQuery Calendar component</title>
@@ -10,40 +22,28 @@
 
    
    {{ HTML::style('/assets/css/bootstrap.min.css', array('media' => 'screen')) }}
-   <link rel="stylesheet" href="components/bootstrap3/css/bootstrap-theme.min.css">
    
    {{ HTML::style('/assets/css/calendar.min.css', array('media' => 'screen')) }}
 
-   <style type="text/css">
-      .btn-twitter {
-         padding-left: 30px;
-         background: rgba(0, 0, 0, 0) url(https://platform.twitter.com/widgets/images/btn.27237bab4db188ca749164efd38861b0.png) -20px 9px no-repeat;
-      }
-      .btn-twitter:hover {
-         background-position:  -21px -16px;
-      }
-   </style>
+  
 </head>
 <body>
 <div class="container">
-   <div class="page-header">
+   <div class="page-header col-md-8">
 
       <div class="pull-right form-inline">
          <div class="btn-group">
-            <button class="btn btn-primary" data-calendar-nav="prev"><< Prev</button>
-            <button class="btn btn-default" data-calendar-nav="today">Today</button>
-            <button class="btn btn-primary" data-calendar-nav="next">Next >></button>
+            <button class="btn btn-primary" data-calendar-nav="prev"><< </button>
+            <button class="btn btn-primary" data-calendar-nav="next"> >></button>
          </div>
          <div class="btn-group">
-            <button class="btn btn-warning" data-calendar-view="year">Year</button>
-            <button class="btn btn-warning active" data-calendar-view="month">Month</button>
-            <button class="btn btn-warning" data-calendar-view="week">Week</button>
-            <button class="btn btn-warning" data-calendar-view="day">Day</button>
+            <button class="btn btn-warning" data-calendar-view="year">Año</button>
+            <button class="btn btn-warning active" data-calendar-view="month">Mes</button>
+            <button class="btn btn-warning" data-calendar-view="week">Semana</button>
          </div>
       </div>
 
       <h3></h3>
-      <small>To see example with events navigate to march 2013</small>
    </div>
 
    <div class="row">
@@ -52,31 +52,8 @@
       </div>
    </div>
 
-   <div class="clearfix"></div>
-   <br><br>
-   <div id="disqus_thread"></div>
-   <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-   <div class="modal fade" id="events-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-               <h3 class="modal-title">Event</h3>
-            </div>
-            <div class="modal-body" style="height: 400px">
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-         </div>
-      </div>
-   </div>
 
    
-   {{ HTML::script('/assets/js/jquery.min.js') }}
-   {{ HTML::script('/assets/js/underscore.min.js') }}
-   {{ HTML::script('/assets/js/bootstrap.min.js') }}
    {{ HTML::script('/assets/js/calendar.min.js') }}
    {{ HTML::script('/assets/js/underscore.min.js') }}
    {{ HTML::script('/assets/js/calendarApp.js') }}
@@ -85,4 +62,3 @@
 </div>
 </body>
 </html>
- -->

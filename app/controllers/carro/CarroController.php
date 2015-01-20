@@ -19,6 +19,7 @@ class CarroController extends BaseController {
 
 	public function editar($id){
 		$carro = carro::find($id);
+		$carro->marca_id = $carro->modelo->marca->id;//$carro->modelo->marca->id;
 		return $this->formulario($carro, 'PATCH', array('carroUpdate', $id), 4);
 	}
 	public function update($id){
@@ -32,12 +33,13 @@ class CarroController extends BaseController {
 		$data = Input::all();
 		$data['empresa_id'] = Auth::user()->empresa->id;
 		// $data['estado'] = 'Disponible';
+		$data['imagen'] = $this->saveImage($carro);
 
-
-		// return $data;
-		if($carro->validAndSave($data)) {
-		    return Redirect::back();
-		} 
+			// return $data;
+			if($carro->validAndSave($data)) {
+			    return Redirect::back();
+			}
+		
 
 		return Redirect::back()
 		        ->withInput()
@@ -49,7 +51,7 @@ class CarroController extends BaseController {
 	private function formulario($carro, $metodo, $url, $paso){
 
 		$form = new Formulario;
-		$form_data = $form->formData($url,$metodo,false);
+		$form_data = $form->formData($url,$metodo,true);
 		$marcas = Marca::all();//lists('nombre','id');
 		$marca = $marcas->lists('nombre', 'id');
 		// return $marca;
@@ -71,6 +73,20 @@ class CarroController extends BaseController {
 	}
 
 
+	private function saveImage($carro){
+		if(Input::hasFile('imagen')){
+		// return $data;
+			// $data['data'] = $this->saveCarro();
+			$file = Input::file('imagen');
+			$destinationPath = 'assets/images/carros/';
+			$filename = $file->getClientOriginalName();
+			$file->move($destinationPath, $filename);
+
+			return $filename;
+		}
+		return $carro->imagen;
+
+	}
 
 	//Mantenimiento
 	public function manto($id){

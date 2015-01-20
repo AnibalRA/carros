@@ -16,3 +16,7 @@ Route::get('api/mantenimientos/{id}', ['as' => 'mantenimientoVer', 'uses' => fun
 
 	return Response::json($mantos, 200);
 }]);
+
+
+
+Route::get('eventos', 'calendarioController@eventos');
